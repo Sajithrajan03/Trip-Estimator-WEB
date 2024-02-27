@@ -1,5 +1,5 @@
 "use client"
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { FaDatabase } from "react-icons/fa";
 import { Select, Option,Button,Input } from "@material-tailwind/react";
 import { HiBuildingOffice } from "react-icons/hi2";
@@ -13,6 +13,25 @@ const page = () => {
 
   const [selectedValue, setSelectedValue] = useState("0");
   const [selectedTrasport,setSelectedTransport] = useState("0");
+  const [toggle, setToggle] = useState("0");
+  const [from,setFrom] = useState("0");
+  const [to,setTo] = useState("0");
+
+  const [ac,setAc] = useState(true);
+  const [sleeper,setSleeper] = useState(false);
+  const handleToggle = () => {
+    setToggle(true); // Set toggle to true to trigger useEffect
+  };
+
+  useEffect(() => {
+    if (toggle) {
+      // Sequential state updates
+      setFrom((prevFrom) => to);
+      setTo((prevTo) => from);
+      setToggle(false); // Reset toggle
+    }
+  }, [toggle]);
+  
 
 
   return (
@@ -98,7 +117,7 @@ const page = () => {
                 
               </div>
             </div>
-             :selectedValue === "0" && selectedTrasport==="0" ? 
+             :selectedValue === "0"  ? 
              <div className="mt-[10%]">
               <div className="flex flex-col gap-y-3">
               <div className="flex items-center justify-center">
@@ -107,9 +126,12 @@ const page = () => {
 
                 <div className="flex items-center justify-between"> 
                     <div className="w-[270px] font-bold">
-                      <Select variant="outlined" label="From" 
+                      <Select variant="outlined" 
+                      onChange={(e)=>setFrom(e)}
+                      value={from}
+                      label="From" 
                       className=" text-center flex flex-nowrap pl-4 mt-[2%]  "
-                      onChange={(e)=>{setSelectedTransport(e)}}>
+                       >
                       <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
                         <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
                           Delhi
@@ -128,11 +150,12 @@ const page = () => {
                       </Option> 
                       </Select>
                     </div>
-                    <Button className="bg-blue-500 rounded-full text-[30px] p-1"><AiOutlineSwap/></Button>
+                    <Button className="bg-blue-500 rounded-full text-[30px] p-1" onClick={handleToggle}><AiOutlineSwap/></Button>
                     <div className="w-[270px]">
                       <Select variant="outlined" label="To" 
                       className=" text-center flex flex-nowrap pl-4 mt-[2%] "
-                      onChange={(e)=>{setSelectedTransport(e)}}>
+                      value={to}
+                      onChange={(e)=>{setTo(e)}}>
                       <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
                         <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
                           Delhi
@@ -153,16 +176,25 @@ const page = () => {
                     </div>
                 </div>
                 <Input type="text" label="Bus Name" className="border-2 border-gray-500 p-2 rounded-md"/>
-                <Input type="text" label="Hotel Address" className="border-2 border-gray-500 p-2 rounded-md"/>
+                 
                 <div className="flex justify-between mx-[15%]">
                   <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
                     <div className="">Non-AC</div>
-                    <Switch defaultChecked color="green"/>
+                    <Switch defaultChecked color="green"
+                     onChange={(e) => {
+                      setAc(e.target.checked);
+                      console.log(e.target.checked);
+                    }}/>
                     <div className="">AC</div>
                   </div>
                   <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
                     <div className="">Sleeper</div>
-                    <Switch defaultChecked color="red"/>
+                        <Switch defaultChecked color="red" onChange={(e) => {
+                          setSleeper(!e.target.checked);
+                           
+                        }}
+                   
+                    />
                     <div className="">Semi-Sleeper</div>
                   </div>
                 </div>
@@ -171,17 +203,14 @@ const page = () => {
                 </div>
                 <div className="flex flex-col gap-y-5 max-w-[80%] justify-center ml-[10%]"> 
                     <div className="flex gap-x-5 ">
-                      <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Standard </div>
+                      <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">{ac ? "AC" : "Non AC"} </div>
                       <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Standard Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
                     <div className="flex gap-x-5">
-                      <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Deluxe </div>
+                      <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">{sleeper ? "Sleeper" : "Semi-Sleeper"} </div>
                       <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Deluxe Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
-                    <div className="flex gap-x-5">
-                      <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Suite </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Suite Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
-                    </div>
+                     
                 </div>
                
                 
