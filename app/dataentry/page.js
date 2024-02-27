@@ -7,10 +7,13 @@ import { FaHotel } from "react-icons/fa";
 import { FaMapMarkedAlt,FaRupeeSign,FaBusAlt } from "react-icons/fa";
 import { FaTrainSubway } from "react-icons/fa6";
 import { MdFlight } from "react-icons/md";
+import { Switch } from "@material-tailwind/react";
+import { AiOutlineSwap } from "react-icons/ai";
 const page = () => {
 
   const [selectedValue, setSelectedValue] = useState("0");
   const [selectedTrasport,setSelectedTransport] = useState("0");
+
 
   return (
     <div className="w-full min-h-[100vh] bg-[rgb(10,17,58)]">
@@ -100,10 +103,69 @@ const page = () => {
               <div className="flex flex-col gap-y-3">
               <div className="flex items-center justify-center">
               <div className="text-[20px] w-[23%] h-10 flex rounded-md   text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Bus Info </div>
+              </div>
+
+                <div className="flex items-center justify-between"> 
+                    <div className="w-[270px] font-bold">
+                      <Select variant="outlined" label="From" 
+                      className=" text-center flex flex-nowrap pl-4 mt-[2%]  "
+                      onChange={(e)=>{setSelectedTransport(e)}}>
+                      <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                          Delhi
+                        </div>
+                      </Option>
+                      <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Mumbai
+                        </div>
+                      </Option> 
+                      
+                      <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Chennai
+                        </div>
+                      </Option> 
+                      </Select>
+                    </div>
+                    <Button className="bg-blue-500 rounded-full text-[30px] p-1"><AiOutlineSwap/></Button>
+                    <div className="w-[270px]">
+                      <Select variant="outlined" label="To" 
+                      className=" text-center flex flex-nowrap pl-4 mt-[2%] "
+                      onChange={(e)=>{setSelectedTransport(e)}}>
+                      <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                          Delhi
+                        </div>
+                      </Option>
+                      <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Mumbai
+                        </div>
+                      </Option> 
+                      
+                      <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Chennai
+                        </div>
+                      </Option> 
+                      </Select>
+                    </div>
                 </div>
                 <Input type="text" label="Bus Name" className="border-2 border-gray-500 p-2 rounded-md"/>
                 <Input type="text" label="Hotel Address" className="border-2 border-gray-500 p-2 rounded-md"/>
-                <Input type="text" label="Hotel City" className="border-2 border-gray-500 p-2 rounded-md"/>
+                <div className="flex justify-between mx-[15%]">
+                  <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
+                    <div className="">Non-AC</div>
+                    <Switch defaultChecked color="green"/>
+                    <div className="">AC</div>
+                  </div>
+                  <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
+                    <div className="">Sleeper</div>
+                    <Switch defaultChecked color="red"/>
+                    <div className="">Semi-Sleeper</div>
+                  </div>
+                </div>
                 <div className="flex items-center justify-center">
                 <div className="text-[20px] w-[23%] h-10 flex rounded-md   text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Rates </div>
                 </div>
