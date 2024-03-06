@@ -9,16 +9,33 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { MdFlight } from "react-icons/md";
 import { Switch } from "@material-tailwind/react";
 import { AiOutlineSwap } from "react-icons/ai";
+import {register_Hotel} from '@/app/(Auth)/useAuth';
+import { FaStar } from 'react-icons/fa';
 const page = () => {
 
   const [selectedValue, setSelectedValue] = useState("0");
   const [selectedTrasport,setSelectedTransport] = useState("0");
   const [toggle, setToggle] = useState("0");
+  
+  //Hotel
+  const [hotelName,setHotelName] = useState("");
+  const [hotelAddress,setHotelAddress] = useState("");
+  const [hotelCity,setHotelCity] = useState(0);
   const [from,setFrom] = useState("0");
   const [to,setTo] = useState("0");
-
   const [ac,setAc] = useState(true);
   const [sleeper,setSleeper] = useState(false);
+  const [hotelRating,setHotelRating] = useState(0);
+  const [hotelStandard,setHotelStandard] = useState(0);
+  const [hotelDeluxe,setHotelDeluxe] = useState(0);
+  const [hotelSuite,setHotelSuite] = useState(0);
+  const handleHotelClick = ()=>{
+    console.log(hotelName,hotelAddress,hotelCity,hotelRating,hotelStandard,hotelDeluxe,hotelSuite);
+    register_Hotel({hotelName,hotelAddress,hotelCity,hotelRating,hotelStandard,hotelDeluxe,hotelSuite});
+  }
+  const handleStarClick = (rating) => {
+    setHotelRating(rating);
+  };
   const handleToggle = () => {
     setToggle(true); // Set toggle to true to trigger useEffect
   };
@@ -93,31 +110,85 @@ const page = () => {
               <div className="flex items-center justify-center">
               <div className="text-[20px] w-[23%] h-10 flex rounded-md   text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Hotel Info </div>
                 </div>
-                <Input type="text" label="Hotel Name" className="border-2 border-gray-500 p-2 rounded-md"/>
-                <Input type="text" label="Hotel Address" className="border-2 border-gray-500 p-2 rounded-md"/>
-                <Input type="text" label="Hotel City" className="border-2 border-gray-500 p-2 rounded-md"/>
-                <div className="flex items-center justify-center">
-                <div className="text-[20px] w-[23%] h-10 flex rounded-md   text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Rates </div>
+                <Input type="text" onChange={(e)=>{setHotelName(e.target.value)}} label="Hotel Name" className="border-2 border-gray-500 p-2 rounded-md"/>
+                <Input type="text" onChange={(e)=>{setHotelAddress(e.target.value)}} label="Hotel Address" className="border-2 border-gray-500 p-2 rounded-md"/>
+                <Select variant="outlined" label="Select City" 
+                  className="text-center flex items-center flex-nowrap pl-4 mt-[2%]"
+                  onChange={(e)=>{setHotelCity(e)}}>
+                  <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Coimbatore
+                    </div>
+                  </Option>
+                  <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                    Chennai
+                    </div>
+                  </Option> 
+                  
+                  <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                    Bangalore
+                    </div>
+                  </Option>
+                  <Option value="4" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                    Hyderabad
+                    </div>
+                  </Option> 
+                  <Option value="5" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                    Mumbai
+                    </div>
+                  </Option> 
+                  <Option value="6" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                    <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                    Kolkata
+                    </div>
+                  </Option> 
+                </Select>
+                <div className="mt-5 flex items-center flex-col">
+                  <div className="text-[20px] w-[23%] mt-[2%] h-10 flex rounded-md text-black font-bold border-2 border-black bg-[#ffbd03] items-center justify-center">
+                    Rating
+                  </div>
+                  <div className="flex mt-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <FaStar
+                        size={30}
+                        key={star}
+                        className={star <= hotelRating ? 'text-yellow-400 cursor-pointer' : 'text-gray-400 cursor-pointer'}
+                        onClick={() => handleStarClick(star)}
+                      />
+                    ))}
+                  </div>
                 </div>
+                <div className="flex items-center justify-center">
+                <div className="text-[20px] w-[23%] mt-[2%] h-10 flex rounded-md   text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Rates </div>
+                </div>
+                
                 <div className="flex flex-col gap-y-5 max-w-[80%] justify-center ml-[10%]"> 
                     <div className="flex gap-x-5 ">
                       <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Standard </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Standard Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
+                      <Input type="text" onChange={(e)=>{setHotelStandard(e.target.value)}} icon={<FaRupeeSign/>} variant="outlined" label="Standard Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
                     <div className="flex gap-x-5">
                       <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Deluxe </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Deluxe Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
+                      <Input type="text" onChange={(e)=>{setHotelDeluxe(e.target.value)}} icon={<FaRupeeSign/>} variant="outlined" label="Deluxe Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
                     <div className="flex gap-x-5">
                       <div className="text-[15px] w-[30%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Suite </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Suite Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
+                      <Input type="text" onChange={(e)=>{setHotelSuite(e.target.value)}} icon={<FaRupeeSign/>} variant="outlined" label="Suite Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
                 </div>
                
                 
               </div>
+              
+              <div className="flex justify-center">
+                <Button onClick={(e)=>{handleHotelClick()}} className="mt-[5%] text-[19px] w-[23%] h-15 flex rounded-md  text-black font-bold border-2 border-black  bg-[#4681f4] items-center justify-center">Submit</Button>
+               </div>
             </div>
-             :selectedValue === "0"  ? 
+             :selectedValue === "2" && selectedTrasport=="1" ? 
              <div className="mt-[10%]">
               <div className="flex flex-col gap-y-3">
               <div className="flex items-center justify-center">
@@ -215,12 +286,13 @@ const page = () => {
                
                 
               </div>
+              <div className="flex justify-center">
+                <Button className="mt-[5%] text-[19px] w-[23%] h-15 flex rounded-md  text-black font-bold border-2 border-black  bg-[#4681f4] items-center justify-center">Submit</Button>
+              </div>
             </div>
               :null
           }
-          <div className="flex justify-center">
-            <Button className="mt-[5%] text-[19px] w-[23%] h-15 flex rounded-md  text-black font-bold border-2 border-black  bg-[#4681f4] items-center justify-center">Submit</Button>
-            </div>
+          
         </div>
         
 
