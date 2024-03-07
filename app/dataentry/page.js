@@ -21,10 +21,6 @@ const page = () => {
   const [hotelName,setHotelName] = useState("");
   const [hotelAddress,setHotelAddress] = useState("");
   const [hotelCity,setHotelCity] = useState(0);
-  const [from,setFrom] = useState("0");
-  const [to,setTo] = useState("0");
-  const [ac,setAc] = useState(true);
-  const [sleeper,setSleeper] = useState(false);
   const [hotelRating,setHotelRating] = useState(0);
   const [hotelStandard,setHotelStandard] = useState(0);
   const [hotelDeluxe,setHotelDeluxe] = useState(0);
@@ -36,6 +32,18 @@ const page = () => {
   const handleStarClick = (rating) => {
     setHotelRating(rating);
   };
+
+  //BUS 
+  const [busName,setBusName] = useState("");
+  const [busFrom,setBusFrom] = useState(0);
+  const [busTo,setBusTo] = useState(0);
+
+  const handleBusClick = ()=>{
+
+  }
+   
+  const [busAc,setBusAc] = useState(true);
+  const [busSleeper,setBusSleeper] = useState(false);
   const handleToggle = () => {
     setToggle(true); // Set toggle to true to trigger useEffect
   };
@@ -43,8 +51,8 @@ const page = () => {
   useEffect(() => {
     if (toggle) {
       // Sequential state updates
-      setFrom((prevFrom) => to);
-      setTo((prevTo) => from);
+      setBusFrom((prevFrom) => busTo);
+      setBusTo((prevTo) => busFrom);
       setToggle(false); // Reset toggle
     }
   }, [toggle]);
@@ -197,63 +205,89 @@ const page = () => {
 
                 <div className="flex items-center justify-between"> 
                     <div className="w-[270px] font-bold">
-                      <Select variant="outlined" 
-                      onChange={(e)=>setFrom(e)}
-                      value={from}
-                      label="From" 
-                      className=" text-center flex flex-nowrap pl-4 mt-[2%]  "
-                       >
-                      <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                          Delhi
-                        </div>
-                      </Option>
-                      <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                        Mumbai
-                        </div>
-                      </Option> 
-                      
-                      <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                        Chennai
-                        </div>
-                      </Option> 
+                      <Select variant="outlined" label="From" 
+                    className="text-center flex items-center flex-nowrap pl-4 mt-[2%]"
+                    onChange={(e)=>{setBusFrom(e)}}>
+                    <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Coimbatore
+                      </div>
+                    </Option>
+                    <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Chennai
+                      </div>
+                    </Option> 
+                    
+                    <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Bangalore
+                      </div>
+                    </Option>
+                    <Option value="4" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Hyderabad
+                      </div>
+                    </Option> 
+                    <Option value="5" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Mumbai
+                      </div>
+                    </Option> 
+                    <Option value="6" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Kolkata
+                      </div>
+                    </Option> 
                       </Select>
                     </div>
                     <Button className="bg-blue-500 rounded-full text-[30px] p-1" onClick={handleToggle}><AiOutlineSwap/></Button>
                     <div className="w-[270px]">
                       <Select variant="outlined" label="To" 
-                      className=" text-center flex flex-nowrap pl-4 mt-[2%] "
-                      value={to}
-                      onChange={(e)=>{setTo(e)}}>
-                      <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                          Delhi
-                        </div>
-                      </Option>
-                      <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                        Mumbai
-                        </div>
-                      </Option> 
-                      
-                      <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
-                        <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
-                        Chennai
-                        </div>
-                      </Option> 
+                    className="text-center flex items-center flex-nowrap pl-4 mt-[2%]"
+                    onChange={(e)=>{setBusTo(e)}}>
+                    <Option value="1" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                        Coimbatore
+                      </div>
+                    </Option>
+                    <Option value="2" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Chennai
+                      </div>
+                    </Option> 
+                    
+                    <Option value="3" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Bangalore
+                      </div>
+                    </Option>
+                    <Option value="4" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Hyderabad
+                      </div>
+                    </Option> 
+                    <Option value="5" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Mumbai
+                      </div>
+                    </Option> 
+                    <Option value="6" className=' text-gray-900 hover:bg-gray-700 hover:ring-2 hover:ring-black'>
+                      <div className='flex gap-x-5 text-[20px] text-gray-900 tems-center'>
+                      Kolkata
+                      </div>
+                    </Option> 
                       </Select>
                     </div>
                 </div>
-                <Input type="text" label="Bus Name" className="border-2 border-gray-500 p-2 rounded-md"/>
+                <Input type="text" onChange={(e)=>{setBusName(e.target.value)}} label="Bus Name" className="border-2 border-gray-500 p-2 rounded-md"/>
                  
                 <div className="flex justify-between mx-[15%]">
                   <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
                     <div className="">Non-AC</div>
                     <Switch defaultChecked color="green"
                      onChange={(e) => {
-                      setAc(e.target.checked);
+                      setBusAc(e.target.checked);
                       console.log(e.target.checked);
                     }}/>
                     <div className="">AC</div>
@@ -261,7 +295,7 @@ const page = () => {
                   <div className="flex gap-x-2 border-2 border-gray-500 p-2 rounded-md bg-gray-200 text-[15px] font-bold">
                     <div className="">Sleeper</div>
                         <Switch defaultChecked color="red" onChange={(e) => {
-                          setSleeper(!e.target.checked);
+                          setBusSleeper(!e.target.checked);
                            
                         }}
                    
@@ -274,20 +308,17 @@ const page = () => {
                 </div>
                 <div className="flex flex-col gap-y-5 max-w-[80%] justify-center ml-[10%]"> 
                     <div className="flex gap-x-5 ">
-                      <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">{ac ? "AC" : "Non AC"} </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Standard Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
+                      <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Bus Rate</div>
+                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Rate" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
-                    <div className="flex gap-x-5">
-                      <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">{sleeper ? "Sleeper" : "Semi-Sleeper"} </div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Deluxe Rooms" className="border-2   border-gray-500 p-2 rounded-md"/>
-                    </div>
+                     
                      
                 </div>
                
                 
               </div>
               <div className="flex justify-center">
-                <Button className="mt-[5%] text-[19px] w-[23%] h-15 flex rounded-md  text-black font-bold border-2 border-black  bg-[#4681f4] items-center justify-center">Submit</Button>
+                <Button onClick={(e)=>{handleBusClick()}} className="mt-[5%] text-[19px] w-[23%] h-15 flex rounded-md  text-black font-bold border-2 border-black  bg-[#4681f4] items-center justify-center">Submit</Button>
               </div>
             </div>
               :null
