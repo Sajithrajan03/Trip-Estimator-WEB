@@ -31,13 +31,13 @@ export const register_Bus = async (bus) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    hotelName: hotel.hotelName,
-                    hotelAddress: hotel.hotelAddress,
-                    hotelCity: hotel.hotelCity,                
-                    hotelRating: hotel.hotelRating,
-                    hotelStandardRate: hotel.hotelStandard ,
-                    hotelDeluxeRate: hotel.hotelDeluxe,
-                    hotelSuiteRate: hotel.hotelSuite,
+                  
+                    busName : bus.busName,
+                    busFrom: bus.busFrom,
+                    busTo : bus.busTo,
+                    busAc : bus.busAc,
+                    busSleeper : bus.busSleeper,
+                    busPrice: bus.busPrice
                 })
             });
         return response.data;

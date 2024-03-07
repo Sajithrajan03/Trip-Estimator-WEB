@@ -9,7 +9,7 @@ import { FaTrainSubway } from "react-icons/fa6";
 import { MdFlight } from "react-icons/md";
 import { Switch } from "@material-tailwind/react";
 import { AiOutlineSwap } from "react-icons/ai";
-import {register_Hotel} from '@/app/(Auth)/useAuth';
+import {register_Hotel,register_Bus} from '@/app/(Auth)/useAuth';
 import { FaStar } from 'react-icons/fa';
 const Page = () => {
 
@@ -39,11 +39,12 @@ const Page = () => {
   const [busTo,setBusTo] = useState(0);
 
   const handleBusClick = ()=>{
-
+    register_Bus({busFrom,busTo,busName,busAc,busSleeper,busPrice})
   }
    
   const [busAc,setBusAc] = useState(true);
   const [busSleeper,setBusSleeper] = useState(false);
+  const [busPrice,setBusPrice] = useState(0);
   const handleToggle = () => {
     setToggle(true); // Set toggle to true to trigger useEffect
   };
@@ -309,7 +310,7 @@ const Page = () => {
                 <div className="flex flex-col gap-y-5 max-w-[80%] justify-center ml-[10%]"> 
                     <div className="flex gap-x-5 ">
                       <div className="text-[15px] w-[40%] flex rounded-md  px-2 text-black font-bold border-2 border-black  bg-[#ffbd03] items-center justify-center">Bus Rate</div>
-                      <Input type="text" icon={<FaRupeeSign/>} variant="outlined" label="Rate" className="border-2   border-gray-500 p-2 rounded-md"/>
+                      <Input onChange={(e)=>setBusPrice(e.target.value)} type="text" icon={<FaRupeeSign/>} variant="outlined" label="Rate" className="border-2   border-gray-500 p-2 rounded-md"/>
                     </div>
                      
                      
