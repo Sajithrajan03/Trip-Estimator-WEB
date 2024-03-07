@@ -11,7 +11,7 @@ import { Switch } from "@material-tailwind/react";
 import { AiOutlineSwap } from "react-icons/ai";
 import {register_Hotel} from '@/app/(Auth)/useAuth';
 import { FaStar } from 'react-icons/fa';
-const page = () => {
+const Page = () => {
 
   const [selectedValue, setSelectedValue] = useState("0");
   const [selectedTrasport,setSelectedTransport] = useState("0");
@@ -332,4 +332,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
