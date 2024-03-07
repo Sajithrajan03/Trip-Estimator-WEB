@@ -1,4 +1,4 @@
-import {REGISTER_HOTEL} from './constants';
+import {REGISTER_HOTEL,REGISTER_BUS} from './constants';
 export const register_Hotel = async (hotel) => {
     try {
         const response = await fetch(REGISTER_HOTEL,
