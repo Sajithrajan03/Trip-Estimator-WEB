@@ -1,22 +1,20 @@
 "use client"
-import DataEntry from "@/app/dataentry/page" 
-import  secureLocalStorage  from  "react-secure-storage";
-import { useEffect, useState } from 'react';
-
-export default function Home() {
-  const [accountStatus, setAccountStatus] = useState(null);
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import LoadingScreen from './_Component/LoadingScreen';
+const Page = () => {
+  const router = useRouter();
 
   useEffect(() => {
-    const storedAccountStatus = secureLocalStorage.getItem("AccountStatus");
-    setAccountStatus(storedAccountStatus);
-  }, []);  
+    
+    router.push('/login');
+  }, []);
 
-  
+  return (<div className='min-h-screen bg-[rgb(6,55,129)] '>
+    <LoadingScreen/>
+    </div>);  
+};
 
-  return (
-    <div>
-      {accountStatus? <DataEntry />:null}
-    </div>
-  );
-}
+export default Page;
+
 
