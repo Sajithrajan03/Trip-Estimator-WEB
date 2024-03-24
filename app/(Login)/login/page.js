@@ -216,7 +216,7 @@ export default function Login() {
                     <button
                       type="submit"
                       onClick={HandleLogin}
-                      className="w-full text-black bg-[#d1b931] hover:bg-[#f69c18] focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full text-black bg-[#f69c18] hover:bg-[#f69c18] focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                       disabled={
       
                         loading ||
