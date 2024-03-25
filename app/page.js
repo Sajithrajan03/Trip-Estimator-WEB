@@ -1,18 +1,15 @@
-"use client"
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import LoadingScreen from './_Component/LoadingScreen';
+ import HomePage from './_Component/HomePage';
+ import { PrimeReactProvider } from "primereact/api";
+import Tailwind from 'primereact/passthrough/tailwind';
 const Page = () => {
-  const router = useRouter();
+  
 
-  useEffect(() => {
-    
-    router.push('/login');
-  }, []);
-
-  return (<div className='min-h-screen bg-[rgb(6,55,129)] '>
-    <LoadingScreen/>
-    </div>);  
+   
+  return (
+    <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
+    <HomePage />
+</PrimeReactProvider>
+    );  
 };
 
 export default Page;

@@ -44,7 +44,7 @@ const Page = () => {
     
   }, [accountStatus, router]);
   return (
-    <div className={`bg-[rgb(6,55,129)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`bg-[rgb(216,217,218)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         { loading ? <LoadingScreen/> :null }
         <div className=' flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0' >
             <div className="p-2">
