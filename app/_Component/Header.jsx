@@ -12,28 +12,20 @@ import { Button } from "@material-tailwind/react";
 
 const navLinks = [
   {
-    title: "About",
-    path: "/#about",
+    title: "Home",
+    path: "/home",
   },
   {
-    title: "Events",
-    path: "/events",
-  },
-  {
-    title: "Eventide",
-    path: "/comingSoon",
-  },
-  {
-    title: "Hackathon",
-    path: "/hackathon",
-  },
-  {
-    title: "TechFair",
-    path: "/techfair",
+    title: "Profile",
+    path: "/profile",
   },
   {
     title: "Contact Us",
-    path: "/",
+    path: "/contact-us",
+  },
+  {
+    title: "FAQ",
+    path: "/faq",
   },
 ];
 
@@ -85,10 +77,10 @@ const Navigationbar = () => {
     router.push("/login");
   };
   return (
-    <nav className="fixed z-20 h-[200px] rounded-md inset-1  bg-opacity-50 backdrop-blur-xl mb-3 border-b-1 border-t-3 border-none bg-[#121212]">
+    <nav className=" z-20  w-[600px] mx-auto rounded-md inset-1 mt-2 bg-opacity-50 backdrop-blur-xl mb-3 border-b-1 border-t-3 border-none bg-[#f3f3f3]">
       <div className="flex items-center justify-between mx-auto px-4 py-2  ">
-        <div className="mobile-menu lg:hidden">
-          <Button variant="text" className="rounded-full p-1">
+        <div className="mobile-menu  lg:hidden">
+          <Button variant="text" className="rounded-full p-1 ">
             <Hamburger
               toggled={navbarOpen}
               toggle={setNavbarOpen}
@@ -98,34 +90,22 @@ const Navigationbar = () => {
           </Button>
         </div>
 
-        <div>
-          <Link
-            href={"/"}
-            className="text-2xl md:text-5xl text-gray-300 font-normal"
-          >
-            <Image
-              src="/images/anokha2024_logo.png"
-              alt="logo"
-              width={250}
-              height={250}
-              className="w-40 lg:h-full float-left "
-            />
-          </Link>
-        </div>
+    
 
         <div
-          className="menu hidden lg:block justify-end  lg:w-auto w-2/5"
+          className="menu mx-auto my-auto first-letter:hidden lg:block justify-end  "
           id="navbar"
         >
-          <ul className="flex p-2 md:p-0 md:flex-row lg:space-x-2 mt-0 ">
+          
+          <ul className="flex justify-between  items-center p-1 md:p-0   md:space-x-8   ">
             {navLinks.map((link, index) => (
-              <li key={index}>
+              <li key={index} >
                 <Link href={link.path}>
                   <Button
                     variant="text"
-                    className=" h-[40px] hover:bg-gray-700"
+                    className=" h-[40px] hover:bg-[#102D59] hover:text-gray-200 bg-gray-300 ring-2 ring-blue-900 text-black"
                   >
-                    <div className="my-auto   text-gray-300   text-[13px]  rounded md:p-0 hover:text-white">
+                    <div className="my-auto     font-bold text-[15px]  rounded md:p-0 ">
                       {link.title}
                     </div>
                   </Button>

@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import ApplicantForms from "@/app/_Component/ApplicantForms"
-import Navbar from "@/app/_Component/Header";
+import Navbar from "@/app/_Component/Header"
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -20,6 +20,7 @@ const Page = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
+       
     }, 500);
   }, []);
   useEffect(() => {
@@ -78,11 +79,13 @@ const Page = () => {
   });
   return (
     <div>
-      <div className="bg-gradient-to-r max-w-screen-2xl from-cyan-300 to-blue-900  w-[100%] p-8 rounded-[0%] h-[100%] md:h-[80%] left-[10%]   md:top-[10%] lg:top-[13%] lg:left-[30%] lg:scale-x-150 absolute blur-3xl levitate -z-10"></div>
+      <div className="bg-gradient-to-r overflow-x-hidden w-[90%] lg:w-[55%] md:w-[90%] from-cyan-300 to-blue-900   p-8 rounded-[0%] md:h-[80%] left-[10%] md:top-[10%] lg:top-[13%] lg:left-[30%] lg:scale-x-150 absolute blur-3xl levitate -z-10"></div>
+       
       <div className={`bg-[rgb(6,55,129)]]  min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-          { loading ? <LoadingScreen/> :null }
+          <Navbar/>
+          { loaded ? null: <LoadingScreen/>  }
           
-          <div className='z-10 flex mt-[15%] flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0' >
+          <div className='z-10 flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0' >
               <div className="p-2">
                   <Toast ref={toastRef} position="bottom-center" className="p-5" />
               </div>
@@ -92,7 +95,7 @@ const Page = () => {
       
       
           </div>
-      </div>
+    </div>
     </div>
   )
 }
