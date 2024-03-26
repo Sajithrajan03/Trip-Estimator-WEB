@@ -58,37 +58,33 @@ export default function Login() {
           userPass: hashPassword(userPassword), //
         }),
       });
-       
 
       const data = await response.json();
       if (response.status === 200) {
-         
         setLoading(false);
-         
+
         secureLocalStorage.setItem("SECRET_TOKEN", data["SECRET_TOKEN"]);
         secureLocalStorage.setItem("userName", data["userName"]);
         secureLocalStorage.setItem("userEmail", data["userEmail"]);
         secureLocalStorage.setItem("accountStatus", data["accountStatus"]);
-        secureLocalStorage.setItem("userGender",data["userGender"]);
+        secureLocalStorage.setItem("userGender", data["userGender"]);
         ToastAlert(
           "success",
           "Successful Login",
           "You have logged in successfully!",
           toastRef
         );
-         
+
         setTimeout(() => {
-           
           if (data["accountStatus"] == 0) {
-            console.log("ashi")
-            router.push('/');  
-        }
-        if (data["accountStatus"] == 1) {
-          console.log("ashsdfi") 
-            router.push('/applicant');
-             
+            router.push("/");
           }
-     
+          if (data["accountStatus"] == 1) {
+            router.push("/applicant");
+          }
+          if (data["accountStatus"] == 2) {
+            router.push("/approver");
+          }
         }, 1500);
       } else if (response.status === 500) {
         setLoading(false);
@@ -122,21 +118,21 @@ export default function Login() {
     }
   };
 
-  
-
   return (
-    <div className={` transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-      
+    <div
+      className={` transition-opacity duration-500 ease-in-out ${
+        loaded ? "opacity-100" : "opacity-0"
+      }`}
+    >
       <main className="flex min-h-screen flex-col bg-[rgb(6,55,129)] ">
-         <div className="bg-gradient-to-r  from-cyan-300 to-blue-900 md:w-[20%] sm:w-[80%] p-8 rounded-[0%] h-[55%] left-[40%] top-[230px] absolute blur-3xl levitate"></div>
+        <div className="bg-gradient-to-r  from-cyan-300 to-blue-900 md:w-[20%] sm:w-[80%] p-8 rounded-[0%] h-[55%] left-[40%] top-[230px] absolute blur-3xl levitate"></div>
         <div className="block">
           {/* <Navbar /> */}
           <div className="p-2">
             <Toast ref={toastRef} position="bottom-center" className="p-5" />
           </div>
-          {loading?<LoadingScreen/> : null}
+          {loading ? <LoadingScreen /> : null}
           <div className="relative min-h-screen">
-      
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0">
               <div className="w-full  rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 sm:max-w-md xl:p-0 bg-white ">
                 <div className="p-6 space-y-8 sm:p-8">
@@ -217,11 +213,7 @@ export default function Login() {
                       type="submit"
                       onClick={HandleLogin}
                       className="w-full text-black bg-[#f69c18] hover:bg-[#f69c18] focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-                      disabled={
-      
-                        loading ||
-                        userPassword == ""
-                      }
+                      disabled={loading || userPassword == ""}
                     >
                       LOGIN
                     </button>

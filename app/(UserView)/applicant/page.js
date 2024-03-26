@@ -7,6 +7,7 @@ import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import ApplicantForms from "@/app/_Component/ApplicantForms"
+import Navbar from "@/app/_Component/Header";
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -15,6 +16,7 @@ const Page = () => {
   const [loading,setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const toastRef = useRef();
+  
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
@@ -43,19 +45,54 @@ const Page = () => {
     }
     
   }, [accountStatus, router]);
+
+  const [formData, setFormData] = useState({
+    travelDates: {
+      from: null,
+      to: null,
+    },
+    location: {
+      from: "1",
+      to: '',
+    },
+    
+    transportation: "",
+    transportationDetails: "",
+    hotels: "",
+    hotelDetails: "",
+    food: "",
+    isToCalendarOpen: false,
+    transport_estimate: "",
+    transport_amount: "",
+    hotel_estimate: "",
+    hotel_amount: "",
+    food_estimate: "",
+    food_amount: "",
+    miscellaneous_estimate: "",
+    miscellaneous_amount: "",
+    total_estimate: "",
+    total_amount: "",
+    travel_reason: "",
+    trip_estimate: "",
+    trip_amount: "",
+  });
   return (
-    <div className={`bg-[rgb(216,217,218)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-        { loading ? <LoadingScreen/> :null }
-        <div className=' flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0' >
-            <div className="p-2">
-                <Toast ref={toastRef} position="bottom-center" className="p-5" />
-            </div>
-            <div className=' text-black py-[2%] px-[3%] rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 md:w-[70%]   bg-white '>
-                <ApplicantForms/>
-            </div>
-            
-        
-        </div>
+    <div>
+      <div className="bg-gradient-to-r max-w-screen-2xl from-cyan-300 to-blue-900  w-[100%] p-8 rounded-[0%] h-[100%] md:h-[80%] left-[10%]   md:top-[10%] lg:top-[13%] lg:left-[30%] lg:scale-x-150 absolute blur-3xl levitate -z-10"></div>
+      <div className={`bg-[rgb(6,55,129)]]  min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+          { loading ? <LoadingScreen/> :null }
+          
+          <div className='z-10 flex mt-[15%] flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0' >
+              <div className="p-2">
+                  <Toast ref={toastRef} position="bottom-center" className="p-5" />
+              </div>
+              <div className=' text-black py-[2%] px-[3%] rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 w-[95%] md:w-[95%] xl:w-[1400px]  bg-white '>
+                  <ApplicantForms formData={formData} setFormData={setFormData} secretToken={secretToken}/>
+              </div>
+      
+      
+          </div>
+      </div>
     </div>
   )
 }
