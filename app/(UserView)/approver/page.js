@@ -63,6 +63,7 @@ const Page = () => {
             throw new Error('Failed to fetch trips');
           }
           const data = await response.json();
+          console.log(data.Message)
           setTrips(data.Message || []);
         } catch (error) {
           console.error(error);
