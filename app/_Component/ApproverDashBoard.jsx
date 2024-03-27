@@ -1,11 +1,43 @@
 "use client"
-import React from 'react';
+import React,{useState} from 'react';
 import Navbar from "@/app/_Component/Navbar"
+import { TabMenu } from 'primereact/tabmenu';
+import 'primeicons/primeicons.css';
 
 const TripTable = ({ trips }) => {
+  const items = [
+    { label: 'All', icon: 'pi pi-caret-up text-black font-bold text-[20px]',value:0 },
+    { label: 'Accepted', icon: 'pi pi-check text-green-900 font-bold text-[20px]',value:1  },
+    { label: 'Rejected', icon: 'pi pi-times text-red-900 font-bold text-[20px]',value:2  },
+    { label: 'Modified', icon: 'pi pi-spin pi-cog text-yellow-900 font-bold text-[20px]',value:3  }
+];
+
+const [selectedIndex, setSelectedIndex] = useState(0);
+
+ 
+const handleSelectionChange = (index) => {
+  console.log(index);
+  setSelectedIndex(index);
+};
   return (
     <div className="  overflow-x-auto">
       <Navbar />
+      <TabMenu
+  model={items}
+  className='w-[480px] mt-[10px] mx-auto rounded-md'
+  
+  onTabChange={(e)=>console.log(e.value)}
+  pt={{
+    root: { className: "bg-[#063781] text-white" },
+    action: {
+      className: 'surface-ground hover:bg-blue-900 hover:rounded-full group',
+    },
+    menuitem: { className: "bg-[#063781] text-white" },
+    label: { className: "font-bold text-black group-hover:text-white group-hover:text-white" },
+    icon: { className: "text-black group-hover:text-white hover:scale-125" },
+    inkbar: { className: "bg-white h-3 " },
+  }}
+/>
       <table className="table-auto hidden border-collapse border border-gray-800 w-full">
         <thead>
           <tr className="bg-gray-800 text-white">
