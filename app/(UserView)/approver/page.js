@@ -6,6 +6,9 @@ import LoadingScreen from '@/app/_Component/LoadingScreen';
 
 import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
+import ApproverDashBoard from './_component/ApproverDashBoard';
+import { GET_DASHBOARD_DETAILS_URL } from "@/app/_Component/_util/constants";
+
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -17,7 +20,7 @@ const Page = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
-    }, 500);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -27,8 +30,8 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-     
-    if (accountStatus === 0 || accountStatus === 1) {
+    console.log(accountStatus);
+    if (accountStatus != 2 && accountStatus != null) {
          
         ToastAlert(
             "error",
@@ -43,15 +46,44 @@ const Page = () => {
     }
   }, [accountStatus, router]);
 
+  const [trips, setTrips] = useState([]);
+
+  useEffect(() => {
+    if (accountStatus !== null) {
+      const fetchTrips = async () => {
+        try {
+          const response = await fetch(GET_DASHBOARD_DETAILS_URL, {
+            method: "GET",
+            headers: {
+              "Authorization": "Bearer " + secretToken,
+              "Content-Type": "application/json",
+            }
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch trips');
+          }
+          const data = await response.json();
+          setTrips(data.Message || []);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchTrips();
+    }
+  }, [accountStatus]); // Add accountStatus as a dependency
+  
+  
+
   return (
     
     <div className={`bg-[rgb(6,55,129)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
-        { loading ? <LoadingScreen/> :null }
+        { loaded ? null: <LoadingScreen/>  }
         <div className=' text-black' >            
-            <div className="p-2">
+            <div >
                 <Toast ref={toastRef} position="bottom-center" className="p-5" />
             </div>
-        
+            <ApproverDashBoard trips={trips}/>
         </div>
     </div>
   );

@@ -31,7 +31,7 @@ const Page = () => {
 
   useEffect(() => {
      
-    if (accountStatus === 0 || accountStatus === 2) {
+    if (accountStatus != 1 && accountStatus != null) {
          
         ToastAlert(
             "error",
