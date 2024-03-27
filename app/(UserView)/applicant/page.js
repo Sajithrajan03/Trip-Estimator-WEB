@@ -7,7 +7,7 @@ import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import ApplicantForms from "@/app/_Component/ApplicantForms"
-import Navbar from "@/app/_Component/Header"
+import Navbar from "@/app/_Component/Navbar"
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
