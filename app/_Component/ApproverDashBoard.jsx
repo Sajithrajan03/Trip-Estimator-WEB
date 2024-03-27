@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import Navbar from "./Navbar"
+import Navbar from "@/app/_Component/Navbar"
 
 const TripTable = ({ trips }) => {
   return (

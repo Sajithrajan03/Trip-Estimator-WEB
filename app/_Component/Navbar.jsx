@@ -1,11 +1,19 @@
-
-import React from 'react';
+"use client";
+import React,{useEffect,useState} from 'react';
 import { Toolbar } from 'primereact/toolbar';
 import { Avatar } from 'primereact/avatar';
 import 'primeicons/primeicons.css';
 import { IoIosCompass } from "react-icons/io";
+import ProfileCard from './ProfileCard';
+import secureLocalStorage from 'react-secure-storage';
 
 export default function CustomDemo() {
+    const[ userName,setUserName]=useState("")
+    useEffect(() => {
+      setUserName(secureLocalStorage.getItem("userName"));
+    }, []);
+     
+  
     const startContent = (
         <React.Fragment>
             <div className='cursor-pointer flex group '>
@@ -30,17 +38,15 @@ export default function CustomDemo() {
             <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
                 <i className="pi pi-user text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md"></i>
             </button>
-            <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-search text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md"></i>
-            </button>
+             
         </div>
     );
 
     const endContent = (
         <React.Fragment>
             <div className="flex align-items-center items-center gap-2">
-                <img src="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" className='w-10' />
-                <span className="font-bold text-blue-800 text-[20px]">Amy Elsner</span>
+                <ProfileCard email={"sajith"}/>
+                <span className="font-bold text-blue-800 text-[20px]">{userName}</span>
             </div>
         </React.Fragment>
     );

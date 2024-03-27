@@ -6,7 +6,7 @@ import LoadingScreen from '@/app/_Component/LoadingScreen';
 
 import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
-import ApproverDashBoard from './_component/ApproverDashBoard';
+import ApproverDashBoard from '@/app/_Component/ApproverDashBoard';
 import { GET_DASHBOARD_DETAILS_URL } from "@/app/_Component/_util/constants";
 
 const Page = () => {
