@@ -5,7 +5,7 @@ const Page = () => {
     const {tripId}  = useParams();
     console.log(tripId)
     return (
-        <div className='te xt-white'>{tripId}</div>
+        <div className='text-white'>{tripId}</div>
     );
 };
 export default Page;
