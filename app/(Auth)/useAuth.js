@@ -1,4 +1,6 @@
 import {REGISTER_HOTEL,REGISTER_BUS} from './constants';
+import secureLocalStorage from './secureLocalStorage';
+import { useRouter } from 'next/router';
 export const register_Hotel = async (hotel) => {
     try {
         const response = await fetch(REGISTER_HOTEL, {
@@ -45,4 +47,14 @@ export const register_Bus = async (bus) => {
     } catch (error) {
         console.error(error);
     }
+}
+export const SignOut = async()=>{
+    
+    secureLocalStorage.clear()
+    const router = useRouter();
+    setTimeout(() => {
+        router.push('/')
+    }, 150);
+    
+    
 }

@@ -9,18 +9,18 @@ const Page = () => {
   useEffect(()=>{
     setAccountStatus(parseInt(secureLocalStorage.getItem('accountStatus')));  
   },[])
-  // useEffect(() => {
-  //   if (accountStatus == 1 && accountStatus != "notstatus") {
-  //     router.replace('/applicant');  
-  //   }
-  //   if (accountStatus == 2 && accountStatus != "notstatus") {
-  //       router.replace('/approver');  
-  //     }
-  //     if (accountStatus == 3 && accountStatus != "notstatus") {
-  //       router.replace('/admin');  
-  //     }
+  useEffect(() => {
+    if (accountStatus == 1 && accountStatus != "notstatus") {
+      router.replace('/applicant');  
+    }
+    if (accountStatus == 2 && accountStatus != "notstatus") {
+        router.replace('/approver');  
+      }
+      if (accountStatus == 3 && accountStatus != "notstatus") {
+        router.replace('/admin');  
+      }
      
-  // }, [accountStatus,router]);
+  }, [accountStatus,router]);
 
   return (<div className='min-h-screen bg-[rgb(6,55,129)] '>
     <LoadingScreen/>

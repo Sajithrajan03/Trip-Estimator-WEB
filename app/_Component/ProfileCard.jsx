@@ -23,11 +23,13 @@ const ProfileMenuItems = [
   {
     text: "Profile",
     icon: FaUserAlt,
+    link : "/profile"
   },
   
   {
     text: "Sign Out",
     icon: FaPowerOff ,
+    link : "/login"
   },
 ];
 export default function ProfileCard({ email }) {
@@ -87,11 +89,11 @@ export default function ProfileCard({ email }) {
 
         </MenuHandler>
         <MenuList className="z-40 p-1 border-2 border-black">
-          {ProfileMenuItems.map(({ text, icon }, index) => {
+          {ProfileMenuItems.map(({ text, icon,link }, index) => {
             const isLastItem = index === ProfileMenuItems.length - 1;
             const isFavourites = index === 1;
             return (
-              <Link href="#" key={index}>
+              <Link href={link} key={index}>
                 <MenuItem
                   key={index}
                   className={`group flex items-center gap-3 mb-1 rounded ${

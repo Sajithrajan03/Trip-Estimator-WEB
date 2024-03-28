@@ -1,158 +1,142 @@
-"use client"
-import React,{useState} from 'react';
-import Navbar from "@/app/_Component/Navbar"
-import { TabMenu } from 'primereact/tabmenu';
-import 'primeicons/primeicons.css';
+"use client";
+import React, { useState } from "react";
+import Navbar from "@/app/_Component/Navbar";
+import { TabMenu } from "primereact/tabmenu";
+import "primeicons/primeicons.css";
 import { FaCircleArrowRight } from "react-icons/fa6";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 const TripTable = ({ trips }) => {
   const items = [
-    { label: 'All', icon: 'pi pi-caret-up text-black font-bold text-[20px]',value:0 },
-    { label: 'Pending', icon: 'pi pi-spin pi-cog text-yellow-900 font-bold text-[20px]',value:1  },
-    { label: 'Accepted', icon: 'pi pi-check text-green-900 font-bold text-[20px]',value:2 },
-    { label: 'Rejected', icon: 'pi pi-times text-red-900 font-bold text-[20px]',value:3  }
-    
-];
+    {
+      label: "All",
+      icon: "pi pi-caret-up text-black font-bold text-[20px]",
+      value: 3,
+    },
+    {
+      label: "Pending",
+      icon: "pi pi-spin pi-cog text-yellow-900 font-bold text-[20px]",
+      value: 0,
+    },
+    {
+      label: "Accepted",
+      icon: "pi pi-check text-green-900 font-bold text-[20px]",
+      value: 1,
+    },
+    {
+      label: "Rejected",
+      icon: "pi pi-times text-red-900 font-bold text-[20px]",
+      value: 2,
+    },
+  ];
 
-const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
- 
-const handleSelectionChange = (index) => {
-  
-  setSelectedIndex(index.value);
-};
+  const handleSelectionChange = (index) => {
+     
+    setSelectedIndex(index);
+  };
   return (
     <div className="  overflow-x-auto">
       <Navbar />
-      <div className='p-2 bg-gray-900 w-fit h-fit mx-auto mt-10 rounded-md flex items-center'>
-        <TabMenu
-          model={items}
-          className='w-[400px] md:w-[460px] my-auto mx-auto rounded-md'
-          activeIndex={selectedIndex}
-          onTabChange={(e)=>handleSelectionChange(e.value)}
-          pt={{
-            label: { className: "font-bold text-black group-hover:text-white group-hover:text-white" },
-            icon: { className: "text-black group-hover:text-white hover:scale-125" },
-            
-          }}
-        />
-      </div>
-      <table className="table-auto hidden border-collapse border border-gray-800 w-full">
-        <thead>
-          <tr className="bg-gray-800 text-white">
-            <th className="px-4 py-2">Trip ID</th>
-            <th className="px-4 py-2">Start City</th>
-            <th className="px-4 py-2">End City</th>
-            <th className="px-4 py-2">Start Date</th>
-            <th className="px-4 py-2">End Date</th>
-            <th className="px-4 py-2">Transport Mode</th>
-            <th className="px-4 py-2">Transport Estimate</th>
-            <th className="px-4 py-2">Transport Amount</th>
-            <th className="px-4 py-2">Hotel Type</th>
-            <th className="px-4 py-2">Hotel Estimate</th>
-            <th className="px-4 py-2">Hotel Amount</th>
-            <th className="px-4 py-2">Food Estimate</th>
-            <th className="px-4 py-2">Food Amount</th>
-            <th className="px-4 py-2">Miscellaneous Estimate</th>
-            <th className="px-4 py-2">Miscellaneous Amount</th>
-            <th className="px-4 py-2">Total Estimate</th>
-            <th className="px-4 py-2">Total Amount</th>
-            <th className="px-4 py-2">Travel Reason</th>
-            <th className="px-4 py-2">Admin Message</th>
-            <th className="px-4 py-2">Trip Status</th>
-            <th className="px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {trips.map(trip => (
-            <tr key={trip.trip_id} className="bg-gray-200">
-              <td className="border px-4 py-2">{trip.trip_id}</td>
-              <td className="border px-4 py-2">{trip.start_city}</td>
-              <td className="border px-4 py-2">{trip.end_city}</td>
-              <td className="border px-4 py-2">{trip.travel_start_date}</td>
-              <td className="border px-4 py-2">{trip.travel_end_date}</td>
-              <td className="border px-4 py-2">{trip.transport_mode}</td>
-              <td className="border px-4 py-2">{trip.transport_estimate}</td>
-              <td className="border px-4 py-2">{trip.transport_amount}</td>
-              <td className="border px-4 py-2">{trip.hotel_type}</td>
-              <td className="border px-4 py-2">{trip.hotel_estimate}</td>
-              <td className="border px-4 py-2">{trip.hotel_amount}</td>
-              <td className="border px-4 py-2">{trip.food_estimate}</td>
-              <td className="border px-4 py-2">{trip.food_amount}</td>
-              <td className="border px-4 py-2">{trip.miscellaneous_estimate}</td>
-              <td className="border px-4 py-2">{trip.miscellaneous_amount}</td>
-              <td className="border px-4 py-2">{trip.total_estimate}</td>
-              <td className="border px-4 py-2">{trip.total_amount}</td>
-              <td className="border px-4 py-2">{trip.travel_reason}</td>
-              <td className="border px-4 py-2">{trip.admin_message}</td>
-              <td className="border px-4 py-2">{trip.trip_status}</td>
-              <td className="border px-4 py-2">
-                {/* Add actions here */}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <div className="md:block">
-  <div className="mx-1">
+      <div className="p-2  bg-opacity-30 bg-black backdrop-filter  backdrop-blur-lg w-fit h-fit mx-auto mt-10 rounded-md flex items-center">
+        <div className="flex">
+        <div className="flex w-[400px]   justify-evenly md:w-[460px] my-auto mx-auto rounded-md">
+  {items.map((item, index) => (
+    <div key={index} className={`tab flex px-2 group hover:ring-2 ring-black mx-1 items-center space-x-0 bg-white  rounded-md text-black group-hover:text-white hover:scale-105 ${selectedIndex == item.value ? 'scale-105 opacity-100 ring-2 ring-black underline decoration-4 underline-offset-2 ' : ''}`} onClick={() => handleSelectionChange(item.value)}>
       
-    
-    <div className='bg-gray-400 mt-10 p-3 mx-auto lg:w-[960px] rounded-lg '>
-      {trips.map(trip => (
-        <div key={trip.trip_id} className="flex space-x-4 justify-evenly lg:justify-evenly  bg-white rounded-lg pb-1 mb-3 items-center border-b border-gray-200">
-          <div className='flex w-[30%] flex-col space-y-1 ml-1'>
-            <div className="w-full flex justify-center text-[20px] font-bold mt-2 sm:w-1/2 md:w-auto  px-4">
-            {trip.emp_name.toUpperCase()}
-            </div>
-            <div className='flex justify-evenly items-center bg-green-400 rounded-md p-1'>
-              <div className="w-full  text-[16px] font-bold  sm:w-1/2 md:w-auto  px-2">
-                {trip.start_city_name}
-              </div>
-              <div><FaCircleArrowRight/></div>
-              <div className="w-full text-[16px] font-bold  sm:w-1/2 md:w-auto  px-2">
-                {trip.end_city_name}
-              </div>
-            </div>
-            <div className='flex justify-evenly items-center  bg-gray-400 rounded-md p-1'>
-              <div className="w-full text-[12px] font-bold  sm:w-1/2 md:w-auto  px-2">
-              {new Date(trip.travel_start_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-              </div>
-              <div><FaCircleArrowRight/></div>
-              <div className="w-full text-[12px] font-bold    md:w-auto  px-2 ">
-              {new Date(trip.travel_end_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-              </div>
-            </div>
-          </div>
-          <div className=" hidden lg:flex lg:flex-col space-y-3  lg:w-[280px] bg-[#0c185a] text-white rounded-lg font-bold sm:w-1/2 md:w-auto py-2 px-4">
-            <div className='bg-white text-black rounded-lg font-bold flex justify-center text-[18px] px-1'>Travel Details</div>
-            <div className='flex justify-center'>{trip.transport_mode}</div>
-          </div>
-           
-          
-          <div className='flex flex-col justify-center items-center mt-5'>
-            <div className=" bg-blue-900 min-w-[100px] text-white font-bold flex justify-center rounded-lg sm:w-1/2 md:w-auto py-2 px-4">
-            ₹ {trip.total_estimate}  
-            </div>
-            
-            
-            <div className="w-full sm:w-1/2 md:w-auto py-2 px-4">
-              {trip.trip_status==0?<div className='bg-yellow-300 border-2 border-black text-black font-bold rounded-lg p-2'>Pending</div>
-              :trip.trip_status==1?<div className='bg-green-500 border-2 border-black text-black font-bold rounded-lg p-2'>Accepted</div>:
-              <div className='bg-red-300 border-2 border-black text-black font-bold rounded-lg p-2'>Rejected</div>}
-            </div>
-          </div>
-           
-        </div>
-      ))}
+      <div><i className={`-ml-2 ${item.icon} text-2xl p-2 rounded-md`}></i></div>
+      <div className="font-bold text-black  ">{item.label}</div>
     </div>
-  </div>
+  ))}
 </div>
 
-
+        </div>
+        
+      </div>
+      <div className="bg-[rgb(6,55,129)]  mt-10 p-5 mx-auto lg:w-[960px] xl:min-w-[1100px] xl:w-[80%] rounded-lg ">
+        {trips.map((trip) =>
+          selectedIndex === trip.trip_status || selectedIndex === 3 ? ( // Check if selectedIndex matches trip_status
+            <div
+              key={trip.trip_id}
+              className="flex font-bold space-x-4 justify-evenly lg:justify-evenly bg-white rounded-xl pb-1 mb-3 items-center border-gray-200 hover:scale-105 cursor-pointer transition ease-in-out hover:bg-gray-200 duration-300"
+            >
+              <div className="flex flex-col sm:min-w-[100px] bg-[#3083ff] rounded-md ml-1 sm:ml-3">
+                <div className="w-full text-[14px] sm:text-[16px] min-w-[70px] md:min-w-[80px] sm:bg-white m-1 mx-auto rounded-md font-bold sm:w-1/2 md:w-auto px-0 mt-1 flex justify-center">
+                  Trip ID
+                </div>
+                <div className="w-full text-[16px] font-bold sm:w-1/2 md:w-auto px-2 flex justify-center mx-auto">
+                  {trip.trip_id}
+                </div>
+              </div>
+              <div className="lg:flex hidden">
+                <div className="w-full flex justify-center text-[20px] font-bold md:w-auto px-4">
+                  {trip.emp_name.toUpperCase()}
+                </div>
+              </div>
+              <div className="flex w-[60%] md:w-[40%] flex-col space-y-1 ml-1">
+                <div className="lg:hidden flex mx-auto justify-between text-[16px] font-bold w-auto px-4">
+                  {trip.emp_name.toUpperCase()}
+                </div>
+                <div className="flex justify-evenly items-center my-auto bg-gray-300 rounded-md p-1">
+                  <div className="text-[14px] xl:text-[17px] font-bold px-2">
+                    {trip.start_city_name}
+                  </div>
+                  <FaCircleArrowRight className="text-[20px] sm:text-[20px]" />
+                  <div className="text-[14px] xl:text-[17px] font-bold px-2">
+                    {trip.end_city_name}
+                  </div>
+                </div>
+                <div className="flex justify-evenly items-center my-auto bg-gray-300 rounded-md p-1">
+                  <div className="text-[14px] xl:text-[17px] font-bold px-2">
+                    {new Date(trip.travel_start_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}
+                  </div>
+                  <FaCircleArrowRight className="text-[20px] sm:text-[20px]" />
+                  <div className="text-[14px] xl:text-[17px] font-bold px-2">
+                    {new Date(trip.travel_end_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="hidden lg:flex lg:flex-col space-y-3 lg:w-[280px] bg-[#3083ff] text-white rounded-lg font-bold sm:w-1/2 md:w-auto mt-2 py-2 px-4">
+                <div className="bg-white text-black rounded-lg font-bold flex justify-center text-[18px] px-1">
+                  Travel Details
+                </div>
+                <div className="flex justify-center text-[18px] text-black">
+                  {trip.transport_mode}
+                </div>
+              </div>
+              <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row md:justify-evenly justify-center items-center ">
+                <div className=" bg-gray-400 min-w-[100px] text-black font-bold flex justify-center rounded-lg sm:w-1/2 md:w-auto py-2 px-4">
+                  ₹ {trip.total_estimate}
+                </div>
+                <div className="w-full sm:w-1/2 md:w-auto min-w-[125px] flex justify-center px-4">
+                  {trip.trip_status === 0 ? (
+                    <div className="bg-yellow-300 border-2 border-black text-black font-bold rounded-lg p-2">
+                      Pending
+                    </div>
+                  ) : trip.trip_status === 1 ? (
+                    <div className="bg-green-500 border-2 border-black text-black font-bold rounded-lg p-2">
+                      Accepted
+                    </div>
+                  ) : (
+                    <div className="bg-red-300 border-2 border-black text-black font-bold rounded-lg p-2">
+                      Rejected
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : null
+        )}
+      </div>
     </div>
-    
   );
 };
 

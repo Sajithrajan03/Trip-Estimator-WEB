@@ -78,13 +78,14 @@ const Page = () => {
 
   return (
     
-    <div className={`bg-[rgb(6,55,129)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`bg-[rgb(6,55,129)]min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         { loaded ? null: <LoadingScreen/>  }
+         
         <div className=' text-black' >            
             <div >
                 <Toast ref={toastRef} position="bottom-center" className="p-5" />
             </div>
-            <ApproverDashBoard trips={trips}/>
+            <ApproverDashBoard className="z-50" trips={trips}/>
         </div>
     </div>
   );
