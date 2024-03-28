@@ -17,6 +17,7 @@ const Page = () => {
   const [loading,setLoading] = useState(true);
   const [loaded, setLoaded] = useState(false);
   const toastRef = useRef();
+  const [openModal, setOpenModal] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);
@@ -30,7 +31,7 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-    console.log(accountStatus);
+     
     if (accountStatus != 2 && accountStatus != null) {
          
         ToastAlert(
@@ -59,20 +60,36 @@ const Page = () => {
               "Content-Type": "application/json",
             }
           });
+        
+          if (response.status === 401) {
+            ToastAlert(
+            "error",
+            "Error",
+            "You are Unauthorized",
+            toastRef
+          );
+          setTimeout(() => {
+            router.replace('/');  
+          }, 3000);
+          }
+        
           if (!response.ok) {
             throw new Error('Failed to fetch trips');
           }
+        
           const data = await response.json();
           console.log(data.Message)
           setTrips(data.Message || []);
         } catch (error) {
           console.error(error);
+           
         }
+        
       };
   
       fetchTrips();
     }
-  }, [accountStatus]); // Add accountStatus as a dependency
+  }, [accountStatus,openModal]); // Add accountStatus as a dependency
   
   
 
@@ -85,7 +102,7 @@ const Page = () => {
             <div >
                 <Toast ref={toastRef} position="bottom-center" className="p-5" />
             </div>
-            <ApproverDashBoard className="z-50" trips={trips}/>
+            <ApproverDashBoard className="z-50" trips={trips} m1={openModal} m2={setOpenModal}/>
         </div>
     </div>
   );

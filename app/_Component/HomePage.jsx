@@ -19,6 +19,7 @@ const Page = () => {
       if (accountStatus == 3 && accountStatus != "notstatus") {
         router.replace('/admin');  
       }
+      router.replace('/login');
      
   }, [accountStatus,router]);
 

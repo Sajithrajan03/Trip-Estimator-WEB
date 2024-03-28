@@ -11,12 +11,12 @@ import Navbar from "@/app/_Component/Navbar"
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
-  const [accountStatus, setAccountStatus] = useState(null);
+  const [accountStatus, setAccountStatus] = useState("nostatus");
   const router = useRouter();
   const [loading,setLoading] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const toastRef = useRef();
-  
+ 
   useEffect(() => {
     setTimeout(() => {
       setLoaded(true);

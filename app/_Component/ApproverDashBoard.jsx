@@ -6,8 +6,12 @@ import "primeicons/primeicons.css";
 import { FaCircleArrowRight } from "react-icons/fa6";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-
-const TripTable = ({ trips }) => {
+import { useRouter } from "next/navigation";
+import TripDisplay from "./TripDisplay";
+const TripTable = ({ trips,m1,m2 }) => {
+  const [selectedTrip, setSelectedTrip] = useState(null);
+  
+  const router= useRouter()
   const items = [
     {
       label: "All",
@@ -30,7 +34,8 @@ const TripTable = ({ trips }) => {
       value: 2,
     },
   ];
-
+  const openModal = m1
+  const  setOpenModal = m2
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleSelectionChange = (index) => {
@@ -40,11 +45,13 @@ const TripTable = ({ trips }) => {
   return (
     <div className="  overflow-x-auto">
       <Navbar />
+      
       <div className="p-2  bg-opacity-30 bg-black backdrop-filter  backdrop-blur-lg w-fit h-fit mx-auto mt-10 rounded-md flex items-center">
         <div className="flex">
         <div className="flex w-[400px]   justify-evenly md:w-[460px] my-auto mx-auto rounded-md">
   {items.map((item, index) => (
-    <div key={index} className={`tab flex px-2 group hover:ring-2 ring-black mx-1 items-center space-x-0 bg-white  rounded-md text-black group-hover:text-white hover:scale-105 ${selectedIndex == item.value ? 'scale-105 opacity-100 ring-2 ring-black underline decoration-4 underline-offset-2 ' : ''}`} onClick={() => handleSelectionChange(item.value)}>
+    <div key={index} className={`tab flex px-2 group hover:ring-2 ring-black mx-1 items-center space-x-0 bg-white  rounded-md text-black group-hover:text-white hover:scale-105 ${selectedIndex == item.value ? 'scale-105 opacity-100 ring-2 ring-black underline decoration-2 underline-offset-2 ' : ''}`} 
+    onClick={() => handleSelectionChange(item.value)}>
       
       <div><i className={`-ml-2 ${item.icon} text-2xl p-2 rounded-md`}></i></div>
       <div className="font-bold text-black  ">{item.label}</div>
@@ -55,11 +62,16 @@ const TripTable = ({ trips }) => {
         </div>
         
       </div>
-      <div className="bg-[rgb(6,55,129)]  mt-10 p-5 mx-auto lg:w-[960px] xl:min-w-[1100px] xl:w-[80%] rounded-lg ">
+      <div className="bg-[rgb(4,30,68)]  mt-10 p-5 mx-auto lg:w-[960px] xl:min-w-[1100px] xl:w-[80%] rounded-lg ">
         {trips.map((trip) =>
           selectedIndex === trip.trip_status || selectedIndex === 3 ? ( // Check if selectedIndex matches trip_status
             <div
               key={trip.trip_id}
+              onClick={()=>{
+                 
+                setSelectedTrip(trip)
+                setOpenModal(true)
+              }}
               className="flex font-bold space-x-4 justify-evenly lg:justify-evenly bg-white rounded-xl pb-1 mb-3 items-center border-gray-200 hover:scale-105 cursor-pointer transition ease-in-out hover:bg-gray-200 duration-300"
             >
               <div className="flex flex-col sm:min-w-[100px] bg-[#3083ff] rounded-md ml-1 sm:ml-3">
@@ -136,6 +148,8 @@ const TripTable = ({ trips }) => {
           ) : null
         )}
       </div>
+      {openModal && (<TripDisplay selectedTrip={selectedTrip} setOpenModal={setOpenModal}/>)}
+      
     </div>
   );
 };
