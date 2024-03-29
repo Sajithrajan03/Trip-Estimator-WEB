@@ -91,10 +91,10 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   ];
 
   const transportationOptions = [
-    { value: "Flight", label: "✈️ Flight", icon: "" },
-    { value: "Bus", label: "🚌 Bus", icon: FaBusAlt },
-    { value: "Train", label: "🚆 Train" },
-    { value: "Car", label: "🚗 Car" },
+    { value: "Flight", label: "Flight", icon: MdOutlineFlight },
+    { value: "Bus", label: "Bus", icon: FaBusAlt },
+    { value: "Train", label: "Train", icon: FaTrainSubway },
+    { value: "Car", label: "Car", icon: FaCar },
   ];
   console.log(averageData);
   const transportationDetailsOptions = {
@@ -122,6 +122,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "1A", label: "1A" },
       { value: "2A", label: "2A" },
       { value: "3A", label: "3A" },
+
       { value: "AC Executive", label: "AC Executive" },
       { value: "AC Chair", label: "AC Chair" },
       { value: "Sleeper", label: "Sleeper" },
@@ -256,10 +257,14 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
-                      list: { className: " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 " },
+                      list: {
+                        className:
+                          " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 ",
+                      },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
-                        className: "text-black font-medium text-[20px] text-blue-900",
+                        className:
+                          "text-black font-medium text-[20px] text-blue-900",
                       },
                       header: {
                         className:
@@ -319,10 +324,14 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
-                      list: { className: " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 " },
+                      list: {
+                        className:
+                          " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 ",
+                      },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
-                        className: "text-black font-medium text-[20px] text-blue-900",
+                        className:
+                          "text-black font-medium text-[20px] text-blue-900",
                       },
                       header: {
                         className:
@@ -422,49 +431,55 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
         <div className="mt-[20px]">
           <p className="text-xl font-bold text-black">Transportation</p>
-          <div className="form-input">
-            <select
-              value={formData.transportation}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  transportation: e.target.value,
-                  transportationDetails: "", // Reset transportation details when transportation option changes
-                }))
-              }
-              className="w-full border-gray-300 rounded p-2"
-            >
-              <option value="">Select Transportation</option>
-              {transportationOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <div className="flex ">
-              <div className="flex items-center justify-evenly w-full text-blue-900 ">
-                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
-                  <MdOutlineFlight />
-                  <div className="text-[20px] text-blue-900">Flights</div>
-                </div>
-                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
-                  <FaCar />
-                  <div className="text-[20px] text-blue-900">Car </div>
-                </div>
-                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
-                <FaBusAlt />
-                  <div className="text-[20px] text-blue-900">Bus</div>
-                </div>
-                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
-                <FaTrainSubway />
-                  <div className="text-[20px] text-blue-900">Train</div>
-                </div>
-                
-                
-                
-              </div>
-            </div>
-          </div>
+
+          <div className="flex items-center justify-evenly w-full text-blue-900">
+  {transportationOptions.map((option) => (
+    <div
+      key={option.value}
+      className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+        formData.transportation === option.value
+          ? "bg-blue-500 text-gray-300 ring-4 ring-black"
+          : ""
+      }`}
+      onClick={() =>
+        setFormData((prevState) => ({
+          ...prevState,
+          transportation: option.value,
+          transportationDetails: "", // Reset transportation details when transportation option changes
+        }))
+      }
+    >
+      <option.icon />
+      <div className="text-[20px] text-blue-900">{option.label}</div>
+    </div>
+  ))}
+</div>
+{formData.transportation && (
+  <div className="flex items-center justify-evenly w-full text-blue-900">
+    {transportationDetailsOptions[formData.transportation].map((option) => (
+      <div
+        key={option.value}
+        className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+          formData.transportationDetails === option.value
+            ? "bg-blue-500"
+            : ""
+        }`}
+        onClick={() =>
+          setFormData((prevState) => ({
+            ...prevState,
+            transportationDetails: option.value,
+            hotels: "", // Reset hotels when transportation details option changes
+            hotelDetails: "", // Reset hotel details when transportation details option changes
+          }))
+        }
+      >
+        {option.label}
+      </div>
+    ))}
+  </div>
+)}
+
+
           <input
             type="text"
             placeholder="Transport Estimate"
@@ -488,57 +503,6 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             }
           />
         </div>
-
-        {formData.transportation && (
-          <div className="mt-[20px]">
-            <p className="text-xl font-bold text-black">Travel Preferences</p>
-            <div className="form-input">
-              <select
-                value={formData.transportationDetails}
-                onChange={(e) =>
-                  setFormData((prevState) => ({
-                    ...prevState,
-                    transportationDetails: e.target.value,
-                    hotels: "", // Reset hotels when transportation details option changes
-                    hotelDetails: "", // Reset hotel details when transportation details option changes
-                  }))
-                }
-                className="w-full border-gray-300 rounded p-2"
-              >
-                <option value="">Select Transportation Details</option>
-                {transportationDetailsOptions[formData.transportation].map(
-                  (option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  )
-                )}
-              </select>
-            </div>
-            <input
-              type="text"
-              placeholder="Hotel Estimate"
-              value={formData.hotel_estimate}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  hotel_estimate: e.target.value,
-                }))
-              }
-            />
-            <input
-              type="text"
-              placeholder="Hotel Amount"
-              value={formData.hotel_amount}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  hotel_amount: e.target.value,
-                }))
-              }
-            />
-          </div>
-        )}
 
         <div className="form-field">
           <label className="from-label">HOTELS</label>
