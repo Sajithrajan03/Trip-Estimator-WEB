@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 // import DatePicker from 'react-datepicker';
 
 import { Calendar } from "primereact/calendar";
@@ -13,6 +13,7 @@ import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { TbAirConditioning } from "react-icons/tb";
 import { RiFlightTakeoffLine, RiFlightLandLine } from "react-icons/ri";
 import { FaCalendar, FaCalendarCheck } from "react-icons/fa";
+import { GET_AVERAGES_DETAILS_URL } from "@/app/_Component/_util/constants";
 
 
 const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
@@ -22,6 +23,57 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
   //     yesterday.setDate(yesterday.getDate() - 1);
   //     return date >= yesterday;
   //   };
+
+  const [averageData, setAverageData] = useState([]);
+
+  useEffect(() => {
+    console.log("out",secretToken)
+    if (secretToken != null) {
+      console.log("in")
+      const fetchTrips = async () => {
+        try {
+          const response = await fetch(GET_AVERAGES_DETAILS_URL, {
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer " + secretToken,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              "start_city" :"1",
+              "end_city" : "2",
+              "hotel_rating" : "5"
+          }),
+          });
+        
+          if (response.status === 401) {
+            ToastAlert(
+            "error",
+            "Error",
+            "You are Unauthorized",
+            toastRef
+          );
+          setTimeout(() => {
+            router.replace('/');  
+          }, 3000);
+          }
+        
+          if (!response.ok) {
+            throw new Error('Failed to fetch trips');
+          }
+        
+          const data = await response.json();
+          
+          averageData(data.Message || []);
+        } catch (error) {
+          console.error(error);
+           
+        }
+        
+      };
+  
+      fetchTrips();
+    }
+  }, [secretToken]);
 
   const handleFromDateChange = (date) => {
     setFormData((prevState) => ({
@@ -160,7 +212,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
     }
   };
 
-  const [checked, setChecked] = useState(false);
+  const [checkedStatus, setCheckedStatus] = useState(false);
   return (
     <div className="">
       <form>
@@ -320,11 +372,11 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
                     <Checkbox
-                      checked={checked} // Ensure that checked state
+                      checked={checkedStatus} // Ensure that checked state
                       onChange={() => {
                         const currentDateStr = new Date().toISOString();
                         handleToDateChange("");
-                        setChecked(!checked);
+                        setCheckedStatus(!checkedStatus);
                       }}
                     ></Checkbox>
                     <p className=" text-md font-bold text-blue-900 ">
@@ -347,7 +399,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                       value={formData.travelDates.to}
                       showIcon
                       onChange={(e) => handleToDateChange(e.value)}
-                      highlightOnSelect={0}
+                      
                       pt={{
                         input: {
                           root: { className: "border-teal-500" },
@@ -360,10 +412,10 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
                     <Checkbox
-                      checked={checked} // Ensure that checked state
+                      checked={checkedStatus} // Ensure that checked state
                       onChange={() => {
                         handleToDateChange("");
-                        setChecked(!checked);
+                        setCheckedStatus(!checkedStatus);
                       }}
                     ></Checkbox>
                     <p className=" text-md font-bold text-blue-900 ">

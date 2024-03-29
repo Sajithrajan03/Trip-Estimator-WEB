@@ -1,5 +1,5 @@
 import {REGISTER_HOTEL,REGISTER_BUS} from './constants';
-import secureLocalStorage from './secureLocalStorage';
+import secureLocalStorage from 'react-secure-storage';
 import { useRouter } from 'next/router';
 export const register_Hotel = async (hotel) => {
     try {

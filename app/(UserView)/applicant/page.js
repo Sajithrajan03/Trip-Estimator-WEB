@@ -8,6 +8,7 @@ import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import ApplicantForms from "@/app/_Component/ApplicantForms"
 import Navbar from "@/app/_Component/Navbar"
+
 const Page = () => {
   const [secretToken, setSecretToken] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
@@ -30,9 +31,9 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
-     
-    if (accountStatus != 1 && accountStatus != null) {
-         
+      
+    if (accountStatus != "nostatus" && accountStatus != 1 ) {
+         console.log("in")
         ToastAlert(
             "error",
             "Error",
@@ -77,6 +78,9 @@ const Page = () => {
     trip_estimate: "",
     trip_amount: "",
   });
+
+  
+
   return (
     <div>
       <div className="bg-gradient-to-r overflow-x-hidden w-[90%] lg:w-[55%] md:w-[90%] from-cyan-300 to-blue-900   p-8 rounded-[0%] md:h-[80%] left-[10%] md:top-[10%] lg:top-[13%] lg:left-[30%] lg:scale-x-150 absolute blur-3xl levitate -z-10"></div>
