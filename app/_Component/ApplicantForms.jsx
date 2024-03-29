@@ -14,9 +14,10 @@ import { TbAirConditioning } from "react-icons/tb";
 import { RiFlightTakeoffLine, RiFlightLandLine } from "react-icons/ri";
 import { FaCalendar, FaCalendarCheck } from "react-icons/fa";
 import { GET_AVERAGES_DETAILS_URL } from "@/app/_Component/_util/constants";
-
-
-const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
+import { MdOutlineFlight } from "react-icons/md";
+import { FaCar, FaBusAlt } from "react-icons/fa";
+import { FaTrainSubway } from "react-icons/fa6";
+const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   //   const filterPastDates = (date) => {
   //     const today = new Date();
   //     const yesterday = new Date(today);
@@ -27,50 +28,41 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
   const [averageData, setAverageData] = useState([]);
 
   useEffect(() => {
-    console.log("out",secretToken)
     if (secretToken != null) {
-      console.log("in")
       const fetchTrips = async () => {
         try {
           const response = await fetch(GET_AVERAGES_DETAILS_URL, {
             method: "POST",
             headers: {
-              "Authorization": "Bearer " + secretToken,
+              Authorization: "Bearer " + secretToken,
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              "start_city" :"1",
-              "end_city" : "2",
-              "hotel_rating" : "5"
-          }),
+              start_city: "1",
+              end_city: "2",
+              hotel_rating: "5",
+            }),
           });
-        
+
           if (response.status === 401) {
-            ToastAlert(
-            "error",
-            "Error",
-            "You are Unauthorized",
-            toastRef
-          );
-          setTimeout(() => {
-            router.replace('/');  
-          }, 3000);
+            ToastAlert("error", "Error", "You are Unauthorized", toastRef);
+            setTimeout(() => {
+              router.replace("/");
+            }, 3000);
           }
-        
+
           if (!response.ok) {
-            throw new Error('Failed to fetch trips');
+            throw new Error("Failed to fetch trips");
           }
-        
+
           const data = await response.json();
-          
-          averageData(data.Message || []);
+
+          setAverageData(data.Message || []);
         } catch (error) {
           console.error(error);
-           
         }
-        
       };
-  
+
       fetchTrips();
     }
   }, [secretToken]);
@@ -99,15 +91,15 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
   ];
 
   const transportationOptions = [
-    { value: "Flight", label: "✈️ Flight" },
-    { value: "Bus", label: "🚌 Bus" },
+    { value: "Flight", label: "✈️ Flight", icon: "" },
+    { value: "Bus", label: "🚌 Bus", icon: FaBusAlt },
     { value: "Train", label: "🚆 Train" },
     { value: "Car", label: "🚗 Car" },
   ];
-
+  console.log(averageData);
   const transportationDetailsOptions = {
     Flight: [
-      { value: "Business Class", label: "Business Class" },
+      { value: "Business Class", label: " Business Class" },
       { value: "Economy Class", label: "Economy Class" },
     ],
     Bus: [
@@ -147,9 +139,10 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
     { value: "5 Stars", label: "5 Stars" },
   ];
 
+  console.log(averageData.length);
   const hotelDetailsOptions = {
     "3 Stars": [
-      { value: "Deluxe Room", label: "Deluxe Room" },
+      { value: "Deluxe Room", label: "Delux" },
       { value: "Suite", label: "Suite" },
       { value: "Normal", label: "Normal" },
     ],
@@ -170,7 +163,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
       const response = await fetch(ENTER_TRIP_DETAILS_URL, {
         method: "POST",
         headers: {
-          "Authorization": "Bearer " + secretToken,
+          Authorization: "Bearer " + secretToken,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -217,9 +210,9 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
     <div className="">
       <form>
         <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
-          <div className="flex flex-col md:flex-row space-y-4 lg:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
+          <div className="flex flex-col md:flex-row space-y-4 lg flex flex-col space-y-3 justify-center items-center font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
             <div
-              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg py-3"
+              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
               onClick={() => document.getElementById("dropdown1").click()}
             >
               <div className="ml-2">
@@ -259,18 +252,18 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                       },
                       item: ({ context }) => ({
                         className: context.selected
-                          ? "bg-[#CBE3F7] text-black rounded-lg m-1"
-                          : "hover:bg-gray-300 rounded-lg m-1",
+                          ? "bg-[#CBE3F7] text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1"
+                          : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
-                      list: { className: " border-black border-2 rounded-lg " },
+                      list: { className: " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 " },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
-                        className: "text-black font-medium text-[20px]",
+                        className: "text-black font-medium text-[20px] text-blue-900",
                       },
                       header: {
                         className:
-                          "text-black font-medium text-[20px] bg-blue-100",
+                          "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
                       },
                     }}
                   />
@@ -281,7 +274,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
               </div>
             </div>
             <div
-              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg py-3"
+              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
               onClick={() => document.getElementById("dropdown").click()}
             >
               <div className="ml-2">
@@ -322,18 +315,18 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                       },
                       item: ({ context }) => ({
                         className: context.selected
-                          ? "bg-[#CBE3F7] text-black rounded-lg m-1"
-                          : "hover:bg-gray-300 rounded-lg m-1",
+                          ? "bg-[#CBE3F7] text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1"
+                          : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
-                      list: { className: " border-black border-2 rounded-lg " },
+                      list: { className: " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 " },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
-                        className: "text-black font-medium text-[20px]",
+                        className: "text-black font-medium text-[20px] text-blue-900",
                       },
                       header: {
                         className:
-                          "text-black font-medium text-[20px] bg-blue-100",
+                          "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
                       },
                     }}
                   />
@@ -346,7 +339,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
           </div>
           <div className="flex  ">
             <div className="flex flex-col md:flex-row space-y-4   md:space-x-4  justify-center md:space-y-0 items-center w-full">
-              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg py-3">
+              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
                 <div className="ml-2">
                   <FaCalendarCheck className="text-[30px] " />
                 </div>
@@ -385,7 +378,7 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                   </div>
                 </div>
               </div>
-              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg py-3">
+              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
                 <div className="ml-2">
                   <FaCalendarCheck className="text-[30px] " />
                 </div>
@@ -399,7 +392,6 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
                       value={formData.travelDates.to}
                       showIcon
                       onChange={(e) => handleToDateChange(e.value)}
-                      
                       pt={{
                         input: {
                           root: { className: "border-teal-500" },
@@ -431,18 +423,47 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
         <div className="mt-[20px]">
           <p className="text-xl font-bold text-black">Transportation</p>
           <div className="form-input">
-            <Dropdown
-              options={transportationOptions}
+            <select
               value={formData.transportation}
-              onChange={(selectedOption) => {
+              onChange={(e) =>
                 setFormData((prevState) => ({
                   ...prevState,
-                  transportation: selectedOption.value,
+                  transportation: e.target.value,
                   transportationDetails: "", // Reset transportation details when transportation option changes
-                }));
-              }}
-              className="w-full"
-            />
+                }))
+              }
+              className="w-full border-gray-300 rounded p-2"
+            >
+              <option value="">Select Transportation</option>
+              {transportationOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <div className="flex ">
+              <div className="flex items-center justify-evenly w-full text-blue-900 ">
+                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
+                  <MdOutlineFlight />
+                  <div className="text-[20px] text-blue-900">Flights</div>
+                </div>
+                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
+                  <FaCar />
+                  <div className="text-[20px] text-blue-900">Car </div>
+                </div>
+                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
+                <FaBusAlt />
+                  <div className="text-[20px] text-blue-900">Bus</div>
+                </div>
+                <div className="ring-2 ring-blue-900 cursor-pointer hover:scale-105  lg:w-[140px]   text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff]">
+                <FaTrainSubway />
+                  <div className="text-[20px] text-blue-900">Train</div>
+                </div>
+                
+                
+                
+              </div>
+            </div>
           </div>
           <input
             type="text"
@@ -472,45 +493,27 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
           <div className="mt-[20px]">
             <p className="text-xl font-bold text-black">Travel Preferences</p>
             <div className="form-input">
-              <Dropdown
-                options={transportationDetailsOptions[formData.transportation]}
+              <select
                 value={formData.transportationDetails}
-                onChange={(selectedOption) =>
+                onChange={(e) =>
                   setFormData((prevState) => ({
                     ...prevState,
-                    transportationDetails: selectedOption.value,
+                    transportationDetails: e.target.value,
                     hotels: "", // Reset hotels when transportation details option changes
                     hotelDetails: "", // Reset hotel details when transportation details option changes
                   }))
                 }
-                checkmark={true}
-                filter
-                pt={{
-                  root: {
-                    className:
-                      "font-bold text-[40px] border-none group-hover:bg-[#CBE3F7]",
-                  },
-                  trigger: { className: "-ml-3" },
-                  input: {
-                    className:
-                      "font-bold text-[20px] text-black font-sans w-[700px]  p-0 ",
-                  },
-                  item: ({ context }) => ({
-                    className: context.selected
-                      ? "bg-[#CBE3F7] text-black rounded-lg m-1"
-                      : "hover:bg-gray-300 rounded-lg m-1",
-                  }),
-                  panel: { className: "-ml-8 " },
-                  list: { className: "border-black border-2 rounded-lg" },
-                  virtualScroller: { className: "rounded-md" },
-                  itemLabel: {
-                    className: "text-black font-medium text-[20px]",
-                  },
-                  header: {
-                    className: "text-black font-medium text-[20px] bg-blue-100",
-                  },
-                }}
-              />
+                className="w-full border-gray-300 rounded p-2"
+              >
+                <option value="">Select Transportation Details</option>
+                {transportationDetailsOptions[formData.transportation].map(
+                  (option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  )
+                )}
+              </select>
             </div>
             <input
               type="text"
@@ -659,39 +662,38 @@ const ApplicantForms = ({ formData, setFormData ,secretToken}) => {
         </div>
 
         <div className="mt-[20px]">
-  <label className="from-label">Trip Estimate</label>
-  <div className="form-input">
-    <input
-      type="text"
-      value={formData.trip_estimate}
-      onChange={(e) =>
-        setFormData((prevState) => ({
-          ...prevState,
-          trip_estimate: e.target.value,
-        }))
-      }
-      className="w-full border border-gray-300 rounded p-2"
-    />
-  </div>
-</div>
+          <label className="from-label">Trip Estimate</label>
+          <div className="form-input">
+            <input
+              type="text"
+              value={formData.trip_estimate}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  trip_estimate: e.target.value,
+                }))
+              }
+              className="w-full border border-gray-300 rounded p-2"
+            />
+          </div>
+        </div>
 
-<div className="mt-[20px]">
-  <label className="from-label">Trip Amount</label>
-  <div className="form-input">
-    <input
-      type="text"
-      value={formData.trip_amount}
-      onChange={(e) =>
-        setFormData((prevState) => ({
-          ...prevState,
-          trip_amount: e.target.value,
-        }))
-      }
-      className="w-full border border-gray-300 rounded p-2"
-    />
-  </div>
-</div>
-
+        <div className="mt-[20px]">
+          <label className="from-label">Trip Amount</label>
+          <div className="form-input">
+            <input
+              type="text"
+              value={formData.trip_amount}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  trip_amount: e.target.value,
+                }))
+              }
+              className="w-full border border-gray-300 rounded p-2"
+            />
+          </div>
+        </div>
 
         <div className="form-field">
           <label className="from-label" htmlFor="travel_reason">
