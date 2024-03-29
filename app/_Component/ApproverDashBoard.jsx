@@ -148,7 +148,7 @@ const TripTable = ({ trips,m1,m2 }) => {
           ) : null
         )}
       </div>
-      {openModal && (<TripDisplay selectedTrip={selectedTrip} setOpenModal={setOpenModal}/>)}
+      {openModal && (<TripDisplay selectedTrip={selectedTrip} setOpenModal={setOpenModal} openModal={openModal} className={`transition-transform duration-300 transform ${openModal ? 'scale-100' : 'scale-0'}`}/>)}
       
     </div>
   );
