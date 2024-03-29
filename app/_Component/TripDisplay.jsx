@@ -192,6 +192,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
               <button
                 onClick={(e) => {
                     setTripStatus(1, () => {
+                      
                         handleUpdate();
                     });
                 }}
