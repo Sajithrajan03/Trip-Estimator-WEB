@@ -18,14 +18,38 @@ import { MdOutlineFlight } from "react-icons/md";
 import { FaCar, FaBusAlt } from "react-icons/fa";
 import { FaTrainSubway } from "react-icons/fa6";
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
-  //   const filterPastDates = (date) => {
-  //     const today = new Date();
-  //     const yesterday = new Date(today);
-  //     yesterday.setDate(yesterday.getDate() - 1);
-  //     return date >= yesterday;
-  //   };
+  const [checkedStatus, setCheckedStatus] = useState(false);
+  const today = new Date();
+
+  const handleFromDateChange = (date) => {
+    if (date >= today) {
+      setFormData((prevState) => ({
+        ...prevState,
+        travelDates: { ...prevState.travelDates, from: date },
+      }));
+    }
+  };
+
+  const handleToDateChange = (date) => {
+    if (date >= today && date >= formData.travelDates.from) {
+      setFormData((prevState) => ({
+        ...prevState,
+        travelDates: { ...prevState.travelDates, to: date },
+      }));
+    }
+  };
+
+  const handleResetDates = () => {
+    setCheckedStatus(true);
+    setFormData((prevState) => ({
+      ...prevState,
+      travelDates: { from: null, to: null },
+    }));
+  };
+
 
   const [averageData, setAverageData] = useState([]);
+  const [selectedFromCity, setSelectedFromCity] = useState(null);
 
   useEffect(() => {
     if (secretToken != null) {
@@ -66,20 +90,6 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       fetchTrips();
     }
   }, [secretToken]);
-
-  const handleFromDateChange = (date) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      travelDates: { ...prevState.travelDates, from: date },
-    }));
-  };
-
-  const handleToDateChange = (date) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      travelDates: { ...prevState.travelDates, to: date },
-    }));
-  };
 
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
@@ -206,7 +216,6 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     }
   };
 
-  const [checkedStatus, setCheckedStatus] = useState(false);
   return (
     <div className="">
       <form>
@@ -224,19 +233,21 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   From City
                 </p>
                 <div className="w-[220px] p-2">
-                  <Dropdown
-                    id="dropdown1" // Add an id to the Dropdown component
-                    options={cityOptions}
-                    value={formData.location.from}
-                    onChange={(selectedOption) =>
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        location: {
-                          ...prevState.location,
-                          from: selectedOption.value,
-                        },
-                      }))
-                    }
+                <Dropdown
+                id="dropdown1"
+                options={cityOptions}
+                value={selectedFromCity}
+                onChange={(selectedOption) => {
+                  setSelectedFromCity(selectedOption.value); // Update the selected "From City" state
+                  setFormData((prevState) => ({
+                    ...prevState,
+                    location: {
+                      ...prevState.location,
+                      from: selectedOption.value,
+                    },
+                  }));
+                }}
+                placeholder={selectedFromCity ? null : "Select City"} 
                     ptOptions={{ mergeSections: false }}
                     checkmark={true}
                     filter
@@ -252,14 +263,12 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: context.selected
-                          ? "bg-[#CBE3F7] text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1"
-                          : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected ? 'bg-blue-100' : 'bg-transparent hover:bg-[#CBE3F7]'}`,
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
                       list: {
                         className:
-                          " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 ",
+                          " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
                       },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
@@ -290,20 +299,21 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   To City
                 </p>
                 <div className="w-[220px] p-2">
-                  <Dropdown
-                    id="dropdown"
-                    placeholder="Select City"
-                    options={cityOptions}
-                    value={formData.location.to}
-                    onChange={(selectedOption) =>
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        location: {
-                          ...prevState.location,
-                          to: selectedOption.value,
-                        },
-                      }))
-                    }
+
+                <Dropdown
+                  id="dropdown"
+                  placeholder="Select City"
+                  options={cityOptions.filter(option => option.value !== formData.location.from)} 
+                  value={formData.location.to}
+                  onChange={(selectedOption) =>
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      location: {
+                        ...prevState.location,
+                        to: selectedOption.value,
+                      },
+                    }))
+                  }
                     ptOptions={{ mergeSections: false }}
                     checkmark={true}
                     filter
@@ -319,14 +329,14 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: context.selected
-                          ? "bg-[#CBE3F7] text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1"
-                          : "hover:bg-gray-300 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1",
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected ? 'bg-blue-100' : 'bg-transparent hover:bg-[#CBE3F7]'}`,
                       }),
+
+                      
                       panel: { className: "-ml-8 w-[250px]" },
                       list: {
                         className:
-                          " border-black border-2 rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 ",
+                          " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
                       },
                       virtualScroller: { className: "rounded-md" },
                       itemLabel: {
@@ -360,8 +370,10 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     <Calendar
                       id="calendar2"
                       value={formData.travelDates.from}
-                      showIcon
                       onChange={(e) => handleFromDateChange(e.value)}
+                      placeholder="From Date"
+                      minDate={today}
+                      showIcon
                       pt={{
                         input: {
                           root: { className: "border-teal-500" },
@@ -373,14 +385,15 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     />
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
-                    <Checkbox
-                      checked={checkedStatus} // Ensure that checked state
-                      onChange={() => {
-                        const currentDateStr = new Date().toISOString();
-                        handleToDateChange("");
-                        setCheckedStatus(!checkedStatus);
+                      <Checkbox
+                      checked={checkedStatus}
+                      onChange={(e) => {
+                        setCheckedStatus(e.checked);
+                        if (e.checked) {
+                          handleResetDates();
+                        }
                       }}
-                    ></Checkbox>
+                    />
                     <p className=" text-md font-bold text-blue-900 ">
                       Reset Date
                     </p>
@@ -401,6 +414,10 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       value={formData.travelDates.to}
                       showIcon
                       onChange={(e) => handleToDateChange(e.value)}
+                      placeholder="To Date"
+                      minDate={formData.travelDates.from}
+                      disabled={!formData.travelDates.from}
+                      //minDate={today}
                       pt={{
                         input: {
                           root: { className: "border-teal-500" },
@@ -410,15 +427,18 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         },
                       }}
                     />
+                    
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
-                    <Checkbox
-                      checked={checkedStatus} // Ensure that checked state
-                      onChange={() => {
-                        handleToDateChange("");
-                        setCheckedStatus(!checkedStatus);
+                  <Checkbox
+                      checked={checkedStatus}
+                      onChange={(e) => {
+                        setCheckedStatus(e.checked);
+                        if (e.checked) {
+                          handleResetDates();
+                        }
                       }}
-                    ></Checkbox>
+                    />
                     <p className=" text-md font-bold text-blue-900 ">
                       Reset Date
                     </p>

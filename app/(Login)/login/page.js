@@ -210,13 +210,15 @@ export default function Login() {
                       </Link>
                     </div>
                     <button
-                      type="submit"
-                      onClick={HandleLogin}
-                      className="w-full text-black bg-[#f69c18] hover:bg-[#f69c18] focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-                      disabled={loading || userPassword == ""}
+                    type="submit"
+                    onClick={HandleLogin}
+                    className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    style={{ transition: "background 0.3s ease" }}
+                    disabled={loading || userPassword === ""}
                     >
-                      LOGIN
-                    </button>
+                    LOGIN
+                  </button>
+
                     <p
                       className="text-sm font-light text-[#f32525] flex flex-col justify-center"
                       id="Others"
