@@ -3,7 +3,7 @@ import React, { useEffect, useState ,useRef} from 'react';
 import { useRouter } from 'next/navigation'
 import secureLocalStorage from 'react-secure-storage';
 import LoadingScreen from '@/app/_Component/LoadingScreen';
-
+import Navbar from '@/app/_Component/Navbar';
 import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import Profile from '@/app/_Component/Profile';
@@ -49,56 +49,15 @@ const Page = () => {
 
   const [trips, setTrips] = useState([]);
 
-  useEffect(() => {
-    if (accountStatus !== null) {
-      const fetchTrips = async () => {
-        try {
-          const response = await fetch(GET_DASHBOARD_DETAILS_URL, {
-            method: "GET",
-            headers: {
-              "Authorization": "Bearer " + secretToken,
-              "Content-Type": "application/json",
-            }
-          });
-        
-          if (response.status === 401) {
-            ToastAlert(
-            "error",
-            "Error",
-            "You are Unauthorized",
-            toastRef
-          );
-          setTimeout(() => {
-            router.replace('/');  
-          }, 3000);
-          }
-        
-          if (!response.ok) {
-            throw new Error('Failed to fetch trips');
-          }
-        
-          const data = await response.json();
-          
-          setTrips(data.Message || []);
-        } catch (error) {
-          console.error(error);
-           
-        }
-        
-      };
-  
-      fetchTrips();
-    }
-  }, [accountStatus,openModal]); // Add accountStatus as a dependency
-  
-  
+//   
 
   return (
     
     <div className={`bg-[rgb(6,55,129)]min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         { loaded ? null: <LoadingScreen/>  }
          
-        <div className=' text-black' >            
+        <div className=' text-black' >      
+            <Navbar/>      
             <div >
                 <Toast ref={toastRef} position="bottom-center" className="p-5" />
             </div>
