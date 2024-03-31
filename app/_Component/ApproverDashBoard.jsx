@@ -48,16 +48,23 @@ const TripTable = ({ trips,m1,m2 }) => {
       
       <div className="p-2  bg-opacity-30 bg-black backdrop-filter  backdrop-blur-lg w-fit h-fit mx-auto mt-10 rounded-md flex items-center">
         <div className="flex">
-        <div className="flex w-[400px]   justify-evenly md:w-[460px] my-auto mx-auto rounded-md">
+        <div className="flex w-[400px] justify-evenly md:w-[460px] my-auto mx-auto rounded-md">
   {items.map((item, index) => (
-    <div key={index} className={`tab flex px-2 group hover:ring-2 ring-black mx-1 items-center space-x-0 bg-white  rounded-md text-black group-hover:text-white hover:scale-105 ${selectedIndex == item.value ? 'scale-105 opacity-100 ring-2 ring-black underline decoration-2 underline-offset-2 ' : ''}`} 
-    onClick={() => handleSelectionChange(item.value)}>
-      
+    <div
+      key={index}
+      className={`tab flex px-2 group mx-1 items-center space-x-0 bg-white rounded-md text-black`}
+      style={{ cursor: 'pointer', transition: 'transform 0.3s' }}
+      onClick={() => handleSelectionChange(item.value)}
+      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.12)'}
+      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+    >
       <div><i className={`-ml-2 ${item.icon} text-2xl p-2 rounded-md`}></i></div>
-      <div className="font-bold text-black  ">{item.label}</div>
+      <div className="font-bold text-black">{item.label}</div>
     </div>
   ))}
 </div>
+
+
 
         </div>
         
