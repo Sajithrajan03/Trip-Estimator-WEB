@@ -144,9 +144,9 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                 <td className="border border-gray-400 p-3">{selectedTrip.hotel_type}</td>
               </tr>
               <tr>
-    <th class="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Transport Estimate</th>
+    <th class="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Estimate</th>
     <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_estimate}</td>
-    <th class="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Transport Amount</th>
+    <th class="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Amount</th>
     <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_amount}</td>
 </tr>
 
@@ -154,34 +154,34 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
 
 
               <tr>
-              <th className="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Hotel Estimate</th>
+              <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Hotel Estimate</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.hotel_estimate}</td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Hotel Amount</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Hotel Amount</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.hotel_amount}</td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Food Estimate</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Food Estimate</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.food_estimate}</td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Food Amount</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Food Amount</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.food_amount}</td>
               </tr>
               <tr>
-               <th className="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Miscellaneous Estimate</th>
+               <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Miscellaneous Estimate</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.miscellaneous_estimate}</td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Miscellaneous Amount</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Miscellaneous Amount</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.miscellaneous_amount}</td>
                 
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Total Estimate</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Total Estimate</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.total_estimate}</td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Total Amount</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Total Amount</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.total_amount}</td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Trip Estimate</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Trip Estimate</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.trip_estimate}</td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Trip Amount</th>
+                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Trip Amount</th>
                 <td className="border border-gray-400 p-3">₹ {selectedTrip.trip_amount}</td>
               </tr>
               <tr>
