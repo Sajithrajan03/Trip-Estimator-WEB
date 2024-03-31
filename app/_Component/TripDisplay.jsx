@@ -1,16 +1,36 @@
-import React, { useState, useRef } from 'react';
-import { UPDATE_TRIP_DETAILS_URL } from "@/app/_Component/_util/constants";
-import secureLocalStorage from 'react-secure-storage';
-import { Toast } from "primereact/toast";
+import React, { useState, useRef, useEffect } from 'react';
+
 import { Button } from 'primereact/button';
+import { Toast } from 'primereact/toast';
 
 const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   const toast = useRef(null);
   const [adminMessage, setAdminMessage] = useState("");
+  const [downloading, setDownloading] = useState(false);
 
   if (!selectedTrip) {
     return null; // If selectedTrip is not provided, render nothing
   }
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.key === 'Escape') {
+        setOpenModal(false);
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, [setOpenModal]);
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = date.toLocaleString('default', { month: 'short' });
+    const day = ('0' + date.getDate()).slice(-2);
+    const year = date.getFullYear();
+    return `${month}-${day}-${year}`;
+  };
 
   const reject = () => {
     toast.current.show({ severity: 'warn', summary: 'Request Canceled', detail: 'You have canceled the request', life: 3000 });
@@ -83,14 +103,61 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     }
   };
 
+  const downloadCSV = () => {
+    setDownloading(true);
+
+    const csvData = [
+      ['Trip ID', 'Employee ID', 'Employee Name', 'Travel Reason', 'Start City', 'End City', 'Travel Start Date', 'Travel End Date', 'Transport Mode', 'Hotel Type', 'Transport Estimate', 'Transport Amount', 'Hotel Estimate', 'Hotel Amount', 'Food Estimate', 'Food Amount', 'Miscellaneous Estimate', 'Miscellaneous Amount', 'Total Estimate', 'Total Amount', 'Trip Estimate', 'Trip Amount', 'Trip Status', 'Admin Message'],
+      [
+        selectedTrip.trip_id,
+        selectedTrip.emp_id,
+        selectedTrip.emp_name,
+        selectedTrip.travel_reason,
+        selectedTrip.start_city_name,
+        selectedTrip.end_city_name,
+        formatDate(selectedTrip.travel_start_date),
+        formatDate(selectedTrip.travel_end_date),
+        selectedTrip.transport_mode,
+        selectedTrip.hotel_type,
+        selectedTrip.transport_estimate,
+        selectedTrip.transport_amount,
+        selectedTrip.hotel_estimate,
+        selectedTrip.hotel_amount,
+        selectedTrip.food_estimate,
+        selectedTrip.food_amount,
+        selectedTrip.miscellaneous_estimate,
+        selectedTrip.miscellaneous_amount,
+        selectedTrip.total_estimate,
+        selectedTrip.total_amount,
+        selectedTrip.trip_estimate,
+        selectedTrip.trip_amount,
+        selectedTrip.trip_status === 0 ? "Pending" : selectedTrip.trip_status === 1 ? "Accepted" : "Rejected",
+        selectedTrip.admin_message || "N/A"
+      ].join(',')
+    ].join('\n');
+
+    const encodedUri = encodeURI(`data:text/csv;charset=utf-8,${csvData}`);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', 'trip_details.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Simulate a delay for demonstration purposes (remove this in production)
+    setTimeout(() => {
+      setDownloading(false);
+    }, 2000); // Simulated 2-second delay
+  };
+
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
-  <div className="bg-white rounded-lg border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
-    <Toast ref={toast} position="bottom-center" className="p-5" />
-    <div className="relative">
-    <div className="flex items-center justify-center">
-    <h1 className="text-4xl font-bold text-gray-900 underline - light gray p-2 rounded-full mt-0 transform -translate-y-6">Trip Details</h1>
-      </div>
+      <div className="bg-white rounded-lg border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
+        <Toast ref={toast} position="bottom-center" className="p-5" />
+        <div className="relative">
+          <div className="flex items-center justify-center">
+            <h1 className="text-4xl font-bold text-gray-900 underline -lightgray p-2 rounded-full mt-0 transform -translate-y-6">Trip Details</h1>
+          </div>
           <button
             onClick={() => setOpenModal(false)}
             className="text-2xl font-bold absolute top-0 right-0 mt-3 mr-3 translate-x-full -translate-y-1/2 hover:text-gray-600 focus:outline-none"
@@ -99,7 +166,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           </button>
         </div>
         <div className="mt-4">
-          <table className="w-full border-collapse mb-4">
+        <table className="w-full border-collapse mb-4">
             <tbody>
               <tr>
                 <th className="text-xl font-bold border border-gray-400 p-3">Trip ID</th>
@@ -209,29 +276,38 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
             <Button
               onClick={(e) => confirm1()}
               icon="pi pi-check mr-2 font-bold"
-              className="bg-green-500 text-white font-bold rounded-md hover:scale-105"
+              className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
             >
               Approve
             </Button>
             <Button
               onClick={(e) => confirm2()}
               icon="pi pi-times mr-2"
-              className="bg-[#EE4544] text-white font-bold rounded-md hover:scale-105"
+              className="bg-[#EE4544] text-black font-bold rounded-md hover:scale-105"
             >
               Reject
             </Button>
             <Button
               onClick={(e) => confirm1()}
               icon="pi pi-spin pi-cog font-bold mr-2"
-              className="bg-[#07B6D5] text-white font-bold rounded-md hover:scale-105"
+              className="bg-yellow-500 text-black font-bold rounded-md hover:scale-105"
             >
               Modify
             </Button>
+            <Button
+              onClick={downloadCSV}
+              icon="pi pi-download mr-2"
+              className="bg-blue-200 text-black font-bold rounded-md hover:scale-105"
+              disabled={downloading} // Disable the button when downloading is in progress
+            >
+              Download CSV
+            </Button>
           </div>
+          {downloading && <div className="download-animation">Downloading...</div>}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default TripDisplay;

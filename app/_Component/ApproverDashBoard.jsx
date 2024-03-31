@@ -20,7 +20,7 @@ const TripTable = ({ trips,m1,m2 }) => {
     },
     {
       label: "Pending",
-      icon: "pi pi-spin pi-cog text-yellow-900 font-bold text-[20px]",
+      icon: "pi pi-spin pi-cog text-yellow-600 font-bold text-[20px]",
       value: 0,
     },
     {
@@ -63,7 +63,6 @@ const TripTable = ({ trips,m1,m2 }) => {
     </div>
   ))}
 </div>
-
 
 
         </div>
