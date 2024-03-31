@@ -61,7 +61,7 @@ const Page = () => {
     transportation: "",
     transportationDetails: "",
     hotels: "",
-    hotelDetails: "",
+    hotel_rating: "",
     food: "",
     isToCalendarOpen: false,
     transport_estimate: "",

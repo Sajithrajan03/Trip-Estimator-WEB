@@ -47,12 +47,11 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     }));
   };
 
-
   const [averageData, setAverageData] = useState([]);
   const [selectedFromCity, setSelectedFromCity] = useState(null);
 
   useEffect(() => {
-    if (secretToken != null) {
+    if (secretToken != null && formData.location.from && formData.location.to) {
       const fetchTrips = async () => {
         try {
           const response = await fetch(GET_AVERAGES_DETAILS_URL, {
@@ -62,9 +61,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              start_city: "1",
-              end_city: "2",
-              hotel_rating: "5",
+              start_city: formData.location.from,
+              end_city: formData.location.to,
+              hotel_rating: formData.hotel_rating || "3",
             }),
           });
 
@@ -80,17 +79,31 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           }
 
           const data = await response.json();
-
+         
           setAverageData(data.Message || []);
         } catch (error) {
           console.error(error);
         }
       };
-
+console.log(JSON.stringify(averageData[0].carPrice))
       fetchTrips();
     }
-  }, [secretToken]);
-
+  }, [
+    secretToken,
+    formData.location.from,
+    formData.location.to,
+    formData.hotel_rating,
+  ]);
+  useEffect(() => {
+    try { if(averageData.length != 0) 
+      console.log(averageData[0].carPrice["carAverage"])
+      // setAverageData(JSON.stringify(averageData))
+    }catch{
+      console.log("error")
+    }
+  }, [averageData]);
+  
+  
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
     { value: "2", label: "Chennai" },
@@ -106,7 +119,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     { value: "Train", label: "Train", icon: FaTrainSubway },
     { value: "Car", label: "Car", icon: FaCar },
   ];
-  console.log(averageData);
+
   const transportationDetailsOptions = {
     Flight: [
       { value: "Business Class", label: " Business Class" },
@@ -150,7 +163,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     { value: "5 Stars", label: "5 Stars" },
   ];
 
-  console.log(averageData.length);
+   
   const hotelDetailsOptions = {
     "3 Stars": [
       { value: "Deluxe Room", label: "Delux" },
@@ -169,7 +182,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     ],
   };
   const handlesubmit = async () => {
-    console.log("sd");
+     
     try {
       const response = await fetch(ENTER_TRIP_DETAILS_URL, {
         method: "POST",
@@ -210,7 +223,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
       const data = await response.json();
 
-      console.log(data);
+       
     } catch (error) {
       console.error("Error:", error);
     }
@@ -233,21 +246,21 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   From City
                 </p>
                 <div className="w-[220px] p-2">
-                <Dropdown
-                id="dropdown1"
-                options={cityOptions}
-                value={selectedFromCity}
-                onChange={(selectedOption) => {
-                  setSelectedFromCity(selectedOption.value); // Update the selected "From City" state
-                  setFormData((prevState) => ({
-                    ...prevState,
-                    location: {
-                      ...prevState.location,
-                      from: selectedOption.value,
-                    },
-                  }));
-                }}
-                placeholder={selectedFromCity ? null : "Select City"} 
+                  <Dropdown
+                    id="dropdown1"
+                    options={cityOptions}
+                    value={selectedFromCity}
+                    onChange={(selectedOption) => {
+                      setSelectedFromCity(selectedOption.value); // Update the selected "From City" state
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        location: {
+                          ...prevState.location,
+                          from: selectedOption.value,
+                        },
+                      }));
+                    }}
+                    placeholder={selectedFromCity ? null : "Select City"}
                     ptOptions={{ mergeSections: false }}
                     checkmark={true}
                     filter
@@ -263,7 +276,11 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected ? 'bg-blue-100' : 'bg-transparent hover:bg-[#CBE3F7]'}`,
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
+                          context.selected
+                            ? "bg-blue-100"
+                            : "bg-transparent hover:bg-[#CBE3F7]"
+                        }`,
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
                       list: {
@@ -299,21 +316,22 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   To City
                 </p>
                 <div className="w-[220px] p-2">
-
-                <Dropdown
-                  id="dropdown"
-                  placeholder="Select City"
-                  options={cityOptions.filter(option => option.value !== formData.location.from)} 
-                  value={formData.location.to}
-                  onChange={(selectedOption) =>
-                    setFormData((prevState) => ({
-                      ...prevState,
-                      location: {
-                        ...prevState.location,
-                        to: selectedOption.value,
-                      },
-                    }))
-                  }
+                  <Dropdown
+                    id="dropdown"
+                    placeholder="Select City"
+                    options={cityOptions.filter(
+                      (option) => option.value !== formData.location.from
+                    )}
+                    value={formData.location.to}
+                    onChange={(selectedOption) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        location: {
+                          ...prevState.location,
+                          to: selectedOption.value,
+                        },
+                      }))
+                    }
                     ptOptions={{ mergeSections: false }}
                     checkmark={true}
                     filter
@@ -329,10 +347,13 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected ? 'bg-blue-100' : 'bg-transparent hover:bg-[#CBE3F7]'}`,
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
+                          context.selected
+                            ? "bg-blue-100"
+                            : "bg-transparent hover:bg-[#CBE3F7]"
+                        }`,
                       }),
 
-                      
                       panel: { className: "-ml-8 w-[250px]" },
                       list: {
                         className:
@@ -385,7 +406,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     />
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
-                      <Checkbox
+                    <Checkbox
                       checked={checkedStatus}
                       onChange={(e) => {
                         setCheckedStatus(e.checked);
@@ -427,10 +448,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         },
                       }}
                     />
-                    
                   </div>
                   <div className="flex ml-[10px] items-center space-x-3">
-                  <Checkbox
+                    <Checkbox
                       checked={checkedStatus}
                       onChange={(e) => {
                         setCheckedStatus(e.checked);
@@ -450,57 +470,77 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         </div>
 
         <div className="mt-[20px]">
-          <p className="text-xl font-bold text-black">Transportation</p>
+          <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+            Transportation
+          </p>
 
           <div className="flex items-center justify-evenly w-full text-blue-900">
-  {transportationOptions.map((option) => (
-    <div
-      key={option.value}
-      className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-        formData.transportation === option.value
-          ? "bg-blue-500 text-gray-300 ring-4 ring-black"
-          : ""
-      }`}
-      onClick={() =>
-        setFormData((prevState) => ({
-          ...prevState,
-          transportation: option.value,
-          transportationDetails: "", // Reset transportation details when transportation option changes
-        }))
-      }
-    >
-      <option.icon />
-      <div className="text-[20px] text-blue-900">{option.label}</div>
-    </div>
-  ))}
-</div>
-{formData.transportation && (
-  <div className="flex items-center justify-evenly w-full text-blue-900">
-    {transportationDetailsOptions[formData.transportation].map((option) => (
-      <div
-        key={option.value}
-        className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-          formData.transportationDetails === option.value
-            ? "bg-blue-500"
-            : ""
-        }`}
-        onClick={() =>
-          setFormData((prevState) => ({
-            ...prevState,
-            transportationDetails: option.value,
-            hotels: "", // Reset hotels when transportation details option changes
-            hotelDetails: "", // Reset hotel details when transportation details option changes
-          }))
-        }
-      >
-        {option.label}
-      </div>
-    ))}
-  </div>
+            {transportationOptions.map((option) => (
+              <div
+                key={option.value}
+                className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                  formData.transportation === option.value
+                    ? "bg-blue-900 text-gray-300 ring-4 ring-black"
+                    : ""
+                }`}
+                onClick={() =>
+                  setFormData((prevState) => ({
+                    ...prevState,
+                    transportation: option.value,
+                    transportationDetails: "", // Reset transportation details when transportation option changes
+                  }))
+                }
+              >
+                <option.icon />
+                <div
+                  className={`text-[26px] text-blue-900 ${
+                    formData.transportation === option.value
+                      ? " text-gray-300  "
+                      : ""
+                  }`}
+                >
+                  {option.label}
+                  {averageData.length!=0 && (
+  <p>{averageData[0].carPrice["carAverage"]}</p>
 )}
 
 
-          <input
+
+
+
+
+                </div>
+              </div>
+            ))}
+          </div>
+          {formData.transportation && (
+            <div className="flex items-center justify-evenly w-full text-blue-900">
+              {transportationDetailsOptions[formData.transportation].map(
+                (option) => (
+                  <div
+                    key={option.value}
+                    className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                      formData.transportationDetails === option.value
+                        ? "bg-blue-500"
+                        : ""
+                    }`}
+                    onClick={() =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        transportationDetails: option.value,
+                        hotels: "", // Reset hotels when transportation details option changes
+                        hotelDetails: "", // Reset hotel details when transportation details option changes
+                      }))
+                    }
+                  >
+                    {option.label}
+                  </div>
+                )
+              )}
+            </div>
+          )}
+
+          {/* <input
             type="text"
             placeholder="Transport Estimate"
             value={formData.transport_estimate}
@@ -521,10 +561,10 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                 transport_amount: e.target.value,
               }))
             }
-          />
+          /> */}
         </div>
 
-        <div className="form-field">
+        {/* <div className="form-field">
           <label className="from-label">HOTELS</label>
           <div className="form-input">
             <Dropdown
@@ -699,7 +739,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
               className="w-full border border-gray-300 rounded p-2"
             />
           </div>
-        </div>
+        </div> */}
 
         <p onClick={handlesubmit}>Submit</p>
       </form>
