@@ -146,6 +146,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
               <tr>
     <th class="text-xl font-bold border border-gray-400 p-3 bg-yellow-200">Transport Estimate</th>
     <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_estimate}</td>
+    <th class="text-xl font-bold border border-gray-400 p-3 bg-orange-200">Transport Amount</th>
+    <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_amount}</td>
 </tr>
 
 
