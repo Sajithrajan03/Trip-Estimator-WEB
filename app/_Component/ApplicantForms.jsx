@@ -47,7 +47,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     }));
   };
 
-  const [averageData, setAverageData] = useState([]);
+  const [averageData, setAverageData] = useState(null);
   const [selectedFromCity, setSelectedFromCity] = useState(null);
 
   useEffect(() => {
@@ -79,13 +79,13 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           }
 
           const data = await response.json();
-         
-          setAverageData(data.Message || []);
+
+          setAverageData(data.Message[0] || []);
         } catch (error) {
           console.error(error);
         }
       };
-console.log(JSON.stringify(averageData[0].carPrice))
+
       fetchTrips();
     }
   }, [
@@ -95,15 +95,16 @@ console.log(JSON.stringify(averageData[0].carPrice))
     formData.hotel_rating,
   ]);
   useEffect(() => {
-    try { if(averageData.length != 0) 
-      console.log(averageData[0].carPrice["carAverage"])
+    try {
+      if (averageData.length != 0)
+        console.log(averageData[0].carPrice["carAverage"])
       // setAverageData(JSON.stringify(averageData))
-    }catch{
+    } catch {
       console.log("error")
     }
   }, [averageData]);
-  
-  
+
+
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
     { value: "2", label: "Chennai" },
@@ -115,45 +116,36 @@ console.log(JSON.stringify(averageData[0].carPrice))
 
   const transportationOptions = [
     { value: "Flight", label: "Flight", icon: MdOutlineFlight },
-    { value: "Bus", label: "Bus", icon: FaBusAlt },
-    { value: "Train", label: "Train", icon: FaTrainSubway },
-    { value: "Car", label: "Car", icon: FaCar },
+    { value: "Bus", label: "Bus", icon: FaBusAlt ,details: ["Sleeper AC", "Sleeper Non-AC", "Seater AC", "Seater Non-AC"],getter:["ac_sleeper","noac_sleeper","ac_nosleeper","noac_nosleeper"]},
+    { value: "Train", label: "Train", icon: FaTrainSubway ,details: ["Seater", "Sleeper", "1A", "2A", "3A", "AC Executive", "AC Chair"],getter : ["seater","sl","1A","2A","3A","ac_executive","ac_chair"]},
+    { value: "Car", label: "Car", icon: FaCar ,details:["AC"] ,getter:["carAverage"]},
   ];
 
   const transportationDetailsOptions = {
     Flight: [
-      { value: "Business Class", label: " Business Class" },
-      { value: "Economy Class", label: "Economy Class" },
+      { value: "business", label: " Business Class" },
+      { value: "economy", label: "Economy Class" },
+      { value: "premium", label: "Premium Economy" }
     ],
     Bus: [
-      {
-        value: "Sleeper AC",
-        label: (
-          <>
-            Sleeper{" "}
-            <span className="big-icon">
-              <TbAirConditioning />
-            </span>
-          </>
-        ),
-      },
-      { value: "Sleeper Non-AC", label: "Sleeper Non-AC" },
-      { value: "Seater AC", label: "Seater AC" },
-      { value: "Seater Non-AC", label: "Seater Non-AC" },
+       
+      { value: "ac_sleeper", label: "Sleeper AC" },
+      { value: "noac_sleeper", label: "Sleeper Non-AC" },
+      { value: "ac_nosleeper", label: "Seater AC" },
+      { value: "noac_nosleepe", label: "Seater Non-AC" },
     ],
     Train: [
       { value: "1A", label: "1A" },
       { value: "2A", label: "2A" },
       { value: "3A", label: "3A" },
 
-      { value: "AC Executive", label: "AC Executive" },
-      { value: "AC Chair", label: "AC Chair" },
-      { value: "Sleeper", label: "Sleeper" },
-      { value: "Seater", label: "Seater" },
+      { value: "ac_executive", label: "AC Executive" },
+      { value: "ac_chair", label: "AC Chair" },
+      { value: "sl", label: "Sleeper" },
+      { value: "seater", label: "Seater" },
     ],
     Car: [
-      { value: "AC", label: "AC" },
-      { value: "Non-AC", label: "Non-AC" },
+      { value: "carAverage", label: "AC" },
     ],
   };
 
@@ -163,7 +155,7 @@ console.log(JSON.stringify(averageData[0].carPrice))
     { value: "5 Stars", label: "5 Stars" },
   ];
 
-   
+
   const hotelDetailsOptions = {
     "3 Stars": [
       { value: "Deluxe Room", label: "Delux" },
@@ -182,7 +174,7 @@ console.log(JSON.stringify(averageData[0].carPrice))
     ],
   };
   const handlesubmit = async () => {
-     
+
     try {
       const response = await fetch(ENTER_TRIP_DETAILS_URL, {
         method: "POST",
@@ -223,7 +215,7 @@ console.log(JSON.stringify(averageData[0].carPrice))
 
       const data = await response.json();
 
-       
+
     } catch (error) {
       console.error("Error:", error);
     }
@@ -258,6 +250,8 @@ console.log(JSON.stringify(averageData[0].carPrice))
                           ...prevState.location,
                           from: selectedOption.value,
                         },
+                        transportation: "",
+                        transportationDetails: "",
                       }));
                     }}
                     placeholder={selectedFromCity ? null : "Select City"}
@@ -276,11 +270,10 @@ console.log(JSON.stringify(averageData[0].carPrice))
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
-                          context.selected
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected
                             ? "bg-blue-100"
                             : "bg-transparent hover:bg-[#CBE3F7]"
-                        }`,
+                          }`,
                       }),
                       panel: { className: "-ml-8 w-[250px]" },
                       list: {
@@ -329,7 +322,9 @@ console.log(JSON.stringify(averageData[0].carPrice))
                         location: {
                           ...prevState.location,
                           to: selectedOption.value,
-                        },
+                          },
+                          transportation: "",
+                          transportationDetails: "",
                       }))
                     }
                     ptOptions={{ mergeSections: false }}
@@ -347,11 +342,10 @@ console.log(JSON.stringify(averageData[0].carPrice))
                           "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
                       },
                       item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
-                          context.selected
+                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected
                             ? "bg-blue-100"
                             : "bg-transparent hover:bg-[#CBE3F7]"
-                        }`,
+                          }`,
                       }),
 
                       panel: { className: "-ml-8 w-[250px]" },
@@ -474,15 +468,18 @@ console.log(JSON.stringify(averageData[0].carPrice))
             Transportation
           </p>
 
-          <div className="flex items-center justify-evenly w-full text-blue-900">
+          <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
             {transportationOptions.map((option) => (
               <div
                 key={option.value}
-                className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-                  formData.transportation === option.value
+                className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${formData.transportation === option.value
                     ? "bg-blue-900 text-gray-300 ring-4 ring-black"
-                    : ""
-                }`}
+                    : ""} ${averageData !== null &&
+                    averageData[`${option.value.toLowerCase()}Price`] &&
+                    averageData[`${option.value.toLowerCase()}Price`][`${option.value.toLowerCase()}Average`]
+                    ? "cursor-pointer"
+                    : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 pointer-events-none"
+                  }`}
                 onClick={() =>
                   setFormData((prevState) => ({
                     ...prevState,
@@ -493,52 +490,75 @@ console.log(JSON.stringify(averageData[0].carPrice))
               >
                 <option.icon />
                 <div
-                  className={`text-[26px] text-blue-900 ${
-                    formData.transportation === option.value
+                  className={`text-[26px]  ${formData.transportation === option.value
                       ? " text-gray-300  "
                       : ""
-                  }`}
+                    }`}
                 >
                   {option.label}
-                  {averageData.length!=0 && (
-  <p>{averageData[0].carPrice["carAverage"]}</p>
-)}
-
-
-
-
-
 
                 </div>
+                {averageData != null && averageData[`${option.value.toLowerCase()}Price`] && (
+                  <p className="text-[13px] flex justify-center">
+                    Estimate:{" "}₹
+                    {parseInt(averageData[`${option.value.toLowerCase()}Price`][`${option.value.toLowerCase()}Average`]).toFixed(0) || "N/A"}
+                  </p>
+                )}
               </div>
             ))}
           </div>
+          <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+            Transportation Details
+          </p>
           {formData.transportation && (
-            <div className="flex items-center justify-evenly w-full text-blue-900">
-              {transportationDetailsOptions[formData.transportation].map(
-                (option) => (
-                  <div
-                    key={option.value}
-                    className={`ring-2 ring-blue-900 cursor-pointer hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-                      formData.transportationDetails === option.value
-                        ? "bg-blue-500"
-                        : ""
+  <div className="mt-[5%] flex items-center justify-evenly flex-wrap lg:flex-nowrap   gap-3 gap-y-5  text-blue-900">
+    {transportationDetailsOptions[formData.transportation].map(
+      (option) => (
+        
+        <div
+          key={option.value}
+          className={`ring-2 ring-blue-900  md:hover:scale-105 w-full lg:w-[140px] lg:h-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+            formData.transportationDetails === option.value
+              ? "bg-blue-900 text-white ring-4 ring-black"
+              : ""
+          } ${
+            averageData !== null &&
+            averageData[`${formData.transportation.toLowerCase()}Price`] &&
+            averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]
+              ? "cursor-pointer"
+              : "bg-[#989999] text-gray-800   hover:scale-100 pointer-events-none cursor-not-allowed"
+          }`}
+          onClick={() =>
+            setFormData((prevState) => ({
+              ...prevState,
+              transportationDetails: option.value,
+              hotels: "", // Reset hotels when transportation details option changes
+              hotelDetails: "", // Reset hotel details when transportation details option changes
+            }))
+          }
+        >
+           
+          <div className={`text-[26px]  flex justify-center items-center ${formData.transportationDetails === option.value
+                      ? " text-gray-300  "
+                      : ""
                     }`}
-                    onClick={() =>
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        transportationDetails: option.value,
-                        hotels: "", // Reset hotels when transportation details option changes
-                        hotelDetails: "", // Reset hotel details when transportation details option changes
-                      }))
-                    }
-                  >
-                    {option.label}
-                  </div>
-                )
-              )}
-            </div>
-          )}
+          >{option.label}
+           
+          </div>
+          {averageData !== null &&
+            averageData[`${formData.transportation.toLowerCase()}Price`]  && (
+              <p className="text-[13px] flex justify-center">
+                Estimate: ₹
+
+                {parseInt(averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]).toFixed(0) || "N/A"}
+              </p>
+            )}
+        </div>
+      )
+    )}
+  </div>
+)}
+
 
           {/* <input
             type="text"
