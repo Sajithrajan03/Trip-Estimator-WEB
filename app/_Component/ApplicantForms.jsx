@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import DatePicker from 'react-datepicker';
 
 import { Calendar } from "primereact/calendar";
+import { Button } from 'primereact/button';
 
 import { Checkbox } from "primereact/checkbox";
 import { ENTER_TRIP_DETAILS_URL } from "@/app/_Component/_util/constants";
@@ -95,13 +96,6 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.hotel_rating,
   ]);
   useEffect(() => {
-    try {
-      if (averageData.length != 0)
-        console.log(averageData[0].carPrice["carAverage"])
-      // setAverageData(JSON.stringify(averageData))
-    } catch {
-      console.log("error")
-    }
   }, [averageData]);
 
 
@@ -173,6 +167,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "Normal", label: "Normal" },
     ],
   };
+  
   const handlesubmit = async () => {
 
     try {
@@ -223,9 +218,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
   return (
     <div className="">
-      <form>
+      
         <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
-          <div className="flex flex-col md:flex-row space-y-4 lg flex flex-col space-y-3 justify-center items-center font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
+          <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
             <div
               className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
               onClick={() => document.getElementById("dropdown1").click()}
@@ -464,9 +459,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         </div>
 
         <div className="mt-[20px]">
-          <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          {/* <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
             Transportation
-          </p>
+          </p> */}
 
           <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
             {transportationOptions.map((option) => (
@@ -478,7 +473,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     averageData[`${option.value.toLowerCase()}Price`] &&
                     averageData[`${option.value.toLowerCase()}Price`][`${option.value.toLowerCase()}Average`]
                     ? "cursor-pointer"
-                    : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 pointer-events-none"
+                    : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 "
                   }`}
                 onClick={() =>
                   setFormData((prevState) => ({
@@ -507,9 +502,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
               </div>
             ))}
           </div>
-          <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          {/* <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
             Transportation Details
-          </p>
+          </p> */}
           {formData.transportation && (
   <div className="mt-[5%] flex items-center justify-evenly flex-wrap lg:flex-nowrap   gap-3 gap-y-5  text-blue-900">
     {transportationDetailsOptions[formData.transportation].map(
@@ -532,6 +527,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             setFormData((prevState) => ({
               ...prevState,
               transportationDetails: option.value,
+              transport_estimate : parseInt(averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]).toFixed(0),
               hotels: "", // Reset hotels when transportation details option changes
               hotelDetails: "", // Reset hotel details when transportation details option changes
             }))
@@ -583,6 +579,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             }
           /> */}
         </div>
+
+        
 
         {/* <div className="form-field">
           <label className="from-label">HOTELS</label>
@@ -761,8 +759,14 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           </div>
         </div> */}
 
-        <p onClick={handlesubmit}>Submit</p>
-      </form>
+        
+       
+      <Button
+        className="bg-blue-900 p-2"
+        onClick={handlesubmit}
+      >
+        Submit
+      </Button>
     </div>
   );
 };
