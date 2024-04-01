@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard } from 'react-icons/fa';
 
-
 const ProfileSettings = () => {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -14,6 +13,12 @@ const ProfileSettings = () => {
     jobRole: '',
     EmployeeId: ''
   });
+
+  const [nightMode, setNightMode] = useState(false);
+
+  const toggleNightMode = () => {
+    setNightMode(!nightMode);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,10 +86,12 @@ const ProfileSettings = () => {
     localStorage.setItem('selectedJobRole', formData.jobRole);
     localStorage.setItem('selectedEmployeeId', formData.EmployeeId);
   }, [formData]);
-  
 
   return (
-    <div className="flex justify-center items-center h-full">
+    
+    <div className="relative">
+        <div className={`flex justify-center items-center h-full ${nightMode ? 'brightness-50' : ''}`}>
+  
       <div className="container rounded bg-white p-5 mt-5" style={{ width: "90%", height: "550px" }}>
         <div className="flex justify-center">
           <div className="w-full md:w-1/3 border-r border-gray-300">
@@ -183,9 +190,15 @@ const ProfileSettings = () => {
               </div>
             </div>
           </div>
+          <button className={`py-1 px-2 rounded focus:outline-none absolute bottom-5 right-5 ${nightMode ? 'bg-yellow-300' : 'bg-gray-600 text-white'}`} onClick={toggleNightMode}>
+  {nightMode ? 'Switch to Day Mode' : 'Switch to Night Mode'}
+</button>
+
+
+</div>
         </div>
       </div>
-    </div>
+</div>
   );
 }
 
