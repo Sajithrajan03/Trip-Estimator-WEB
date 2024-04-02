@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard } from 'react-icons/fa';
+import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard,FaSave,FaTimes } from 'react-icons/fa';
 
 const ProfileSettings = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     firstName: '',
     lastName: '',
     email: '',
@@ -12,60 +12,37 @@ const ProfileSettings = () => {
     gender: '',
     jobRole: '',
     EmployeeId: ''
+  };
+
+  const [formData, setFormData] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedData = localStorage.getItem('profileFormData');
+      return savedData ? JSON.parse(savedData) : initialFormData;
+    } else {
+      return initialFormData;
+    }
   });
 
-  const [nightMode, setNightMode] = useState(false);
-
-  const toggleNightMode = () => {
-    setNightMode(!nightMode);
-  };
+  const [editMode, setEditMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('editMode') === 'true';
+    } else {
+      return false;
+    }
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const formattedValue = (name === "firstName" || name === "lastName") ? value.toUpperCase() : value;
 
-    if ((name === "firstName" || name === "lastName") && (/^[a-zA-Z]*$/.test(formattedValue) || formattedValue === '')) {
-      setFormData({
-        ...formData,
-        [name]: formattedValue
-      });
-    } else if (name === "email") {
-      const lowercasedValue = formattedValue.toLowerCase();
-      setFormData({
-        ...formData,
-        [name]: lowercasedValue
-      });
-    } else if (name === "jobRole") {
-      const capitalizedValue = formattedValue.charAt(0).toUpperCase() + formattedValue.slice(1);
-      setFormData({
-        ...formData,
-        [name]: capitalizedValue
-      });
-    } else if (name === "phoneNumber") {
-      const numericValue = formattedValue.replace(/\D/g, '');
-      if (numericValue.length <= 10) {
-        setFormData({
-          ...formData,
-          [name]: numericValue
-        });
-      }
-    } else if (name === "EmployeeId") {
-      const numericValue = formattedValue.replace(/\D/g, '');
-      setFormData({
-        ...formData,
-        [name]: numericValue
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: formattedValue
-      });
-    }
+    setFormData({
+      ...formData,
+      [name]: formattedValue
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (formData.jobRole.trim() === '') {
       alert("Job Role is required");
       return;
@@ -76,23 +53,27 @@ const ProfileSettings = () => {
       return;
     }
 
-    console.log("Form submitted", formData);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('profileFormData', JSON.stringify(formData));
+      localStorage.setItem('editMode', false);
+    }
+  };
+
+  const handleCancel = () => {
+    setFormData(initialFormData);
+    setEditMode(false);
   };
 
   useEffect(() => {
-    localStorage.setItem('selectedEmail', formData.email);
-    localStorage.setItem('selectedName', `${formData.firstName} ${formData.lastName}`);
-    localStorage.setItem('selectedGender', formData.gender);
-    localStorage.setItem('selectedJobRole', formData.jobRole);
-    localStorage.setItem('selectedEmployeeId', formData.EmployeeId);
-  }, [formData]);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('profileFormData', JSON.stringify(formData));
+      localStorage.setItem('editMode', editMode);
+    }
+  }, [formData, editMode]);
 
   return (
-    
-    <div className="relative">
-        <div className={`flex justify-center items-center h-full ${nightMode ? 'brightness-50' : ''}`}>
-  
-      <div className="container rounded bg-white p-5 mt-5" style={{ width: "90%", height: "550px" }}>
+    <div className="flex justify-center items-center h-full mt-2">
+      <div className="container rounded bg-white p-5 mt-5 " style={{ width: "90%", height: "550px" }}>
         <div className="flex justify-center">
           <div className="w-full md:w-1/3 border-r border-gray-300">
             <div className="flex flex-col items-center text-center p-3 py-5">
@@ -133,24 +114,24 @@ const ProfileSettings = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mt-8">
                   <div>
                     <label className="text-sm mb-2">First name</label>
-                    <input type="text" className="form-input" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Enter First Name" required />
+                    <input type="text" className="form-input" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="Enter First Name" required readOnly={!editMode} />
                   </div>
                   <div>
                     <label className="text-sm mb-2">Surname</label>
-                    <input type="text" className="form-input" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Enter Surname" required />
+                    <input type="text" className="form-input" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Enter Surname" required readOnly={!editMode} />
                   </div>
                   <div>
                     <label className="text-sm block mb-2">Email ID</label>
-                    <input type="email" className="form-input" name="email" value={formData.email} onChange={handleChange} placeholder="Enter Email ID" required />
+                    <input type="email" className="form-input" name="email" value={formData.email} onChange={handleChange} placeholder="Enter Email ID" required readOnly={!editMode} />
                   </div>
                   <div>
                     <label className="text-sm block mb-2">Mobile Number</label>
-                    <input type="tel" className="form-input" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Enter Mobile Number" required />
+                    <input type="tel" className="form-input" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="Enter Mobile Number" required readOnly={!editMode} />
                   </div>
                   <div className="flex flex-col">
                     <div>
                       <label className="text-sm block mt-2 mb-2">Gender</label>
-                      <select className="form-select" name="gender" value={formData.gender} onChange={handleChange} required>
+                      <select className="form-select" name="gender" value={formData.gender} onChange={handleChange} required disabled={!editMode}>
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
@@ -159,46 +140,51 @@ const ProfileSettings = () => {
                     </div>
                     <div>
                       <label className="text-sm block mt-3 mb-1">Address Line 1</label>
-                      <input type="text" className="form-input w-full md:w-96 h-8" name="addressLine1" value={formData.addressLine1} onChange={handleChange} placeholder="Enter Address Line 1" required />
+                      <input type="text" className="form-input w-full md:w-96 h-8" name="addressLine1" value={formData.addressLine1} onChange={handleChange} placeholder="Enter Address Line 1" required readOnly={!editMode} />
                     </div>
                     <div>
                       <label className="text-sm block mt-3">Address Line 2</label>
-                      <input type="text" className="form-input w-full md:w-96 h-8" name="addressLine2" value={formData.addressLine2} onChange={handleChange} placeholder="Enter Address Line 2" required />
+                      <input type="text" className="form-input w-full md:w-96 h-8" name="addressLine2" value={formData.addressLine2} onChange={handleChange} placeholder="Enter Address Line 2" required readOnly={!editMode} />
                     </div>
                   </div>
                 </div>
                 <div className="mt-5 text-center mt-2">
-                  <button className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none ">Save Profile</button>
+                  {editMode ? (
+                    <>
+                      <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2">
+                      Save Profile <FaSave className="inline-block mr-1 mb-1 bg-coolor-black" size={16}  /> 
+                      </button> 
+                      <button type="button" className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none" onClick={handleCancel}>
+                      Cancel <FaTimes className="inline-block mr-1" size={17} /> 
+                      </button>
+                    </>
+                  ) : (
+                    <button type="button" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2" onClick={() => setEditMode(true)}>Edit</button>
+                  )}
                 </div>
               </form>
             </div>
           </div>
           <div className="w-full md:w-5/12 border-r border-gray-300">
             <div className="p-3 py-5">
-              <h5 className="text-left mb-4 font-bold text-2xl">JOB DETAILS</h5>
+              <h5 className="text-left mb-8 font-bold text-2xl ">JOB DETAILS</h5>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                 <div>
-                  <div className="mb-3">
+                  <div className="mb-6">
                     <label className="text-sm block mb-2">Job Role</label>
-                    <input type="text" className="form-input" name="jobRole" value={formData.jobRole} onChange={handleChange} placeholder="Enter Job Role" required />
+                    <input type="text" className="form-input" name="jobRole" value={formData.jobRole} onChange={handleChange} placeholder="Enter Job Role" required readOnly={!editMode} />
                   </div>
                   <div>
                     <label className="text-sm block mb-2">Employee Id</label>
-                    <input type="text" className="form-input" name="EmployeeId" value={formData.EmployeeId} onChange={handleChange} placeholder="Enter Employee Id" required />
+                    <input type="text" className="form-input" name="EmployeeId" value={formData.EmployeeId} onChange={handleChange} placeholder="Enter Employee Id" required readOnly={!editMode} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <button className={`py-1 px-2 rounded focus:outline-none absolute bottom-5 right-5 ${nightMode ? 'bg-yellow-300' : 'bg-gray-600 text-white'}`} onClick={toggleNightMode}>
-  {nightMode ? 'Switch to Day Mode' : 'Switch to Night Mode'}
-</button>
-
-
-</div>
         </div>
       </div>
-</div>
+    </div>
   );
 }
 

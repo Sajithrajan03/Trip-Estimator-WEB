@@ -760,8 +760,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             />
           </div>
         </div> */}
-
+        <button>
         <p onClick={handlesubmit}>Submit</p>
+        </button>
       </form>
     </div>
   );
