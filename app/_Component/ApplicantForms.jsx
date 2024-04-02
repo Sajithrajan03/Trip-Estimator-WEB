@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 // import DatePicker from 'react-datepicker';
 
 import { Calendar } from "primereact/calendar";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 
 import { Checkbox } from "primereact/checkbox";
 import { ENTER_TRIP_DETAILS_URL } from "@/app/_Component/_util/constants";
-
+import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 
-import { InputText } from "primereact/inputtext";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { TbAirConditioning } from "react-icons/tb";
 import { RiFlightTakeoffLine, RiFlightLandLine } from "react-icons/ri";
@@ -95,9 +94,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.location.to,
     formData.hotel_rating,
   ]);
-  useEffect(() => {
-  }, [averageData]);
-
+  useEffect(() => {}, [averageData]);
 
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
@@ -110,19 +107,44 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
   const transportationOptions = [
     { value: "Flight", label: "Flight", icon: MdOutlineFlight },
-    { value: "Bus", label: "Bus", icon: FaBusAlt ,details: ["Sleeper AC", "Sleeper Non-AC", "Seater AC", "Seater Non-AC"],getter:["ac_sleeper","noac_sleeper","ac_nosleeper","noac_nosleeper"]},
-    { value: "Train", label: "Train", icon: FaTrainSubway ,details: ["Seater", "Sleeper", "1A", "2A", "3A", "AC Executive", "AC Chair"],getter : ["seater","sl","1A","2A","3A","ac_executive","ac_chair"]},
-    { value: "Car", label: "Car", icon: FaCar ,details:["AC"] ,getter:["carAverage"]},
+    {
+      value: "Bus",
+      label: "Bus",
+      icon: FaBusAlt,
+      details: ["Sleeper AC", "Sleeper Non-AC", "Seater AC", "Seater Non-AC"],
+      getter: ["ac_sleeper", "noac_sleeper", "ac_nosleeper", "noac_nosleeper"],
+    },
+    {
+      value: "Train",
+      label: "Train",
+      icon: FaTrainSubway,
+      details: [
+        "Seater",
+        "Sleeper",
+        "1A",
+        "2A",
+        "3A",
+        "AC Executive",
+        "AC Chair",
+      ],
+      getter: ["seater", "sl", "1A", "2A", "3A", "ac_executive", "ac_chair"],
+    },
+    {
+      value: "Car",
+      label: "Car",
+      icon: FaCar,
+      details: ["AC"],
+      getter: ["carAverage"],
+    },
   ];
 
   const transportationDetailsOptions = {
     Flight: [
       { value: "business", label: " Business Class" },
       { value: "economy", label: "Economy Class" },
-      { value: "premium", label: "Premium Economy" }
+      { value: "premium", label: "Premium Economy" },
     ],
     Bus: [
-       
       { value: "ac_sleeper", label: "Sleeper AC" },
       { value: "noac_sleeper", label: "Sleeper Non-AC" },
       { value: "ac_nosleeper", label: "Seater AC" },
@@ -138,17 +160,14 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "sl", label: "Sleeper" },
       { value: "seater", label: "Seater" },
     ],
-    Car: [
-      { value: "carAverage", label: "AC" },
-    ],
+    Car: [{ value: "carAverage", label: "AC" }],
   };
 
   const hotelOptions = [
-    { value: "3 Stars", label: "3 Stars" },
-    { value: "4 Stars", label: "4 Stars" },
-    { value: "5 Stars", label: "5 Stars" },
+    { value: "3", label: "3 Stars" , icon: "pi-star-filled"},
+    { value: "4", label: "4 Stars" ,icon: "pi-star-filled"},
+    { value: "5", label: "5 Stars" ,icon: "pi-star-filled"},
   ];
-
 
   const hotelDetailsOptions = {
     "3 Stars": [
@@ -167,9 +186,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "Normal", label: "Normal" },
     ],
   };
-  
-  const handlesubmit = async () => {
 
+  const handlesubmit = async () => {
     try {
       const response = await fetch(ENTER_TRIP_DETAILS_URL, {
         method: "POST",
@@ -209,8 +227,6 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       });
 
       const data = await response.json();
-
-
     } catch (error) {
       console.error("Error:", error);
     }
@@ -218,372 +234,475 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
   return (
     <div className="">
-      
-        <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
-          <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
-            <div
-              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
-              onClick={() => document.getElementById("dropdown1").click()}
-            >
-              <div className="ml-2">
-                <RiFlightTakeoffLine className="text-[30px] " />
-              </div>
-              <div className="flex flex-col ">
-                <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
-                  From City
-                </p>
-                <div className="w-[220px] p-2">
-                  <Dropdown
-                    id="dropdown1"
-                    options={cityOptions}
-                    value={selectedFromCity}
-                    onChange={(selectedOption) => {
-                      setSelectedFromCity(selectedOption.value); // Update the selected "From City" state
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        location: {
-                          ...prevState.location,
-                          from: selectedOption.value,
-                        },
-                        transportation: "",
-                        transportationDetails: "",
-                      }));
-                    }}
-                    placeholder={selectedFromCity ? null : "Select City"}
-                    ptOptions={{ mergeSections: false }}
-                    checkmark={true}
-                    filter
-                    className="w-[200px] rounded-md  text-black"
-                    pt={{
-                      root: {
-                        className:
-                          "font-bold text-[40px] border-none group-hover:bg-[#CBE3F7]",
-                      },
-                      trigger: { className: "-ml-3 " },
-                      input: {
-                        className:
-                          "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
-                      },
-                      item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected
-                            ? "bg-blue-100"
-                            : "bg-transparent hover:bg-[#CBE3F7]"
-                          }`,
-                      }),
-                      panel: { className: "-ml-8 w-[250px]" },
-                      list: {
-                        className:
-                          " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
-                      },
-                      virtualScroller: { className: "rounded-md" },
-                      itemLabel: {
-                        className:
-                          "text-black font-medium text-[20px] text-blue-900",
-                      },
-                      header: {
-                        className:
-                          "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
-                      },
-                    }}
-                  />
-                </div>
-                <p className="-mt-[5px] text-md font-bold text-gray-700 ml-[10px]">
-                  INDIA
-                </p>
-              </div>
+      <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
+        <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
+          <div
+            className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
+            onClick={() => document.getElementById("dropdown1").click()}
+          >
+            <div className="ml-2">
+              <RiFlightTakeoffLine className="text-[30px] " />
             </div>
-            <div
-              className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
-              onClick={() => document.getElementById("dropdown").click()}
-            >
-              <div className="ml-2">
-                <RiFlightLandLine className="text-[30px] " />
+            <div className="flex flex-col ">
+              <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
+                From City
+              </p>
+              <div className="w-[220px] p-2">
+                <Dropdown
+                  id="dropdown1"
+                  options={cityOptions}
+                  value={selectedFromCity}
+                  onChange={(selectedOption) => {
+                    setSelectedFromCity(selectedOption.value); // Update the selected "From City" state
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      location: {
+                        ...prevState.location,
+                        from: selectedOption.value,
+                      },
+                      transportation: "",
+                      transportationDetails: "",
+                    }));
+                  }}
+                  placeholder={selectedFromCity ? null : "Select City"}
+                  ptOptions={{ mergeSections: false }}
+                  checkmark={true}
+                  filter
+                  className="w-[200px] rounded-md  text-black"
+                  pt={{
+                    root: {
+                      className:
+                        "font-bold text-[40px] border-none group-hover:bg-[#CBE3F7]",
+                    },
+                    trigger: { className: "-ml-3 " },
+                    input: {
+                      className:
+                        "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
+                    },
+                    item: ({ context }) => ({
+                      className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
+                        context.selected
+                          ? "bg-blue-100"
+                          : "bg-transparent hover:bg-[#CBE3F7]"
+                      }`,
+                    }),
+                    panel: { className: "-ml-8 w-[250px]" },
+                    list: {
+                      className:
+                        " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
+                    },
+                    virtualScroller: { className: "rounded-md" },
+                    itemLabel: {
+                      className:
+                        "text-black font-medium text-[20px] text-blue-900",
+                    },
+                    header: {
+                      className:
+                        "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
+                    },
+                  }}
+                />
               </div>
-              <div className="flex flex-col ">
-                <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
-                  To City
-                </p>
-                <div className="w-[220px] p-2">
-                  <Dropdown
-                    id="dropdown"
-                    placeholder="Select City"
-                    options={cityOptions.filter(
-                      (option) => option.value !== formData.location.from
-                    )}
-                    value={formData.location.to}
-                    onChange={(selectedOption) =>
-                      setFormData((prevState) => ({
-                        ...prevState,
-                        location: {
-                          ...prevState.location,
-                          to: selectedOption.value,
-                          },
-                          transportation: "",
-                          transportationDetails: "",
-                      }))
-                    }
-                    ptOptions={{ mergeSections: false }}
-                    checkmark={true}
-                    filter
-                    className="w-[200px] rounded-md  text-black"
-                    pt={{
-                      root: {
-                        className:
-                          "font-bold text-[40px] border-none group-hover:bg-[#CBE3F7]",
-                      },
-                      trigger: { className: "-ml-3" },
-                      input: {
-                        className:
-                          "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
-                      },
-                      item: ({ context }) => ({
-                        className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${context.selected
-                            ? "bg-blue-100"
-                            : "bg-transparent hover:bg-[#CBE3F7]"
-                          }`,
-                      }),
-
-                      panel: { className: "-ml-8 w-[250px]" },
-                      list: {
-                        className:
-                          " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
-                      },
-                      virtualScroller: { className: "rounded-md" },
-                      itemLabel: {
-                        className:
-                          "text-black font-medium text-[20px] text-blue-900",
-                      },
-                      header: {
-                        className:
-                          "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
-                      },
-                    }}
-                  />
-                </div>
-                <p className="-mt-[5px] text-md font-bold text-gray-700 ml-[10px]">
-                  INDIA
-                </p>
-              </div>
+              <p className="-mt-[5px] text-md font-bold text-gray-700 ml-[10px]">
+                INDIA
+              </p>
             </div>
           </div>
-          <div className="flex  ">
-            <div className="flex flex-col md:flex-row space-y-4   md:space-x-4  justify-center md:space-y-0 items-center w-full">
-              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
-                <div className="ml-2">
-                  <FaCalendarCheck className="text-[30px] " />
+          <div
+            className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
+            onClick={() => document.getElementById("dropdown").click()}
+          >
+            <div className="ml-2">
+              <RiFlightLandLine className="text-[30px] " />
+            </div>
+            <div className="flex flex-col ">
+              <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
+                To City
+              </p>
+              <div className="w-[220px] p-2">
+                <Dropdown
+                  id="dropdown"
+                  placeholder="Select City"
+                  options={cityOptions.filter(
+                    (option) => option.value !== formData.location.from
+                  )}
+                  value={formData.location.to}
+                  onChange={(selectedOption) =>
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      location: {
+                        ...prevState.location,
+                        to: selectedOption.value,
+                      },
+                      transportation: "",
+                      transportationDetails: "",
+                    }))
+                  }
+                  ptOptions={{ mergeSections: false }}
+                  checkmark={true}
+                  filter
+                  className="w-[200px] rounded-md  text-black"
+                  pt={{
+                    root: {
+                      className:
+                        "font-bold text-[40px] border-none group-hover:bg-[#CBE3F7]",
+                    },
+                    trigger: { className: "-ml-3" },
+                    input: {
+                      className:
+                        "font-bold text-[30px] text-black font-sans w-[200px] p-0 ",
+                    },
+                    item: ({ context }) => ({
+                      className: `text-black rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 m-1 ${
+                        context.selected
+                          ? "bg-blue-100"
+                          : "bg-transparent hover:bg-[#CBE3F7]"
+                      }`,
+                    }),
+
+                    panel: { className: "-ml-8 w-[250px]" },
+                    list: {
+                      className:
+                        " border-black border-1 rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 ",
+                    },
+                    virtualScroller: { className: "rounded-md" },
+                    itemLabel: {
+                      className:
+                        "text-black font-medium text-[20px] text-blue-900",
+                    },
+                    header: {
+                      className:
+                        "text-black font-medium text-[20px] text-blue-900 bg-blue-100",
+                    },
+                  }}
+                />
+              </div>
+              <p className="-mt-[5px] text-md font-bold text-gray-700 ml-[10px]">
+                INDIA
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex  ">
+          <div className="flex flex-col md:flex-row space-y-4   md:space-x-4  justify-center md:space-y-0 items-center w-full">
+            <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
+              <div className="ml-2">
+                <FaCalendarCheck className="text-[30px] " />
+              </div>
+              <div className="flex flex-col ">
+                <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
+                  Departure Date
+                </p>
+                <div className="w-[220px] p-2">
+                  <Calendar
+                    id="calendar2"
+                    value={formData.travelDates.from}
+                    onChange={(e) => handleFromDateChange(e.value)}
+                    placeholder="From Date"
+                    minDate={today}
+                    showIcon
+                    pt={{
+                      input: {
+                        root: { className: "border-teal-500" },
+                      },
+                      dropdownButton: {
+                        root: { className: "bg-teal-500 border-teal-500" },
+                      },
+                    }}
+                  />
                 </div>
-                <div className="flex flex-col ">
-                  <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
-                    Departure Date
+                <div className="flex ml-[10px] items-center space-x-3">
+                  <Checkbox
+                    checked={checkedStatus}
+                    onChange={(e) => {
+                      setCheckedStatus(e.checked);
+                      if (e.checked) {
+                        handleResetDates();
+                      }
+                    }}
+                  />
+                  <p className=" text-md font-bold text-blue-900 ">
+                    Reset Date
                   </p>
-                  <div className="w-[220px] p-2">
-                    <Calendar
-                      id="calendar2"
-                      value={formData.travelDates.from}
-                      onChange={(e) => handleFromDateChange(e.value)}
-                      placeholder="From Date"
-                      minDate={today}
-                      showIcon
-                      pt={{
-                        input: {
-                          root: { className: "border-teal-500" },
-                        },
-                        dropdownButton: {
-                          root: { className: "bg-teal-500 border-teal-500" },
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="flex ml-[10px] items-center space-x-3">
-                    <Checkbox
-                      checked={checkedStatus}
-                      onChange={(e) => {
-                        setCheckedStatus(e.checked);
-                        if (e.checked) {
-                          handleResetDates();
-                        }
-                      }}
-                    />
-                    <p className=" text-md font-bold text-blue-900 ">
-                      Reset Date
-                    </p>
-                  </div>
                 </div>
               </div>
-              <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
-                <div className="ml-2">
-                  <FaCalendarCheck className="text-[30px] " />
+            </div>
+            <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
+              <div className="ml-2">
+                <FaCalendarCheck className="text-[30px] " />
+              </div>
+              <div className="flex flex-col ">
+                <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
+                  Arrival Date
+                </p>
+                <div className="w-[220px] p-2">
+                  <Calendar
+                    id="calendar2"
+                    value={formData.travelDates.to}
+                    showIcon
+                    onChange={(e) => handleToDateChange(e.value)}
+                    placeholder="To Date"
+                    minDate={formData.travelDates.from}
+                    disabled={!formData.travelDates.from}
+                    //minDate={today}
+                    pt={{
+                      input: {
+                        root: { className: "border-teal-500" },
+                      },
+                      dropdownButton: {
+                        root: { className: "bg-teal-500 border-teal-500" },
+                      },
+                    }}
+                  />
                 </div>
-                <div className="flex flex-col ">
-                  <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
-                    Arrival Date
+                <div className="flex ml-[10px] items-center space-x-3">
+                  <Checkbox
+                    checked={checkedStatus}
+                    onChange={(e) => {
+                      setCheckedStatus(e.checked);
+                      if (e.checked) {
+                        handleResetDates();
+                      }
+                    }}
+                  />
+                  <p className=" text-md font-bold text-blue-900 ">
+                    Reset Date
                   </p>
-                  <div className="w-[220px] p-2">
-                    <Calendar
-                      id="calendar2"
-                      value={formData.travelDates.to}
-                      showIcon
-                      onChange={(e) => handleToDateChange(e.value)}
-                      placeholder="To Date"
-                      minDate={formData.travelDates.from}
-                      disabled={!formData.travelDates.from}
-                      //minDate={today}
-                      pt={{
-                        input: {
-                          root: { className: "border-teal-500" },
-                        },
-                        dropdownButton: {
-                          root: { className: "bg-teal-500 border-teal-500" },
-                        },
-                      }}
-                    />
-                  </div>
-                  <div className="flex ml-[10px] items-center space-x-3">
-                    <Checkbox
-                      checked={checkedStatus}
-                      onChange={(e) => {
-                        setCheckedStatus(e.checked);
-                        if (e.checked) {
-                          handleResetDates();
-                        }
-                      }}
-                    />
-                    <p className=" text-md font-bold text-blue-900 ">
-                      Reset Date
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="mt-[20px]">
-          {/* <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
-            Transportation
-          </p> */}
+      <div className="mt-[20px]">
+        <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          Transportation
+        </p>
 
-          <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
-            {transportationOptions.map((option) => (
+        <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
+          {transportationOptions.map((option) => (
+            <div
+              key={option.value}
+              className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                formData.transportation === option.value
+                  ? "bg-blue-900 text-gray-300 ring-4 ring-black"
+                  : ""
+              } ${
+                averageData !== null &&
+                averageData[`${option.value.toLowerCase()}Price`] &&
+                averageData[`${option.value.toLowerCase()}Price`][
+                  `${option.value.toLowerCase()}Average`
+                ]
+                  ? "cursor-pointer"
+                  : "bg-[#989999] text-gray-800 cursor-not-allowed disabled pointer-events-none hover:scale-100 "
+              }`}
+              onClick={() =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  transportation: option.value,
+                  transportationDetails: "", // Reset transportation details when transportation option changes
+                }))
+              }
+            >
+              <option.icon />
               <div
-                key={option.value}
-                className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${formData.transportation === option.value
-                    ? "bg-blue-900 text-gray-300 ring-4 ring-black"
-                    : ""} ${averageData !== null &&
-                    averageData[`${option.value.toLowerCase()}Price`] &&
-                    averageData[`${option.value.toLowerCase()}Price`][`${option.value.toLowerCase()}Average`]
-                    ? "cursor-pointer"
-                    : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 "
-                  }`}
-                onClick={() =>
-                  setFormData((prevState) => ({
-                    ...prevState,
-                    transportation: option.value,
-                    transportationDetails: "", // Reset transportation details when transportation option changes
-                  }))
-                }
+                className={`text-[26px]  ${
+                  formData.transportation === option.value
+                    ? " text-gray-300  "
+                    : ""
+                }`}
               >
-                <option.icon />
-                <div
-                  className={`text-[26px]  ${formData.transportation === option.value
-                      ? " text-gray-300  "
-                      : ""
-                    }`}
-                >
-                  {option.label}
-
-                </div>
-                {averageData != null && averageData[`${option.value.toLowerCase()}Price`] && (
+                {option.label}
+              </div>
+              {averageData != null &&
+                averageData[`${option.value.toLowerCase()}Price`] && (
                   <p className="text-[13px] flex justify-center">
-                    Estimate:{" "}₹
-                    {parseInt(averageData[`${option.value.toLowerCase()}Price`][`${option.value.toLowerCase()}Average`]).toFixed(0) || "N/A"}
+                    Estimate: ₹
+                    {parseInt(
+                      averageData[`${option.value.toLowerCase()}Price`][
+                        `${option.value.toLowerCase()}Average`
+                      ]
+                    ).toFixed(0) || "N/A"}
                   </p>
                 )}
-              </div>
-            ))}
-          </div>
-          {/* <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
-            Transportation Details
-          </p> */}
-          {formData.transportation && (
-  <div className="mt-[5%] flex items-center justify-evenly flex-wrap lg:flex-nowrap   gap-3 gap-y-5  text-blue-900">
-    {transportationDetailsOptions[formData.transportation].map(
-      (option) => (
-        
-        <div
-          key={option.value}
-          className={`ring-2 ring-blue-900  md:hover:scale-105 w-full lg:w-[140px] lg:h-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-            formData.transportationDetails === option.value
-              ? "bg-blue-900 text-white ring-4 ring-black"
-              : ""
-          } ${
-            averageData !== null &&
-            averageData[`${formData.transportation.toLowerCase()}Price`] &&
-            averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]
-              ? "cursor-pointer"
-              : "bg-[#989999] text-gray-800   hover:scale-100 pointer-events-none cursor-not-allowed"
-          }`}
-          onClick={() =>
-            setFormData((prevState) => ({
-              ...prevState,
-              transportationDetails: option.value,
-              transport_estimate : parseInt(averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]).toFixed(0),
-              hotels: "", // Reset hotels when transportation details option changes
-              hotelDetails: "", // Reset hotel details when transportation details option changes
-            }))
-          }
-        >
-           
-          <div className={`text-[26px]  flex justify-center items-center ${formData.transportationDetails === option.value
-                      ? " text-gray-300  "
+            </div>
+          ))}
+        </div>
+        <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          Transportation Details
+        </p>
+        {formData.transportation && (
+          <div className="mt-[5%] flex items-center justify-evenly flex-wrap xl:flex-nowrap   gap-3 gap-y-5  text-blue-900">
+            {transportationDetailsOptions[formData.transportation].map(
+              (option) => (
+                <div
+                  key={option.value}
+                  className={`ring-2 ring-blue-900  md:hover:scale-105 w-full lg:w-[140px] lg:h-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                    formData.transportationDetails === option.value
+                      ? "bg-blue-900 text-white ring-4 ring-black"
                       : ""
+                  } ${
+                    averageData !== null &&
+                    averageData[
+                      `${formData.transportation.toLowerCase()}Price`
+                    ] &&
+                    averageData[
+                      `${formData.transportation.toLowerCase()}Price`
+                    ][`${option.value}`]
+                      ? "cursor-pointer"
+                      : "bg-[#989999] text-gray-800   hover:scale-100 pointer-events-none cursor-not-allowed"
+                  }`}
+                  onClick={() =>
+                    setFormData((prevState) => ({
+                      ...prevState,
+                      transportationDetails: option.value,
+                      transport_estimate: parseInt(
+                        averageData[
+                          `${formData.transportation.toLowerCase()}Price`
+                        ][`${option.value}`]
+                      ).toFixed(0),
+                      transport_amount: parseInt(
+                        averageData[
+                          `${formData.transportation.toLowerCase()}Price`
+                        ][`${option.value}`]
+                      ).toFixed(0),
+                    }))
+                  }
+                >
+                  <div
+                    className={`text-[26px]  flex justify-center items-center ${
+                      formData.transportationDetails === option.value
+                        ? " text-gray-300  "
+                        : ""
                     }`}
-          >{option.label}
-           
-          </div>
-          {averageData !== null &&
-            averageData[`${formData.transportation.toLowerCase()}Price`]  && (
-              <p className="text-[13px] flex justify-center">
-                Estimate: ₹
-
-                {parseInt(averageData[`${formData.transportation.toLowerCase()}Price`][`${option.value}`]).toFixed(0) || "N/A"}
-              </p>
+                  >
+                    {option.label}
+                  </div>
+                  {averageData !== null &&
+                    averageData[
+                      `${formData.transportation.toLowerCase()}Price`
+                    ] && (
+                      <p className="text-[13px] flex justify-center">
+                        Estimate: ₹
+                        {parseInt(
+                          averageData[
+                            `${formData.transportation.toLowerCase()}Price`
+                          ][`${option.value}`]
+                        ).toFixed(0) || "N/A"}
+                      </p>
+                    )}
+                </div>
+              )
             )}
+            <div className="mt-[60px] xl:mt-0 flex justify-between">
+              <div>
+                <span className="p-float-label flex  bg-gray-400 rounded-lg">
+                <p className="text-black ml-2 text-[25px] flex items-center">₹</p>
+                  <InputText
+                    className="w-[150px] cursor-not-allowed pointer-events-none bg-gray-400 rounded-lg"
+                    id="TransportEstimate"
+                    keyfilter="int"
+                    placeholder="Transport Estimate"
+                    pt={{
+                      root: { className: 'border-none text-[20px] font-bold ' }
+                  }}
+                    value={formData.transport_estimate}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        transport_estimate: e.target.value,
+                      }))
+                    }
+                  />
+                  <label htmlFor="TransportEstimate" className="text-black text-[17px]">Transport Estimate</label>
+                  
+                </span>
+              </div>
+              <div className="ml-5">
+                <span className="p-float-label w-[170px] flex rounded-lg bg-white">
+                <p className="text-black ml-2 text-[25px] flex items-center mr-2">₹</p>
+                  <InputText
+                    className="w-[150px] rounded-lg"
+                    id="TransportAmount"
+                    keyfilter="int"
+                    placeholder="Transport Amount"
+                    value={formData.transport_amount}
+                    pt={{
+                      root: { className: 'border-none text-[20px] font-bold ' }
+                  }}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        transport_amount: e.target.value,
+                      }))
+                    }
+                  />
+                  <label htmlFor="TransportAmount" className="text-black text-[17px]">Transport Amount</label>
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+      HOTELS
+        </p>
+
+        <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
+          {hotelOptions.map((option) => (
+            <div
+              key={option.value}
+              className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                formData.hotels === option.value
+                  ? "bg-blue-900 text-gray-300 ring-4 ring-black"
+                  : ""
+              } ${
+                averageData !== null &&
+                averageData[`hotelPrice`] &&
+                averageData[`hotelPrice`][
+                  `${option.value}`
+                ]
+                  ? "cursor-pointer"
+                  : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 "
+              }`}
+              onClick={(selectedOption) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  hotels: selectedOption.value,
+                  hotelDetails: "", // Reset hotel details when hotels option changes
+                }))}
+            >
+              {option.label}
+              {option.value}
+              {/* <option.icon />
+              <div
+                className={`text-[26px]  ${
+                  formData.transportation === option.value
+                    ? " text-gray-300  "
+                    : ""
+                }`}
+              >
+                {option.label}
+              </div>
+              {averageData != null &&
+                averageData[`${option.value.toLowerCase()}Price`] && (
+                  <p className="text-[13px] flex justify-center">
+                    Estimate: ₹
+                    {parseInt(
+                      averageData[`${option.value.toLowerCase()}Price`][
+                        `${option.value.toLowerCase()}Average`
+                      ]
+                    ).toFixed(0) || "N/A"}
+                  </p>
+                )} */}
+            </div>
+          ))}
         </div>
-      )
-    )}
-  </div>
-)}
 
-
-          {/* <input
-            type="text"
-            placeholder="Transport Estimate"
-            value={formData.transport_estimate}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                transport_estimate: e.target.value,
-              }))
-            }
-          />
-          <input
-            type="text"
-            placeholder="Transport Amount"
-            value={formData.transport_amount}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                transport_amount: e.target.value,
-              }))
-            }
-          /> */}
-        </div>
-
-        
-
-        {/* <div className="form-field">
-          <label className="from-label">HOTELS</label>
+       <div className="form-field">
+          <label className="from-label"></label>
           <div className="form-input">
             <Dropdown
               options={hotelOptions}
@@ -660,7 +779,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             }
           />
         </div>
-
+{/*
         <div className="form-field">
           <label className="from-label">FOOD</label>
           <div className="form-input">
@@ -759,12 +878,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           </div>
         </div> */}
 
-        
-       
-      <Button
-        className="bg-blue-900 p-2"
-        onClick={handlesubmit}
-      >
+      <Button className="bg-blue-900 p-2" onClick={handlesubmit}>
         Submit
       </Button>
     </div>
