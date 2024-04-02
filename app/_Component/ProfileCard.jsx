@@ -73,7 +73,7 @@ export default function ProfileCard({ email }) {
   variant="text"
   color="blue"
   onClick={handleClick}
-  className="flex items-center justify-center w-[60px] h-[50px] rounded-full bg-blue-gray-600 hover:bg-blue-gray-900" // Adjust spacing as needed
+  className="flex items-center justify-center w-[60px] h-[50px] rounded-full bg-blue-6  00 hover:bg-blue-700" // Adjust spacing as needed
 >
   <div className="bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-full flex items-center justify-center">
     <i className="pi pi-user text-2xl"></i>
