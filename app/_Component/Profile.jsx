@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard,FaSave,FaTimes } from 'react-icons/fa';
 

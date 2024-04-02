@@ -1,26 +1,33 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-// import Navbar from "../components/EventHeader";
-
 import { useRouter } from "next/navigation";
 import { LOGIN_URL } from "@/app/_Component/_util/constants";
 import { hashPassword } from "@/app/_Component/_util/hash";
 import validator from "validator";
 import secureLocalStorage from "react-secure-storage";
-
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Link from "next/link";
-
 import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
+
 export default function Login() {
+  const [emailFocused, setEmailFocused] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+
+  const handleEmailFocus = () => {
+    setEmailFocused(true);
+  };
+
+  const handlePasswordFocus = () => {
+    setPasswordFocused(true);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -35,7 +42,7 @@ export default function Login() {
   const toastRef = useRef();
 
   const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setuserPassword] = useState("");
+  const [userPassword, setUserPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -55,7 +62,7 @@ export default function Login() {
         },
         body: JSON.stringify({
           userEmail: userEmail,
-          userPass: hashPassword(userPassword), //
+          userPass: hashPassword(userPassword),
         }),
       });
 
@@ -127,7 +134,6 @@ export default function Login() {
       <main className="flex min-h-screen flex-col bg-[rgb(6,55,129)] ">
         <div className="bg-gradient-to-r  from-cyan-300 to-blue-900 md:w-[20%] sm:w-[80%] p-8 rounded-[0%] h-[55%] left-[40%] top-[230px] absolute blur-3xl levitate"></div>
         <div className="block">
-          {/* <Navbar /> */}
           <div className="p-2">
             <Toast ref={toastRef} position="bottom-center" className="p-5" />
           </div>
@@ -154,7 +160,11 @@ export default function Login() {
                         sx={{
                           width: "100%",
                           borderRadius: 5,
+                          transition: "transform 0.3s ease",
+                          transform: emailFocused ? "scale(1.1)" : "scale(1)",
                         }}
+                        onFocus={handleEmailFocus}
+                        onBlur={() => setEmailFocused(false)}
                         onChange={(e) => {
                           setUserEmail(e.target.value);
                         }}
@@ -169,35 +179,35 @@ export default function Login() {
                         Password
                       </label>
                       <TextField
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter Password"
-                        value={userPassword}
-                        sx={{
-                          width: "100%",
-                          borderRadius: 5,
-                          borderWidth: 5,
-                        }}
-                        onChange={(e) => {
-                          setuserPassword(e.target.value);
-                        }}
-                        required
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <IconButton
-                                onClick={handleClickShowPassword}
-                                edge="end"
-                              >
-                                {showPassword ? (
-                                  <VisibilityOff />
-                                ) : (
-                                  <Visibility />
-                                )}
-                              </IconButton>
-                            </InputAdornment>
-                          ),
-                        }}
-                      />
+  type={showPassword ? "text" : "password"}
+  placeholder="Enter Password"
+  value={userPassword}
+  sx={{
+    width: "100%",
+    borderRadius: 5,
+    borderWidth: 5,
+    transition: "transform 0.3s ease",
+    transform: passwordFocused ? "scale(1.1)" : "scale(1)",
+  }}
+  onFocus={handlePasswordFocus}
+  onBlur={() => setPasswordFocused(false)}
+  onChange={(e) => {
+    setUserPassword(e.target.value);
+  }}
+  required
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton
+          onClick={() => setShowPassword(!showPassword)} // Toggle showPassword on click
+          edge="end"
+        >
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-start"></div>
@@ -210,15 +220,14 @@ export default function Login() {
                       </Link>
                     </div>
                     <button
-                    type="submit"
-                    onClick={HandleLogin}
-                    className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    style={{ transition: "background 0.3s ease" }}
-                    disabled={loading || userPassword === ""}
+                      type="submit"
+                      onClick={HandleLogin}
+                      className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      style={{ transition: "background 0.3s ease" }}
+                      disabled={loading || userEmail === "" || userPassword === ""}
                     >
-                    LOGIN
-                  </button>
-
+                      LOGIN
+                    </button>
                     <p
                       className="text-sm font-light text-[#f32525] flex flex-col justify-center"
                       id="Others"
