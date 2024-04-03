@@ -95,7 +95,7 @@ const Page = () => {
 
   return (
     
-    <div className={`bg-[rgb(6,55,129)]min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className={`bg-[rgb(6,55,129)] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
         { loaded ? null: <LoadingScreen/>  }
          
         <div className=' text-black' >            

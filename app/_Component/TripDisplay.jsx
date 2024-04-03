@@ -7,9 +7,9 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   const [adminMessage, setAdminMessage] = useState("");
   const [downloading, setDownloading] = useState(false);
 
-  if (!selectedTrip) {
-    return null; // If selectedTrip is not provided, render nothing
-  }
+  // if (!selectedTrip) {
+  //   return null; // If selectedTrip is not provided, render nothing
+  // }
 
   useEffect(() => {
     const handleEsc = (event) => {
