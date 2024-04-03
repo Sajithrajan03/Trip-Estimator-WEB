@@ -19,6 +19,8 @@ import { FaCar, FaBusAlt, FaStar } from "react-icons/fa";
 import { FaTrainSubway,FaCarrot  } from "react-icons/fa6";
 import { Co2Sharp } from "@mui/icons-material";
 import { TbMeat } from "react-icons/tb";
+import { Dialog } from 'primereact/dialog';
+import TripApplication from "./TripApplication";
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
@@ -195,7 +197,39 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "deluxe", label: "Deluxe" },
       { value: "suite", label: "Suite" },
     ],
-  };
+  }
+  let dialogTrip = {}
+  const handleDialogOpen = ()=>{
+    const dialogTrip = {
+      start_city: formData.location.from,
+      end_city: formData.location.to,
+      emp_email: "root",
+      travel_start_date: formData.travelDates.from
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, ""),
+      travel_end_date: formData.travelDates.to
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, ""),
+      transport_mode:
+        formData.transportation + " - " + formData.transportationDetails,
+      transport_estimate: formData.transport_estimate,
+      transport_amount: formData.transport_amount,
+      hotel_type: formData.hotels + " - "+formData.hotel_type,
+      hotel_estimate: formData.hotel_estimate,
+      hotel_amount: formData.hotel_amount,
+      food_estimate: formData.food_estimate,
+      food_amount: formData.food_amount,
+      miscellaneous_estimate: formData.miscellaneous_estimate,
+      miscellaneous_amount: formData.miscellaneous_amount,
+      total_estimate: formData.total_estimate,
+      total_amount: formData.total_amount,
+      travel_reason: formData.travel_reason,
+      trip_estimate: formData.trip_estimate,
+      trip_amount: formData.trip_amount,
+    }
+  }
 
   const handlesubmit = async () => {
     try {
@@ -241,7 +275,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       console.error("Error:", error);
     }
   };
-
+  const [visible, setVisible] = useState(false);
   return (
     <div className="">
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
@@ -1050,10 +1084,20 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       </div>}
 
       <div className="flex justify-center">
-        <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" onClick={handlesubmit}>
+        <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
+        // onClick={handlesubmit}
+        onClick={() => {
+          handleDialogOpen()
+          setVisible(true)
+        }}
+        >
           Review & Submit
         </Button>
       </div>
+
+      <Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+                <TripApplication selectedTrip={formData} setOpenModal={()=>setVisible(false)}/>
+      </Dialog>
     </div>
   );
 };

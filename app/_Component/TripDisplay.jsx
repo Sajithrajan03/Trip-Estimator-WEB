@@ -210,10 +210,10 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                 <td className="border border-gray-400 p-3">{selectedTrip.hotel_type}</td>
               </tr>
               <tr>
-    <th class="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Estimate</th>
-    <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_estimate}</td>
-    <th class="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Amount</th>
-    <td class="border border-gray-400 p-3">₹ {selectedTrip.transport_amount}</td>
+    <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Estimate</th>
+    <td className="border border-gray-400 p-3">₹ {selectedTrip.transport_estimate}</td>
+    <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">Transport Amount</th>
+    <td className="border border-gray-400 p-3">₹ {selectedTrip.transport_amount}</td>
 </tr>
 
 
