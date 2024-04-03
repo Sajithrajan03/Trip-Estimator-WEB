@@ -61,22 +61,22 @@ const Page = () => {
     transportation: "",
     transportationDetails: "",
     hotels: "",
-    hotel_rating: "",
+    hotel_type: "",
     food: "",
     isToCalendarOpen: false,
-    transport_estimate: "",
-    transport_amount: "",
-    hotel_estimate: "",
-    hotel_amount: "",
-    food_estimate: "",
-    food_amount: "",
-    miscellaneous_estimate: "",
-    miscellaneous_amount: "",
-    total_estimate: "",
-    total_amount: "",
+    transport_estimate: "0",
+    transport_amount: "0",
+    hotel_estimate: "0",
+    hotel_amount: "0",
+    food_estimate: "0",
+    food_amount: "0",
+    miscellaneous_estimate: "0",
+    miscellaneous_amount: "0",
+    total_estimate: "0",
+    total_amount: "0",
     travel_reason: "",
-    trip_estimate: "",
-    trip_amount: "",
+    trip_estimate: "0",
+    trip_amount: "0",
   });
 
   
@@ -85,7 +85,7 @@ const Page = () => {
     <div>
       <div className="bg-gradient-to-r overflow-x-hidden w-[90%] lg:w-[55%] md:w-[90%] from-cyan-300 to-blue-900   p-8 rounded-[0%] md:h-[80%] left-[10%] md:top-[10%] lg:top-[13%] lg:left-[30%] lg:scale-x-150 absolute blur-3xl levitate -z-10"></div>
        
-      <div className={`bg-[rgb(6,55,129)]]  min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`bg-[rgb(6,55,129)]] mb-[30px] min-h-screen transition-opacity duration-500 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'}`}>
           <Navbar/>
           { loaded ? null: <LoadingScreen/>  }
           
