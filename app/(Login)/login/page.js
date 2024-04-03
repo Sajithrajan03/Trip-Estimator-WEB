@@ -161,7 +161,7 @@ export default function Login() {
                           width: "100%",
                           borderRadius: 5,
                           transition: "transform 0.3s ease",
-                          transform: emailFocused ? "scale(1.1)" : "scale(1)",
+                          // transform: emailFocused ? "scale(1.05)" : "scale(1)",
                         }}
                         onFocus={handleEmailFocus}
                         onBlur={() => setEmailFocused(false)}
@@ -208,6 +208,35 @@ export default function Login() {
                           ),
                         }}
                       />
+  type={showPassword ? "text" : "password"}
+  placeholder="Enter Password"
+  value={userPassword}
+  sx={{
+    width: "100%",
+    borderRadius: 5,
+    borderWidth: 5,
+    transition: "transform 0.3s ease",
+    // transform: passwordFocused ? "scale(1.1)" : "scale(1)",
+  }}
+  onFocus={handlePasswordFocus}
+  onBlur={() => setPasswordFocused(false)}
+  onChange={(e) => {
+    setUserPassword(e.target.value);
+  }}
+  required
+  InputProps={{
+    endAdornment: (
+      <InputAdornment position="end">
+        <IconButton
+          onClick={() => setShowPassword(!showPassword)} // Toggle showPassword on click
+          edge="end"
+        >
+          {showPassword ? <VisibilityOff /> : <Visibility />}
+        </IconButton>
+      </InputAdornment>
+    ),
+  }}
+/>
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-start"></div>
