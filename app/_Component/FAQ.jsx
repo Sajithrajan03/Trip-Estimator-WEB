@@ -1,45 +1,125 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Accordion, AccordionTab } from 'primereact/accordion';
+
 const FAQ = () => {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [utterance, setUtterance] = useState(null);
+  const [voiceoverEnabled, setVoiceoverEnabled] = useState(true);
+
+  const speakText = (question, answer, index) => {
+    if (!voiceoverEnabled) {
+      setActiveIndex(index);
+      return;
+    }
+
+    if (isSpeaking && activeIndex === index) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      setActiveIndex(-1);
+    } else {
+      const newUtterance = new SpeechSynthesisUtterance(question + " " + answer);
+      setUtterance(newUtterance);
+      speechSynthesis.speak(newUtterance);
+      setIsSpeaking(true);
+      setActiveIndex(index);
+    }
+  };
+
+  const toggleVoiceover = () => {
+    setVoiceoverEnabled(!voiceoverEnabled);
+    if (!voiceoverEnabled && isSpeaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      setActiveIndex(-1);
+    }
+  };
+
+  useEffect(() => {
+    if (!voiceoverEnabled && isSpeaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      setActiveIndex(-1);
+    }
+  }, [voiceoverEnabled]);
+
+  const handleTabChange = (index) => {
+    if (!voiceoverEnabled) {
+      return;
+    }
+
+    if (isSpeaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+
+    setActiveIndex(index === activeIndex ? -1 : index);
+  };
+
   return (
-    <div className="bg-white p-5 rounded-lg m-5 mx-[10%]">
-      <div className="flex justify-center text-[20px] mb-5">FAQ</div>
+    <div className="bg-white p-5 rounded-lg m-5 mx-[10%] relative mt-7">
+      <div className="flex justify-center text-[24px] mb-5  font-bold">FAQ</div>
       <div>
-        <Accordion activeIndex={0}>
-          <AccordionTab header="Header I">
+        <Accordion activeIndex={activeIndex} onTabChange={(e) => handleTabChange(e.index)}>
+          <AccordionTab header="What is the Trip Estimator feature?" onClick={() => speakText("What is the Trip Estimator feature?", "Trip estimates are particularly useful to approve, reject or modify a trip. This also helps in budgeting for the trip. The current process allows users to enter the requested amount for a trip.", 0)}>
             <p className="m-0">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              Trip estimates are particularly useful to approve, reject or modify a trip. This also helps in budgeting for the trip. The current process allows users to enter the requested amount for a trip.
             </p>
           </AccordionTab>
-          <AccordionTab header="Header II">
+          <AccordionTab header="How does the Trip Estimator work?" onClick={() => speakText("How does the Trip Estimator work?", "The Trip Estimator analyzes trip data based on the data provided in the backend, including travel dates and destinations, to calculate an average cost for similar trips. Users can input their travel details, and the estimator will generate an estimated budget based on these parameters. Approvers can then review this estimate alongside the requested amount to make informed decisions.", 1)}>
             <p className="m-0">
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-              accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-              quae ab illo inventore veritatis et quasi architecto beatae vitae
-              dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
-              aspernatur aut odit aut fugit, sed quia consequuntur magni dolores
-              eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci
-              velit, sed quia non numquam eius modi.
+              The Trip Estimator analyzes trip data based on the data provided in the backend, including travel dates and destinations, to calculate an average cost for similar trips. Users can input their travel details, and the estimator will generate an estimated budget based on these parameters. Approvers can then review this estimate alongside the requested amount to make informed decisions.
             </p>
           </AccordionTab>
-          <AccordionTab header="Header III">
+          <AccordionTab header="What information do I need to input for the Trip Estimator?" onClick={() => speakText("What information do I need to input for the Trip Estimator?", "To use the Trip Estimator, users should provide details such as travel dates, destination city, hotel cost based on ratings, and any specific preferences or requirements related to their trip. This allows the estimator to generate a more accurate projection based on data provided.", 2)}>
             <p className="m-0">
-              At vero eos et accusamus et iusto odio dignissimos ducimus qui
-              blanditiis praesentium voluptatum deleniti atque corrupti quos
-              dolores et quas molestias excepturi sint occaecati cupiditate non
-              provident, similique sunt in culpa qui officia deserunt mollitia
-              animi, id est laborum et dolorum fuga. Et harum quidem rerum
-              facilis est et expedita distinctio. Nam libero tempore, cum soluta
-              nobis est eligendi optio cumque nihil impedit quo minus.
+              To use the Trip Estimator, users should provide details such as travel dates, destination city, hotel cost based on ratings, and any specific preferences or requirements related to their trip. This allows the estimator to generate a more accurate projection based on data provided.
             </p>
           </AccordionTab>
+          <AccordionTab header="Can the Trip Estimator account for additional expenses like parking or car rentals?" onClick={() => speakText("Can the Trip Estimator account for additional expenses like parking or car rentals?", "Yes, the Trip Estimator takes into account miscellaneous expenses such as parking fees, car rentals, and other incidentals commonly associated with travel. By considering these factors, the estimator provides a comprehensive breakdown of expected costs for a given trip.", 3)}>
+            <p className="m-0">
+              Yes, the Trip Estimator takes into account miscellaneous expenses such as parking fees, car rentals, and other incidentals commonly associated with travel. By considering these factors, the estimator provides a comprehensive breakdown of expected costs for a given trip.
+            </p>
+          </AccordionTab>
+          <AccordionTab header="Where can I access the Trip Estimator feature?" onClick={() => speakText("Where can I access the Trip Estimator feature?", "The Trip Estimator feature is available within our platform, accessible to both users and approvers during the trip request and approval process. Simply navigate to the designated section or interface within the platform to utilize this valuable tool for estimating trip expenses.", 4)}>
+            <p className="m-0">
+              The Trip Estimator feature is available within our platform, accessible to both users and approvers during the trip request and approval process. Simply navigate to the designated section or interface within the platform to utilize this valuable tool for estimating trip expenses.
+            </p>
+          </AccordionTab>
+          <AccordionTab header="How accurate are the trip estimates provided by the Trip Estimator?" onClick={() => speakText("How accurate are the trip estimates provided by the Trip Estimator??", "The Trip Estimator strives to provide accurate estimates based on available data and algorithms, it's essential to understand that actual trip costs may vary. The Trip Estimator utilizes a combination of handpicked data sources and advanced algorithms to generate estimates tailored to each trip's specific details.", 5)}>
+            <p className="m-0">
+            Trip Estimator strives to provide accurate estimates based on available data and algorithms, it's essential to understand that actual trip costs may vary. The Trip Estimator utilizes a combination of handpicked data sources and advanced algorithms to generate estimates tailored to each trip's specific details.
+            </p>
+          </AccordionTab>
+          <AccordionTab header="Is the Trip Estimator available for international trips?" onClick={() => speakText("Is the Trip Estimator available for international trips?", "Currently, the Trip Estimator covers the five most traveled cities within India. International destinations are not included yet.", 6)}>
+          <p className="m-0 text-sm">Currently, the Trip Estimator covers the five most traveled cities within India. International destinations are not included yet.</p>
+        </AccordionTab>
+        <AccordionTab header="Can I save or export trip estimates generated by the Trip Estimator?" onClick={() => speakText("Can I save or export trip estimates generated by the Trip Estimator?", "Trip estimates can be saved or exported only by the approvers in the form of CSV files.", 7)}>
+        <p className="m-0 text-sm">Trip estimates can be saved or exported only by the approvers in the form of CSV files.</p>
+      </AccordionTab>
+      <AccordionTab header="Can I customize the Trip Estimator to suit specific travel policies or preferences?" onClick={() => speakText("Can I customize the Trip Estimator to suit specific travel policies or preferences?", "Yes, the Trip Estimator can be customized to align with your organization's travel policies and preferences. This customization ensures that the estimates generated are tailored to meet your specific requirements and guidelines.", 8)}>
+      <p className="m-0 text-sm">Yes, the Trip Estimator can be customized to align with your organization's travel policies and preferences. This customization ensures that the estimates generated are tailored to meet your specific requirements and guidelines.</p>
+    </AccordionTab>
         </Accordion>
+        <div className="absolute top-0 right-0 m-9 ">
+          <span className="mr-1 font-bold text-black-500">Voice Over</span>
+          <button
+            onClick={toggleVoiceover}
+            className={`relative inline-block w-11 h-6 rounded-full ${
+              voiceoverEnabled ? 'bg-blue-500' : 'bg-gray-300'
+            } focus:outline-none top-[-5px]`}
+          >
+            <span
+              className={`inline-block w-.2 h-.2 rounded-full shadow-md transform ${
+                voiceoverEnabled ? 'translate-x-2' : 'translate-x-0'
+              } bg-white absolute top-0 left-0`}
+            ></span>
+            <span className="sr-only">Toggle Voiceover</span>
+            <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black">
+              {voiceoverEnabled ? 'ON' : 'OFF'}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );
