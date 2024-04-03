@@ -660,7 +660,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   : ""
               } ${
                 averageData !== null &&
-                averageData[`hotelPrice`] &&
+                averageData[`hotelPrice`] 
+                &&
                 averageData[`hotelPrice`][
                   `${option.value}`
                 ]

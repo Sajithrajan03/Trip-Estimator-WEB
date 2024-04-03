@@ -47,6 +47,7 @@ const Page = () => {
     }
   }, [accountStatus, router]);
 
+  
   const [trips, setTrips] = useState([]);
 
   useEffect(() => {
