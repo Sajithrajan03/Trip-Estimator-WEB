@@ -161,7 +161,7 @@ export default function Login() {
                           width: "100%",
                           borderRadius: 5,
                           transition: "transform 0.3s ease",
-                          transform: emailFocused ? "scale(1.1)" : "scale(1)",
+                          // transform: emailFocused ? "scale(1.05)" : "scale(1)",
                         }}
                         onFocus={handleEmailFocus}
                         onBlur={() => setEmailFocused(false)}
@@ -187,7 +187,7 @@ export default function Login() {
     borderRadius: 5,
     borderWidth: 5,
     transition: "transform 0.3s ease",
-    transform: passwordFocused ? "scale(1.1)" : "scale(1)",
+    // transform: passwordFocused ? "scale(1.1)" : "scale(1)",
   }}
   onFocus={handlePasswordFocus}
   onBlur={() => setPasswordFocused(false)}
