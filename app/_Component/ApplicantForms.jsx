@@ -15,8 +15,12 @@ import { RiFlightTakeoffLine, RiFlightLandLine } from "react-icons/ri";
 import { FaCalendar, FaCalendarCheck } from "react-icons/fa";
 import { GET_AVERAGES_DETAILS_URL } from "@/app/_Component/_util/constants";
 import { MdOutlineFlight } from "react-icons/md";
-import { FaCar, FaBusAlt } from "react-icons/fa";
-import { FaTrainSubway } from "react-icons/fa6";
+import { FaCar, FaBusAlt, FaStar } from "react-icons/fa";
+import { FaTrainSubway,FaCarrot  } from "react-icons/fa6";
+import { Co2Sharp } from "@mui/icons-material";
+import { TbMeat } from "react-icons/tb";
+import { Dialog } from 'primereact/dialog';
+import TripApplication from "./TripApplication";
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
@@ -94,7 +98,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.location.to,
     formData.hotel_rating,
   ]);
-  useEffect(() => {}, [averageData]);
+  useEffect(() => {
+     
+  }, [averageData ]);
 
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
@@ -164,28 +170,66 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   };
 
   const hotelOptions = [
-    { value: "3", label: "3 Stars" , icon: "pi-star-filled"},
-    { value: "4", label: "4 Stars" ,icon: "pi-star-filled"},
-    { value: "5", label: "5 Stars" ,icon: "pi-star-filled"},
+    { value: "3", label: "3 Stars", icon: "FaStar" },
+    { value: "4", label: "4 Stars", icon: "FaStar" },
+    { value: "5", label: "5 Stars", icon: "FaStar" },
+  ];
+  const foodOptions = [
+    
+    { value: "vegFoodAverage", label: "VEG", icon: FaCarrot  },
+    { value: "nonVegFoodAverage", label: "N - VEG", icon: TbMeat },
+     
   ];
 
   const hotelDetailsOptions = {
-    "3 Stars": [
-      { value: "Deluxe Room", label: "Delux" },
-      { value: "Suite", label: "Suite" },
-      { value: "Normal", label: "Normal" },
+    3: [
+      { value: "standard", label: "Standard" },
+      { value: "deluxe", label: "Deluxe" },
+      { value: "suite", label: "Suite" },
     ],
-    "4 Stars": [
-      { value: "Deluxe Room", label: "Deluxe Room" },
-      { value: "Suite", label: "Suite" },
-      { value: "Normal", label: "Normal" },
+    4: [
+      { value: "standard", label: "Standard" },
+      { value: "deluxe", label: "Deluxe" },
+      { value: "suite", label: "Suite" },
     ],
-    "5 Stars": [
-      { value: "Deluxe Room", label: "Deluxe Room" },
-      { value: "Suite", label: "Suite" },
-      { value: "Normal", label: "Normal" },
+    5: [
+      { value: "standard", label: "Standard" },
+      { value: "deluxe", label: "Deluxe" },
+      { value: "suite", label: "Suite" },
     ],
-  };
+  }
+  let dialogTrip = {}
+  const handleDialogOpen = ()=>{
+    const dialogTrip = {
+      start_city: formData.location.from,
+      end_city: formData.location.to,
+      emp_email: "root",
+      travel_start_date: formData.travelDates.from
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, ""),
+      travel_end_date: formData.travelDates.to
+        .toISOString()
+        .slice(0, 10)
+        .replace(/-/g, ""),
+      transport_mode:
+        formData.transportation + " - " + formData.transportationDetails,
+      transport_estimate: formData.transport_estimate,
+      transport_amount: formData.transport_amount,
+      hotel_type: formData.hotels + " - "+formData.hotel_type,
+      hotel_estimate: formData.hotel_estimate,
+      hotel_amount: formData.hotel_amount,
+      food_estimate: formData.food_estimate,
+      food_amount: formData.food_amount,
+      miscellaneous_estimate: formData.miscellaneous_estimate,
+      miscellaneous_amount: formData.miscellaneous_amount,
+      total_estimate: formData.total_estimate,
+      total_amount: formData.total_amount,
+      travel_reason: formData.travel_reason,
+      trip_estimate: formData.trip_estimate,
+      trip_amount: formData.trip_amount,
+    }
+  }
 
   const handlesubmit = async () => {
     try {
@@ -211,7 +255,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             formData.transportation + " - " + formData.transportationDetails,
           transport_estimate: formData.transport_estimate,
           transport_amount: formData.transport_amount,
-          hotel_type: formData.hotelDetails,
+          hotel_type: formData.hotels + " - "+formData.hotel_type,
           hotel_estimate: formData.hotel_estimate,
           hotel_amount: formData.hotel_amount,
           food_estimate: formData.food_estimate,
@@ -231,13 +275,13 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       console.error("Error:", error);
     }
   };
-
+  const [visible, setVisible] = useState(false);
   return (
     <div className="">
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
         <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
           <div
-            className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
+            className=" bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1 cursor-pointer group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3"
             onClick={() => document.getElementById("dropdown1").click()}
           >
             <div className="ml-2">
@@ -262,6 +306,18 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       },
                       transportation: "",
                       transportationDetails: "",
+                      hotels: "",
+                      hotel_type: "",
+                      food: "",
+                      food_estimate : "0",
+                      food_amount : "0",
+                      miscellaneous_estimate : "0",
+                      miscellaneous_amount : "0",
+                      trip_amount:"0",
+                      trip_estimate:"0",
+                      total_amount:"0",
+                      total_estimate:"0",
+
                     }));
                   }}
                   placeholder={selectedFromCity ? null : "Select City"}
@@ -336,6 +392,17 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       },
                       transportation: "",
                       transportationDetails: "",
+                      hotels: "",
+                      hotel_type: "",
+                      food: "",
+                      food_estimate : "0",
+                      food_amount : "0",
+                      miscellaneous_estimate : "0",
+                      miscellaneous_amount : "0",
+                      trip_amount:"0",
+                      trip_estimate:"0",
+                      total_amount:"0",
+                      total_estimate:"0",
                     }))
                   }
                   ptOptions={{ mergeSections: false }}
@@ -475,7 +542,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         </div>
       </div>
 
-      <div className="mt-[20px]">
+      <div className="my-[60px] bg-[#ecf1f7] pb-[40px] rounded-lg p-2">
         <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
           Transportation
         </p>
@@ -501,7 +568,10 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                 setFormData((prevState) => ({
                   ...prevState,
                   transportation: option.value,
-                  transportationDetails: "", // Reset transportation details when transportation option changes
+                  transportationDetails: "",
+                  transport_amount : "0",
+                  transport_estimate:"0",
+                  // Reset transportation details when transportation option changes
                 }))
               }
             >
@@ -517,7 +587,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
               </div>
               {averageData != null &&
                 averageData[`${option.value.toLowerCase()}Price`] && (
-                  <p className="text-[13px] flex justify-center">
+                  <p className="text-[14px] flex justify-center">
                     Estimate: ₹
                     {parseInt(
                       averageData[`${option.value.toLowerCase()}Price`][
@@ -533,7 +603,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           Transportation Details
         </p>
         {formData.transportation && (
-          <div className="mt-[5%] flex items-center justify-evenly flex-wrap xl:flex-nowrap   gap-3 gap-y-5  text-blue-900">
+          <div className="mt-[5%] flex items-center justify-evenly flex-wrap    gap-3 gap-y-20  text-blue-900">
             {transportationDetailsOptions[formData.transportation].map(
               (option) => (
                 <div
@@ -583,7 +653,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     averageData[
                       `${formData.transportation.toLowerCase()}Price`
                     ] && (
-                      <p className="text-[13px] flex justify-center">
+                      <p className="text-[14px] flex justify-center">
                         Estimate: ₹
                         {parseInt(
                           averageData[
@@ -598,15 +668,17 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             <div className="mt-[60px] xl:mt-0 flex justify-between">
               <div>
                 <span className="p-float-label flex  bg-gray-400 rounded-lg">
-                <p className="text-black ml-2 text-[25px] flex items-center">₹</p>
+                  <p className="text-black ml-2 text-[25px] flex items-center">
+                    ₹
+                  </p>
                   <InputText
                     className="w-[150px] cursor-not-allowed pointer-events-none bg-gray-400 rounded-lg"
                     id="TransportEstimate"
                     keyfilter="int"
                     placeholder="Transport Estimate"
                     pt={{
-                      root: { className: 'border-none text-[20px] font-bold ' }
-                  }}
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
                     value={formData.transport_estimate}
                     onChange={(e) =>
                       setFormData((prevState) => ({
@@ -615,13 +687,19 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       }))
                     }
                   />
-                  <label htmlFor="TransportEstimate" className="text-black text-[17px]">Transport Estimate</label>
-                  
+                  <label
+                    htmlFor="TransportEstimate"
+                    className="text-black text-[17px]"
+                  >
+                    Transport Estimate
+                  </label>
                 </span>
               </div>
               <div className="ml-5">
                 <span className="p-float-label w-[170px] flex rounded-lg bg-white">
-                <p className="text-black ml-2 text-[25px] flex items-center mr-2">₹</p>
+                  <p className="text-black ml-2 text-[25px] flex items-center mr-2">
+                    ₹
+                  </p>
                   <InputText
                     className="w-[150px] rounded-lg"
                     id="TransportAmount"
@@ -629,8 +707,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                     placeholder="Transport Amount"
                     value={formData.transport_amount}
                     pt={{
-                      root: { className: 'border-none text-[20px] font-bold ' }
-                  }}
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
                     onChange={(e) =>
                       setFormData((prevState) => ({
                         ...prevState,
@@ -638,7 +716,12 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       }))
                     }
                   />
-                  <label htmlFor="TransportAmount" className="text-black text-[17px]">Transport Amount</label>
+                  <label
+                    htmlFor="TransportAmount"
+                    className="text-black text-[17px]"
+                  >
+                    Transport Amount
+                  </label>
                 </span>
               </div>
             </div>
@@ -646,41 +729,206 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         )}
       </div>
 
-      <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
-      HOTELS
+      <div className="my-[60px] bg-[#ecf1f7] pb-[40px] rounded-lg p-2">
+        <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          HOTELS
         </p>
-
         <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
           {hotelOptions.map((option) => (
             <div
               key={option.value}
+              className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[50px] rounded-lg flex flex-col space-y-1 justify-center items-center font-bold p-1 bg-[#c0ebff] ${
+                formData.hotels == option.value
+                  ? "bg-blue-700 text-yellow-400 ring-4 ring-black"
+                  : ""
+              } ${
+                averageData !== null &&
+                averageData[`hotelPrice`] &&
+                averageData[`hotelPrice`][`${option.value}`]
+                  ? "cursor-pointer"
+                  : "bg-[#989999] text-gray-800 cursor-not-allowed disabled pointer-events-none hover:scale-100 "
+              }`}
+              onClick={() =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  hotels: option.value,
+                  hotel_type: "",
+                  hotel_amount : "0",
+                  hotel_estimate:"0", // Reset hotel details when hotels option changes
+                }))
+              }
+            >
+              {option.value} <FaStar className="text-[60px]" />
+            </div>
+          ))}
+        </div>
+        <p className=" font-bold ring-2 ring-blue-900 flex  justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          Hotel Details
+        </p>
+        {formData.hotels && (
+          <div className="mt-[5%] flex items-center justify-evenly  flex-wrap   gap-3 gap-y-5  text-blue-900">
+            {hotelDetailsOptions[formData.hotels].map((option) => (
+              <div
+                key={option.value}
+                className={`ring-2 ring-blue-900  md:hover:scale-105 w-full lg:w-[140px] lg:h-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
+                  formData.hotel_type == option.label
+                    ? "bg-blue-900 text-white ring-4 ring-black"
+                    : ""
+                } ${
+                  averageData !== null &&
+                  averageData[`hotelPrice`] &&
+                  averageData[`hotelPrice`][formData.hotels] &&
+                  averageData[`hotelPrice`][formData.hotels][`${option.value}`]
+                    ? "cursor-pointer"
+                    : "bg-[#989999] text-gray-800 cursor-not-allowed disabled pointer-events-none hover:scale-100 "
+                }`}
+                onClick={() =>
+                  setFormData((prevState) => ({
+                    ...prevState,
+                    hotel_type: option.label,
+                    hotel_estimate: parseInt(
+                      averageData[`hotelPrice`][formData.hotels][
+                        `${option.value}`
+                      ]
+                    ).toFixed(0),
+                    hotel_amount: parseInt(
+                      averageData[`hotelPrice`][formData.hotels][
+                        `${option.value}`
+                      ]
+                    ).toFixed(0),
+                  }))
+                }
+              >
+                <div
+                  className={`text-[26px]  flex justify-center items-center ${
+                    formData.hotel_type === option.value
+                      ? " text-gray-300  "
+                      : ""
+                  }`}
+                >
+                  {option.label}
+                </div>
+                {averageData !== null &&
+                  averageData[`hotelPrice`][formData.hotels] && (
+                    <p className="text-[14px] flex justify-center">
+                      Estimate: ₹
+                      {parseInt(
+                        averageData[`hotelPrice`][formData.hotels][
+                          `${option.value}`
+                        ]
+                      ).toFixed(0) || "N/A"}
+                    </p>
+                  )}
+              </div>
+            ))}
+            <div className="mt-[60px] xl:mt-0 flex justify-between">
+              <div>
+                <span className="p-float-label flex  bg-gray-400 rounded-lg">
+                  <p className="text-black ml-2 text-[25px] flex items-center">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] cursor-not-allowed pointer-events-none bg-gray-400 rounded-lg"
+                    id="HotelEstimate"
+                    keyfilter="int"
+                    placeholder="Hotel Estimate"
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    value={formData.hotel_estimate}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        hotel_estimate: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="HotelEstimate"
+                    className="text-black text-[17px]"
+                  >
+                    Hotel Estimate
+                  </label>
+                </span>
+              </div>
+              <div className="ml-5">
+                <span className="p-float-label w-[170px] flex rounded-lg bg-white">
+                  <p className="text-black ml-2 text-[25px] flex items-center mr-2">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] rounded-lg"
+                    id="HotelAmount"
+                    keyfilter="int"
+                    placeholder="Hotel Amount"
+                    value={formData.hotel_amount}
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        hotel_amount: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="HotelAmount"
+                    className="text-black text-[17px]"
+                  >
+                    Hotel Amount
+                  </label>
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="my-[60px] bg-[#ecf1f7] pb-[40px] rounded-lg p-2">
+        <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+          Food Details
+        </p>
+        <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
+        {foodOptions.map((option) => (
+            <div
+              key={option.value}
               className={`ring-2 ring-blue-900  hover:scale-105 lg:w-[140px] text-[70px] rounded-lg flex flex-col space-y-2 justify-center items-center font-bold p-2 bg-[#c0ebff] ${
-                formData.hotels === option.value
+                formData.food === option.label
                   ? "bg-blue-900 text-gray-300 ring-4 ring-black"
                   : ""
               } ${
                 averageData !== null &&
-                averageData[`hotelPrice`] 
-                &&
-                averageData[`hotelPrice`][
-                  `${option.value}`
-                ]
+                averageData[`foodPrice`] &&
+                averageData[`foodPrice`][`${option.value}`] 
                   ? "cursor-pointer"
-                  : "bg-[#989999] text-gray-800 cursor-not-allowed disabled hover:scale-100 "
+                  : "bg-[#989999] text-gray-800 cursor-not-allowed disabled pointer-events-none hover:scale-100 "
               }`}
-              onClick={(selectedOption) =>
+              onClick={() =>
                 setFormData((prevState) => ({
                   ...prevState,
-                  hotels: selectedOption.value,
-                  hotelDetails: "", // Reset hotel details when hotels option changes
-                }))}
+                  food: option.label,
+                  food_estimate: parseInt(
+                    averageData[`foodPrice`][`${option.value}`] 
+                  ).toFixed(0),
+                  food_amount: parseInt(
+                    averageData[`foodPrice`][`${option.value}`] 
+                  ).toFixed(0),
+                  miscellaneous_estimate :  parseInt(
+                    averageData[`miscellaneousPrice`][`miscellaneousAverage`] 
+                  ).toFixed(0),
+                  miscellaneous_amount :  
+                  parseInt(
+                    averageData[`miscellaneousPrice`][`miscellaneousAverage`] 
+                  ).toFixed(0),
+                  // Reset transportation details when transportation option changes
+                }))
+              }
             >
-              {option.label}
-              {option.value}
-              {/* <option.icon />
+              <option.icon />
               <div
                 className={`text-[26px]  ${
-                  formData.transportation === option.value
+                  formData.food === option.label
                     ? " text-gray-300  "
                     : ""
                 }`}
@@ -688,200 +936,168 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                 {option.label}
               </div>
               {averageData != null &&
-                averageData[`${option.value.toLowerCase()}Price`] && (
-                  <p className="text-[13px] flex justify-center">
+              averageData[`foodPrice`] &&
+               (
+                  <p className="text-[14px] flex justify-center">
                     Estimate: ₹
                     {parseInt(
-                      averageData[`${option.value.toLowerCase()}Price`][
-                        `${option.value.toLowerCase()}Average`
-                      ]
+                     
+                      averageData[`foodPrice`][`${option.value}`] 
                     ).toFixed(0) || "N/A"}
                   </p>
-                )} */}
+                )}
             </div>
           ))}
+          <div className="mt-[60px] xl:mt-0 flex justify-between">
+              <div>
+                <span className="p-float-label flex  bg-gray-400 rounded-lg">
+                  <p className="text-black ml-2 text-[25px] flex items-center">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] cursor-not-allowed pointer-events-none bg-gray-400 rounded-lg"
+                    id="FoodEstimate"
+                    keyfilter="int"
+                    placeholder="Food Estimate"
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    value={formData.food_estimate}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        hotel_food: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="FoodEstimate"
+                    className="text-black text-[17px]"
+                  >
+                    Food Estimate
+                  </label>
+                </span>
+              </div>
+              <div className="ml-5">
+                <span className="p-float-label w-[170px]  flex rounded-lg bg-white">
+                  <p className="text-black ml-2 text-[25px] flex items-center mr-2">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] rounded-lg"
+                    id="FoodAmount"
+                    keyfilter="int"
+                    placeholder="Food Amount"
+                    value={formData.food_amount}
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        food_amount: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="FoodAmount"
+                    className="text-black text-[17px]"
+                  >
+                    Food Amount
+                  </label>
+                </span>
+              </div>
+            </div>
         </div>
 
-       <div className="form-field">
-          <label className="from-label"></label>
-          <div className="form-input">
-            <Dropdown
-              options={hotelOptions}
-              value={formData.hotels}
-              onChange={(selectedOption) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  hotels: selectedOption.value,
-                  hotelDetails: "", // Reset hotel details when hotels option changes
-                }))
-              }
-              className="w-full"
-            />
-          </div>
-          <input
-            type="text"
-            placeholder="Food Estimate"
-            value={formData.food_estimate}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                food_estimate: e.target.value,
-              }))
-            }
-          />
-          <input
-            type="text"
-            placeholder="Food Amount"
-            value={formData.food_amount}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                food_amount: e.target.value,
-              }))
-            }
-          />
+         
+      </div>
+      {formData.food && <div className="mt-[60px] bg-[#ecf1f7] pb-[40px] rounded-lg p-2">
+        <p className=" font-bold ring-2 ring-blue-900 flex justify-center my-10 text-blue-900 bg-[#ffffff] text-[30px] w-fit mx-auto rounded-md px-2 p-1">
+        Miscellaneous Expense
+        </p>
+        <div className="flex items-center justify-evenly flex-wrap gap-3 gap-y-5 w-full text-blue-900">
+        
+          <div className="mt-[10px] xl:mt-0 flex justify-between">
+              <div>
+                <span className="p-float-label flex  bg-gray-400 rounded-lg">
+                  <p className="text-black ml-2 text-[25px] flex items-center">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] cursor-not-allowed pointer-events-none bg-gray-400 rounded-lg"
+                    id="MiscellaneousEstimate"
+                    keyfilter="int"
+                    placeholder="Miscellaneous Estimate"
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    value={formData.miscellaneous_estimate}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        miscellaneous_estimate: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="MiscellaneousEstimate"
+                    className="text-black text-[17px]"
+                  >
+                    Estimate
+                  </label>
+                </span>
+              </div>
+              <div className="ml-5">
+                <span className="p-float-label w-[170px]  flex rounded-lg bg-white">
+                  <p className="text-black ml-2 text-[25px] flex items-center mr-2">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] rounded-lg"
+                    id="MiscellaneousAmount"
+                    keyfilter="int"
+                    placeholder="Miscellaneous Amount"
+                    value={formData.miscellaneous_amount}
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    onChange={(e) =>
+                      setFormData((prevState) => ({
+                        ...prevState,
+                        miscellaneous_amount: e.target.value,
+                      }))
+                    }
+                  />
+                  <label
+                    htmlFor="MiscellaneousAmount"
+                    className="text-black text-[17px]"
+                  >
+                     Amount
+                  </label>
+                </span>
+              </div>
+            </div>
         </div>
 
-        <div className="form-field">
-          <label className="from-label">ROOMS PREFERENCES</label>
-          <div className="form-input">
-            <Dropdown
-              options={hotelDetailsOptions[formData.hotels]}
-              value={formData.hotelDetails}
-              onChange={(selectedOption) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  hotelDetails: selectedOption.value,
-                }))
-              }
-              className="w-full"
-            />
-          </div>
-          <input
-            type="text"
-            placeholder="Miscellaneous Estimate"
-            value={formData.miscellaneous_estimate}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                miscellaneous_estimate: e.target.value,
-              }))
-            }
-          />
-          <input
-            type="text"
-            placeholder="Miscellaneous Amount"
-            value={formData.miscellaneous_amount}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                miscellaneous_amount: e.target.value,
-              }))
-            }
-          />
-        </div>
-{/*
-        <div className="form-field">
-          <label className="from-label">FOOD</label>
-          <div className="form-input">
-            <Dropdown
-              options={[
-                { value: "Vegetarian", label: "Vegetarian" },
-                { value: "Non-Vegetarian", label: "Non-Vegetarian" },
-              ]}
-              value={formData.food}
-              onChange={(selectedOption) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  food: selectedOption.value,
-                }))
-              }
-              className="w-full"
-            />
-          </div>
-          <input
-            type="text"
-            placeholder="Total Estimate"
-            value={formData.total_estimate}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                total_estimate: e.target.value,
-              }))
-            }
-          />
-          <input
-            type="text"
-            placeholder="Total Amount"
-            value={formData.total_amount}
-            onChange={(e) =>
-              setFormData((prevState) => ({
-                ...prevState,
-                total_amount: e.target.value,
-              }))
-            }
-          />
-        </div>
+         
+      </div>}
 
-        <div className="mt-[20px]">
-          <label className="from-label">Trip Estimate</label>
-          <div className="form-input">
-            <input
-              type="text"
-              value={formData.trip_estimate}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  trip_estimate: e.target.value,
-                }))
-              }
-              className="w-full border border-gray-300 rounded p-2"
-            />
-          </div>
-        </div>
+      <div className="flex justify-center">
+        <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
+        // onClick={handlesubmit}
+        onClick={() => {
+          handleDialogOpen()
+          setVisible(true)
+        }}
+        >
+          Review & Submit
+        </Button>
+      </div>
 
-        <div className="mt-[20px]">
-          <label className="from-label">Trip Amount</label>
-          <div className="form-input">
-            <input
-              type="text"
-              value={formData.trip_amount}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  trip_amount: e.target.value,
-                }))
-              }
-              className="w-full border border-gray-300 rounded p-2"
-            />
-          </div>
-        </div>
-
-        <div className="form-field">
-          <label className="from-label" htmlFor="travel_reason">
-            Travel Reason
-          </label>
-          <div className="form-input">
-            <InputText
-              type="text"
-              id="travel_reason"
-              name="travel_reason"
-              value={formData.travel_reason}
-              onChange={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  travel_reason: e.target.value,
-                }))
-              }
-              required // Make the field required
-              className="w-full border border-gray-300 rounded p-2"
-            />
-          </div>
-        </div> */}
-
-      <Button className="bg-blue-900 p-2" onClick={handlesubmit}>
-        Submit
-      </Button>
+      <Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
+                <TripApplication selectedTrip={formData} setOpenModal={()=>setVisible(false)}/>
+      </Dialog>
     </div>
   );
 };
