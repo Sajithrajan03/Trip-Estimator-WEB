@@ -1,6 +1,7 @@
-"use client";
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard,FaSave,FaTimes } from 'react-icons/fa';
+import { FaUserCircle, FaEnvelope, FaMale, FaFemale, FaBriefcase, FaIdCard, FaSave, FaTimes } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileSettings = () => {
   const initialFormData = {
@@ -24,13 +25,8 @@ const ProfileSettings = () => {
     }
   });
 
-  const [editMode, setEditMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('editMode') === 'true';
-    } else {
-      return false;
-    }
-  });
+  const [editMode, setEditMode] = useState(false);
+  const [showSavedAnimation, setShowSavedAnimation] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,17 +44,24 @@ const ProfileSettings = () => {
       alert("Job Role is required");
       return;
     }
-
+  
     if (formData.EmployeeId.trim() === '') {
       alert("Employee Id is required");
       return;
     }
-
+  
     if (typeof window !== 'undefined') {
       localStorage.setItem('profileFormData', JSON.stringify(formData));
-      localStorage.setItem('editMode', false);
+      setShowSavedAnimation(true); // Show the animation
+      setTimeout(() => {
+        setShowSavedAnimation(false); // Hide the animation after some time (e.g., 3 seconds)
+        setEditMode(false); // Change edit mode to false after saving
+      }, 3000);
+      toast.success("Profile Saved!"); // Show success message
+      setEditMode(true); // Set edit mode to true after saving
     }
   };
+  
 
   const handleCancel = () => {
     setFormData(initialFormData);
@@ -74,7 +77,8 @@ const ProfileSettings = () => {
 
   return (
     <div className="flex justify-center items-center h-full mt-2">
-      <div className="container rounded bg-white p-5 mt-5 " style={{ width: "90%", height: "550px" }}>
+      <div className="container rounded bg-white p-5 mt-5" style={{ width: "90%", height: "550px" }}>
+        {showSavedAnimation && <ToastContainer />} 
         <div className="flex justify-center">
           <div className="w-full md:w-1/3 border-r border-gray-300">
             <div className="flex flex-col items-center text-center p-3 py-5">
@@ -150,17 +154,18 @@ const ProfileSettings = () => {
                   </div>
                 </div>
                 <div className="mt-5 text-center mt-2">
-                  {editMode ? (
+                  {!editMode && (
+                    <button type="button" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2" onClick={() => setEditMode(true)}>Edit</button>
+                  )}
+                  {editMode && (
                     <>
                       <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2">
-                      Save Profile <FaSave className="inline-block mr-1 mb-1 bg-coolor-black" size={16}  /> 
+                        Save Profile <FaSave className="inline-block mr-1 mb-1 bg-coolor-black" size={16} /> 
                       </button> 
                       <button type="button" className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none" onClick={handleCancel}>
-                      Cancel <FaTimes className="inline-block mr-1" size={17} /> 
+                        Cancel <FaTimes className="inline-block mr-1" size={17} /> 
                       </button>
                     </>
-                  ) : (
-                    <button type="button" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2" onClick={() => setEditMode(true)}>Edit</button>
                   )}
                 </div>
               </form>
@@ -168,7 +173,7 @@ const ProfileSettings = () => {
           </div>
           <div className="w-full md:w-5/12 border-r border-gray-300">
             <div className="p-3 py-5">
-              <h5 className="text-left mb-8 font-bold text-2xl ">JOB DETAILS</h5>
+              <h5 className="text-left mb-8 font-bold text-2xl">JOB DETAILS</h5>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                 <div>
                   <div className="mb-6">

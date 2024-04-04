@@ -6,6 +6,7 @@ import 'primeicons/primeicons.css';
 import { IoIosCompass } from "react-icons/io";
 import ProfileCard from './ProfileCard';
 import secureLocalStorage from 'react-secure-storage';
+import Link from 'next/link';
 
 export default function CustomDemo() {
     const[ userName,setUserName]=useState("")
@@ -31,13 +32,27 @@ export default function CustomDemo() {
     );
 
     const centerContent = (
-        <div className="flex justify-between flex-wrap align-items-center gap-8 lg:gap-20 md:gap-14  ">
-            <button className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-home text-2xl  bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md"></i>
-            </button>
-            <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-user text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md"></i>
-            </button>
+        <div className="flex justify-between flex-wrap align-items-center gap-8 lg:gap-17 md:gap-12  ">
+            <Link href="/ApplicantForms">
+            <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+                <i className="pi pi-home text-2xl  bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-4"></i>
+            </div>
+            </Link>
+            <Link href="/profile">
+            <div className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+                <i className="pi pi-user text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
+            </div>
+            </Link>
+            <Link href="/ContactUs">
+            <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+            <i className="pi pi-envelope text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
+            </div>
+            </Link>
+            <Link href="/FAQ">
+            <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
+            <i className="pi pi-question-circle text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
+            </div>
+            </Link>
              
         </div>
     );
