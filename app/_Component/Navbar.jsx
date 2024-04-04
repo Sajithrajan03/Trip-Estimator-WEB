@@ -43,12 +43,12 @@ export default function CustomDemo() {
                 <i className="pi pi-user text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>
             </Link>
-            <Link href="/ContactUs">
+            <Link href="/contactus">
             <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
             <i className="pi pi-envelope text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>
             </Link>
-            <Link href="/FAQ">
+            <Link href="/faq">
             <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
             <i className="pi pi-question-circle text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Accordion, AccordionTab } from 'primereact/accordion';
 
@@ -100,6 +101,9 @@ const FAQ = () => {
       <AccordionTab header="Can I customize the Trip Estimator to suit specific travel policies or preferences?" onClick={() => speakText("Can I customize the Trip Estimator to suit specific travel policies or preferences?", "Yes, the Trip Estimator can be customized to align with your organization's travel policies and preferences. This customization ensures that the estimates generated are tailored to meet your specific requirements and guidelines.", 8)}>
       <p className="m-0 text-sm">Yes, the Trip Estimator can be customized to align with your organization's travel policies and preferences. This customization ensures that the estimates generated are tailored to meet your specific requirements and guidelines.</p>
     </AccordionTab>
+    <AccordionTab header="Is it possible to integrate the Trip Estimator with our existing expense management system?" onClick={() => speakText("Is it possible to integrate the Trip Estimator with our existing expense management system?", "Yes, it is possible to integrate the Trip Estimator with your existing expense management system. This integration allows for seamless communication between the two systems, ensuring that trip expenses are accurately recorded and managed within your organization.",9)}>
+      <p className="m-0 text-sm">Yes, it is possible to integrate the Trip Estimator with your existing expense management system. This integration allows for seamless communication between the two systems, ensuring that trip expenses are accurately recorded and managed within your organization.</p>
+</AccordionTab>
         </Accordion>
         <div className="absolute top-0 right-0 m-9 ">
           <span className="mr-1 font-bold text-black-500">Voice Over</span>
