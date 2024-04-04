@@ -277,7 +277,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   };
   const [visible, setVisible] = useState(false);
   return (
+    
     <div className="">
+      
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
         <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
           <div
@@ -287,6 +289,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             <div className="ml-2">
               <RiFlightTakeoffLine className="text-[30px] " />
             </div>
+            
             <div className="flex flex-col ">
               <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
                 From City
