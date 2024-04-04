@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarker, faPhone, faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -11,8 +13,7 @@ function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState('');
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false); // State to control the visibility of success message
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
 
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
@@ -23,7 +24,6 @@ function Contact() {
 
   const onSubmit = e => {
     e.preventDefault();
-    setSubmissionStatus('success');
   
     // Perform validation
     if (name.trim() === '' || email.trim() === '' || message.trim() === '') {
@@ -37,6 +37,11 @@ function Contact() {
       alert('Please enter a valid email address');
       return; 
     }
+
+    if (message.trim().length < 10) {
+      toast.error('Message should be at least 10 characters long');
+      return;
+    }
   
     // Your form submission logic here
     console.log('Form submitted:', formData);
@@ -45,19 +50,17 @@ function Contact() {
   };
 
   useEffect(() => {
-    // If submissionStatus is 'success', set a timeout to change it to null after 3 seconds
+    // If successMessageVisible is true, show the success message for 3 seconds
     if (successMessageVisible) {
-      const timeout = setTimeout(() => {
-        setSuccessMessageVisible(false); // Hide success message after 3 seconds
-      }, 2000);
-
-      // Clear the timeout when the component unmounts or successMessageVisible changes
-      return () => clearTimeout(timeout);
+      setTimeout(() => {
+        setSuccessMessageVisible(false);
+      }, 3000);
     }
   }, [successMessageVisible]);
 
   return (
     <section id="contact" className="bg-blue-900 bg-opacity-10 py-5 mt-11">
+      <ToastContainer /> {/* Toast container for displaying notifications */}
       <h1 className="section-header text-white text-center text-5xl font-semibold uppercase mb-8">Contact Us</h1>
       <div className="contact-wrapper flex flex-col md:flex-row justify-between mx-auto max-w-3xl">
         <form id="contact-form" className="form-horizontal max-w-md md:mr-8 mx-auto" onSubmit={onSubmit} role="form">
@@ -141,20 +144,15 @@ function Contact() {
         </div>
       </div>
       {successMessageVisible && (
-  <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-  <div className="bg-black bg-opacity-25 absolute inset-0 backdrop-filter backdrop-blur-lg"></div> 
-  <div className="bg-transparent rounded-lg p-6 shadow-none relative z-10">
-  <p className="text-3xl text-center text-blue-500 font-bold bg-white p-4 rounded-xl">
-  Thank you for reaching out. We'll be in contact shortly!
-</p>
-
-
-               
-  </div>
-</div>
-
-)}
-
+        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+          <div className="bg-black bg-opacity-25 absolute inset-0 backdrop-filter backdrop-blur-lg"></div> 
+          <div className="bg-transparent rounded-lg p-6 shadow-none relative z-10">
+            <p className="text-3xl text-center text-blue-500 font-bold bg-white p-4 rounded-xl">
+              Thank you for reaching out. We'll be in contact shortly!
+            </p>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

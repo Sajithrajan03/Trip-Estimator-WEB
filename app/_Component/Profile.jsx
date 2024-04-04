@@ -30,7 +30,15 @@ const ProfileSettings = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const formattedValue = (name === "firstName" || name === "lastName") ? value.toUpperCase() : value;
+    let formattedValue = value;
+
+    if (name === 'phoneNumber') {
+      formattedValue = value.replace(/\D/g, '').slice(0, 10);
+    }
+
+    if (name === 'firstName' || name === 'lastName') {
+      formattedValue = value.toUpperCase();
+    }
 
     setFormData({
       ...formData,
@@ -42,8 +50,30 @@ const ProfileSettings = () => {
     e.preventDefault();
     setIsSaving(true);
 
-    if (formData.jobRole.trim() === '' || formData.EmployeeId.trim() === '') {
-      toast.error("Job Role and Employee Id are required");
+    // Validation for required fields
+    const requiredFields = ['firstName', 'lastName', 'jobRole', 'EmployeeId'];
+    for (const field of requiredFields) {
+      if (!formData[field].trim()) {
+        toast.error(`${field === 'firstName' ? 'Name' : field} is required`);
+        setIsSaving(false);
+        return;
+      }
+    }
+
+    if (!formData.phoneNumber.trim()) {
+      toast.error("Mobile Number is required");
+      setIsSaving(false);
+      return;
+    }
+
+    if (!/^\d{10}$/.test(formData.phoneNumber)) {
+      toast.error("Invalid mobile number. It should contain exactly 10 digits.");
+      setIsSaving(false);
+      return;
+    }
+
+    if (formData.addressLine1.length < 10 || formData.addressLine2.length < 10) {
+      toast.error("Address should be minimum 10 characters");
       setIsSaving(false);
       return;
     }
