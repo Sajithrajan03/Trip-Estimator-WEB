@@ -25,6 +25,12 @@ const Page = () => {
     }, 500);
   }, []);
   useEffect(() => {
+    setFormData((prevState) => ({
+      ...prevState,
+      emp_name: secureLocalStorage.getItem('userName'),
+      emp_email : secureLocalStorage.getItem('userEmail'),
+      
+    }))
     setSecretToken(secureLocalStorage.getItem('SECRET_TOKEN'));
     setUserEmail(secureLocalStorage.getItem('userEmail'));
     setAccountStatus(parseInt(secureLocalStorage.getItem('accountStatus'))); // Ensure accountStatus is parsed as number
@@ -54,10 +60,14 @@ const Page = () => {
       to: null,
     },
     location: {
-      from: "1",
+      from: "",
       to: '',
     },
-    
+    emp_name : "",
+    emp_email:"",
+    start_city_name : "",
+    end_city_name : "",
+    no_of_days: 0,
     transportation: "",
     transportationDetails: "",
     hotels: "",

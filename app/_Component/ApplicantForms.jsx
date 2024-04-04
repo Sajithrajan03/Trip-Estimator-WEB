@@ -99,8 +99,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.hotel_rating,
   ]);
   useEffect(() => {
-     
-  }, [averageData ]);
+     console.log(formData)
+  }, [averageData,formData ]);
 
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
@@ -154,7 +154,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "ac_sleeper", label: "Sleeper AC" },
       { value: "noac_sleeper", label: "Sleeper Non-AC" },
       { value: "ac_nosleeper", label: "Seater AC" },
-      { value: "noac_nosleepe", label: "Seater Non-AC" },
+      { value: "noac_nosleeper", label: "Seater Non-AC" },
     ],
     Train: [
       { value: "1A", label: "1A" },
@@ -304,6 +304,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         ...prevState.location,
                         from: selectedOption.value,
                       },
+                      start_city_name : cityOptions.find(city => city.value == selectedOption.value).label,
+                      
                       transportation: "",
                       transportationDetails: "",
                       hotels: "",
@@ -390,6 +392,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         ...prevState.location,
                         to: selectedOption.value,
                       },
+                      end_city_name : cityOptions.find(city => city.value == selectedOption.value).label,
                       transportation: "",
                       transportationDetails: "",
                       hotels: "",
@@ -494,7 +497,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                 </div>
               </div>
             </div>
-            <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
+            <div className=" bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
               <div className="ml-2">
                 <FaCalendarCheck className="text-[30px] " />
               </div>
@@ -647,7 +650,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           `${formData.transportation.toLowerCase()}Price`
                         ][`${option.value}`]
                       ).toFixed(0),
-                      
+
                     }))
                   }
                 >
