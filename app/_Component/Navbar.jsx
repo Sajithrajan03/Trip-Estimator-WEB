@@ -33,7 +33,7 @@ export default function CustomDemo() {
 
     const centerContent = (
         <div className="flex justify-between flex-wrap align-items-center gap-8 lg:gap-17 md:gap-12  ">
-            <Link href="/ApplicantForms">
+            <Link href="/applicant">
             <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
                 <i className="pi pi-home text-2xl  bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-4"></i>
             </div>
@@ -43,12 +43,13 @@ export default function CustomDemo() {
                 <i className="pi pi-user text-2xl hover:scale-125 bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>
             </Link>
-            <Link href="/ContactUs">
+            <Link href="/contactus">
             <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-            <i className="pi pi-envelope text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
+            <i className="pi pi-phone text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>
             </Link>
-            <Link href="/FAQ">
+
+            <Link href="/faq">
             <div className="p-link inline-flex hover:scale-125 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
             <i className="pi pi-question-circle text-2xl bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-1"></i>
             </div>
