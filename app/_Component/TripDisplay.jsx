@@ -146,7 +146,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     // Simulate a delay for demonstration purposes (remove this in production)
     setTimeout(() => {
       setDownloading(false);
-    }, 2000); // Simulated 2-second delay
+    }, 2000); 
   };
 
   return (

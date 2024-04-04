@@ -21,7 +21,7 @@ export default function CustomDemo() {
                 <IoIosCompass className='text-[45px]  text-blue-800'/>
                 <div className='hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800'>
                     <span className="text-gray-900">
-                            Trip</span>Estimator
+                             Trip</span>Estimator
                 </div>
                 <div className='ml-2 md:hidden text-[30px] font-bold text-blue-800'>
                     <span className="text-gray-900">
