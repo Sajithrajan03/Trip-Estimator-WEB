@@ -1,4 +1,3 @@
-/*
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
@@ -216,9 +215,9 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           </button>
         </div>
 
-        <div className="mt-4 mx-auto text-[20px] p-3 bg-white rounded-lg w-fit">
-            <div className="flex space-x-8">
-                <div className="flex flex-col font-bold gap-3">
+        <div className="mt-4 mx-auto text-[20px] p-2 bg-white rounded-lg w-fit">
+            <div className="flex space-x-8 border-2 border-blue-800 p-2 rounded-lg">
+                <div className="flex flex-col font-bold gap-3 ">
                     <h1>Employee Name</h1>
                     <h1>Start City</h1>
                     <h1>End City</h1>
@@ -231,15 +230,15 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                     <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
                     <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>                    
                     <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
-                    <h1>{new Date(selectedTrip.travelDates.from).toLocaleDateString(
+                    <h1>{new Date(selectedTrip.travel_start_date).toLocaleDateString(
                     "en-US",
                     { month: "long", day: "numeric", year: "numeric" }
                   )}</h1>
-                  <h1>{new Date(selectedTrip.travelDates.to).toLocaleDateString(
+                  <h1>{new Date(selectedTrip.travel_end_date).toLocaleDateString(
                     "en-US",
                     { month: "long", day: "numeric", year: "numeric" }
                   )}</h1>
-                  <h1>{Math.round((new Date(selectedTrip.travelDates.to).getTime() - new Date(selectedTrip.travelDates.from).getTime()) / (1000 * 3600 * 24))+2}</h1>
+                  <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
                   
                 </div>
             </div>
@@ -247,70 +246,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         <div className="mt-4">
           <table className="w-full border-collapse mb-4">
             <tbody>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Trip ID
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.trip_id}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Employee ID
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.emp_id}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Employee Name
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.emp_name}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel Reason
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.travel_reason}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Start City
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.start_city_name}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  End City
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.end_city_name}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel Start Date
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {new Date(selectedTrip.travel_start_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel End Date
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {new Date(selectedTrip.travel_end_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}
-                </td>
-              </tr>
+              
+              
               <tr>
                 <th className="text-xl font-bold border border-gray-400 p-3">
                   Transport Mode
@@ -471,337 +408,6 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
               disabled={downloading} // Disable the button when downloading is in progress
             >
               Download CSV
-            </Button>
-          </div>
-          {downloading && (
-            <div className="download-animation">Downloading...</div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default TripDisplay;
-*/
-// below is the code having just the submit button instead of accept/reject/modify/download csv buttons for the applicant.
-
-import React, { useState, useRef, useEffect } from "react";
-import { Button } from "primereact/button";
-import { Toast } from "primereact/toast";
-import { IoCloseCircle } from "react-icons/io5";
-
-const TripDisplay = ({ selectedTrip, setOpenModal }) => {
-  const toast = useRef(null);
-  const [adminMessage, setAdminMessage] = useState("");
-  const [downloading, setDownloading] = useState(false);
-
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.key === "Escape") {
-        setOpenModal(false);
-      }
-    };
-    document.addEventListener("keydown", handleEsc);
-    return () => {
-      document.removeEventListener("keydown", handleEsc);
-    };
-  }, [setOpenModal]);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const month = date.toLocaleString("default", { month: "short" });
-    const day = ("0" + date.getDate()).slice(-2);
-    const year = date.getFullYear();
-    return `${month}-${day}-${year}`;
-  };
-
-  const handleFormSubmit = async () => {
-    try {
-      const response = await fetch(UPDATE_TRIP_DETAILS_URL, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + secureLocalStorage.getItem("SECRET_TOKEN"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          trip_id: selectedTrip.trip_id,
-          trip_status: status,
-          trip_amount: selectedTrip.trip_amount,
-          admin_message: adminMessage,
-        }),
-      });
-
-      if (response.status === 401) {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Session Expired, Please Login Again",
-          life: 3000,
-        });
-        setTimeout(() => {
-          secureLocalStorage.clear();
-          router.replace("/");
-        }, 3000);
-      }
-
-      setOpenModal(false);
-    } catch (error) {
-      console.error("Error:", error);
-      setOpenModal(false);
-    }
-  };
-
-  return (
-    <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
-      <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
-        <Toast ref={toast} position="bottom-center" className="p-5" />
-
-        <div className="flex items-center justify-between ">
-            <dir></dir>
-          <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-blue-700  ">
-            Trip Details
-          </h1>
-          <button onClick={() => setOpenModal(false)}
-            className="text-2xl font-bold mr-8 hover:text-gray-600 focus:outline-none"
-          >
-            <IoCloseCircle size={30} className="text-red-400 "/>
-          </button>
-        </div>
-
-        <div className="mt-4 mx-auto text-[20px] p-3 bg-white rounded-lg w-fit">
-            <div className="flex space-x-8">
-                <div className="flex flex-col font-bold gap-3">
-                    <h1>Employee Name</h1>
-                    <h1>Start City</h1>
-                    <h1>End City</h1>
-                    <h1>Travel Start Date</h1>
-                    <h1>Travel End Date</h1>
-                    <h1>No of Day(s)</h1>
-                    
-                </div>
-                <div className="flex flex-col gap-3">
-                    <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
-                    <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>                    
-                    <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
-                    <h1>{new Date(selectedTrip.travelDates.from).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}</h1>
-                  <h1>{new Date(selectedTrip.travelDates.to).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}</h1>
-                  <h1>{Math.round((new Date(selectedTrip.travelDates.to).getTime() - new Date(selectedTrip.travelDates.from).getTime()) / (1000 * 3600 * 24))+2}</h1>
-                  
-                </div>
-            </div>
-        </div>
-        <div className="mt-5">
-          <table className="w-full border-collapse mb-4">
-          <tbody>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Trip ID
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.trip_id}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Employee ID
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.emp_id}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Employee Name
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.emp_name}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel Reason
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.travel_reason}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Start City
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.start_city_name}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  End City
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.end_city_name}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel Start Date
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {new Date(selectedTrip.travel_start_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Travel End Date
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {new Date(selectedTrip.travel_end_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Transport Mode
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.transport_mode}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Hotel Type
-                </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.hotel_type}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Transport Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.transport_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Transport Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.transport_amount}
-                </td>
-              </tr>
-
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Hotel Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.hotel_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Hotel Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.hotel_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Food Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.food_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Food Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.food_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Miscellaneous Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.miscellaneous_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Miscellaneous Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.miscellaneous_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Total Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.total_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Total Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.total_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Trip Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.trip_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Trip Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.trip_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Trip Status
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.trip_status === 0
-                    ? "Pending"
-                    : selectedTrip.trip_status === 1
-                    ? "Accepted"
-                    : "Rejected"}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Admin Message
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.admin_message || "N/A"}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="mt-5">
-          <textarea
-            rows="4"
-            cols="50"
-            placeholder="Type your message here..."
-            value={adminMessage}
-            onChange={(e) => setAdminMessage(e.target.value)}
-            className="w-full px-3 py-2 border rounded-md"
-          ></textarea>
-          <div className="flex justify-center mt-3 space-x-4">
-            <Button
-              onClick={handleFormSubmit}
-              icon="pi pi-check mr-2 font-bold"
-              className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
-            >
-              Submit
             </Button>
           </div>
           {downloading && (

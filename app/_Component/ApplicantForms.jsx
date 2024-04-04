@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import DatePicker from 'react-datepicker';
-
+import {useRef} from 'react';
 import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
 import { useRouter } from 'next/navigation'
@@ -22,6 +22,7 @@ import { Co2Sharp } from "@mui/icons-material";
 import { TbMeat } from "react-icons/tb";
 import { Dialog } from 'primereact/dialog';
 import TripApplication from "./TripApplication";
+import secureLocalStorage from "react-secure-storage"
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
@@ -101,7 +102,31 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.hotel_rating,
   ]);
   useEffect(() => {
-     console.log(formData)
+     
+     console.log(formData,dialogTrip)
+      dialogTrip = {
+      start_city: formData.location.from,
+      end_city: formData.location.to,
+      emp_email: formData.emp_email,
+      emp_name: formData.emp_name,
+      travel_start_date: formData.travelDates.from,
+      travel_end_date: formData.travelDates.to,
+      transport_mode: formData.transportation.toUpperCase() + " - " + formData.transportationDetails.toUpperCase(),
+      transport_estimate: formData.transport_estimate,
+      transport_amount: formData.transport_amount,
+      hotel_type: formData.hotels.toUpperCase() + " Stars - "+formData.hotel_type.toUpperCase(),
+      hotel_estimate: formData.hotel_estimate,
+      hotel_amount: formData.hotel_amount,
+      food_estimate: formData.food_estimate,
+      food_amount: formData.food_amount,
+      miscellaneous_estimate: formData.miscellaneous_estimate,
+      miscellaneous_amount: formData.miscellaneous_amount,
+      total_estimate: formData.total_estimate,
+      total_amount: formData.total_amount,
+      travel_reason: formData.travel_reason,
+      trip_estimate: formData.trip_estimate,
+      trip_amount: formData.trip_amount,
+    }
   }, [averageData,formData ]);
 
   const cityOptions = [
@@ -200,37 +225,30 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "suite", label: "Suite" },
     ],
   }
-  let dialogTrip = {}
-  const handleDialogOpen = ()=>{
-    const dialogTrip = {
-      start_city: formData.location.from,
-      end_city: formData.location.to,
-      emp_email: "root",
-      travel_start_date: formData.travelDates.from
-        .toISOString()
-        .slice(0, 10)
-        .replace(/-/g, ""),
-      travel_end_date: formData.travelDates.to
-        .toISOString()
-        .slice(0, 10)
-        .replace(/-/g, ""),
-      transport_mode:
-        formData.transportation + " - " + formData.transportationDetails,
-      transport_estimate: formData.transport_estimate,
-      transport_amount: formData.transport_amount,
-      hotel_type: formData.hotels + " - "+formData.hotel_type,
-      hotel_estimate: formData.hotel_estimate,
-      hotel_amount: formData.hotel_amount,
-      food_estimate: formData.food_estimate,
-      food_amount: formData.food_amount,
-      miscellaneous_estimate: formData.miscellaneous_estimate,
-      miscellaneous_amount: formData.miscellaneous_amount,
-      total_estimate: formData.total_estimate,
-      total_amount: formData.total_amount,
-      travel_reason: formData.travel_reason,
-      trip_estimate: formData.trip_estimate,
-      trip_amount: formData.trip_amount,
-    }
+  let dialogTrip = {
+    start_city: formData.location.from,
+    end_city: formData.location.to,
+    start_city_name: formData.start_city_name,
+    end_city_name: formData.end_city_name,
+    emp_email: formData.emp_email,
+    emp_name: formData.emp_name,
+    travel_start_date: formData.travelDates.from,
+    travel_end_date: formData.travelDates.to,
+    transport_mode: formData.transportation.toUpperCase() + " - " + formData.transportationDetails.toUpperCase(),
+    transport_estimate: formData.transport_estimate,
+    transport_amount: formData.transport_amount,
+    hotel_type: formData.hotels.toUpperCase() + " Stars - "+formData.hotel_type.toUpperCase(),
+    hotel_estimate: formData.hotel_estimate,
+    hotel_amount: formData.hotel_amount,
+    food_estimate: formData.food_estimate,
+    food_amount: formData.food_amount,
+    miscellaneous_estimate: formData.miscellaneous_estimate,
+    miscellaneous_amount: formData.miscellaneous_amount,
+    total_estimate: formData.total_estimate,
+    total_amount: formData.total_amount,
+    travel_reason: formData.travel_reason,
+    trip_estimate: formData.trip_estimate,
+    trip_amount: formData.trip_amount,
   }
 
   const handlesubmit = async () => {
@@ -1121,7 +1139,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
         // onClick={handlesubmit}
         onClick={() => {
-          handleDialogOpen()
+           
           setVisible(true)
         }}
         >
@@ -1130,7 +1148,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       </div>
 
       <Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-                <TripApplication selectedTrip={formData} setOpenModal={()=>setVisible(false)}/>
+                <TripApplication selectedTrip={dialogTrip} setOpenModal={()=>setVisible(false)}/>
       </Dialog>
     </div>
   );
