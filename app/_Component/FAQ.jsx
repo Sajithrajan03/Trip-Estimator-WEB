@@ -106,7 +106,7 @@ const FAQ = () => {
           <button
             onClick={toggleVoiceover}
             className={`relative inline-block w-11 h-6 rounded-full ${
-              voiceoverEnabled ? 'bg-blue-500' : 'bg-gray-300'
+              voiceoverEnabled ? 'bg-red-400' : 'bg-green-500'
             } focus:outline-none top-[-5px]`}
           >
             <span
@@ -116,7 +116,7 @@ const FAQ = () => {
             ></span>
             <span className="sr-only">Toggle Voiceover</span>
             <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold text-black">
-              {voiceoverEnabled ? 'ON' : 'OFF'}
+              {voiceoverEnabled ? 'OFF' : 'ON'}
             </span>
           </button>
         </div>

@@ -26,7 +26,7 @@ const ProfileSettings = () => {
   });
 
   const [editMode, setEditMode] = useState(false);
-  const [showSavedAnimation, setShowSavedAnimation] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,30 +38,24 @@ const ProfileSettings = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.jobRole.trim() === '') {
-      alert("Job Role is required");
+    setIsSaving(true);
+
+    if (formData.jobRole.trim() === '' || formData.EmployeeId.trim() === '') {
+      toast.error("Job Role and Employee Id are required");
+      setIsSaving(false);
       return;
     }
-  
-    if (formData.EmployeeId.trim() === '') {
-      alert("Employee Id is required");
-      return;
-    }
-  
+
     if (typeof window !== 'undefined') {
       localStorage.setItem('profileFormData', JSON.stringify(formData));
-      setShowSavedAnimation(true); // Show the animation
-      setTimeout(() => {
-        setShowSavedAnimation(false); // Hide the animation after some time (e.g., 3 seconds)
-        setEditMode(false); // Change edit mode to false after saving
-      }, 3000);
-      toast.success("Profile Saved!"); // Show success message
-      setEditMode(true); // Set edit mode to true after saving
+      await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate saving delay
+      setIsSaving(false);
+      setEditMode(false);
+      toast.success("Profile Saved!");
     }
   };
-  
 
   const handleCancel = () => {
     setFormData(initialFormData);
@@ -78,31 +72,31 @@ const ProfileSettings = () => {
   return (
     <div className="flex justify-center items-center h-full mt-2">
       <div className="container rounded bg-white p-5 mt-5" style={{ width: "90%", height: "550px" }}>
-        {showSavedAnimation && <ToastContainer />} 
+        <ToastContainer />
         <div className="flex justify-center">
           <div className="w-full md:w-1/3 border-r border-gray-300">
             <div className="flex flex-col items-center text-center p-3 py-5">
               <FaUserCircle className="rounded-full mt-5 text-6xl text-blue-500 mb-3" />
               <div className="flex flex-col">
                 <span className="font-bold mb-2">{`${formData.firstName} ${formData.lastName}`}</span>
-                {formData.email ? (
+                {formData.email && (
                   <div className="text-gray-600 flex items-center mb-2">
                     <FaEnvelope className="mr-1" />
                     <span>{formData.email}</span>
                   </div>
-                ) : null}
+                )}
                 <div className="text-gray-600 flex items-center ">
                   {formData.gender === 'Male' && <FaMale className="mr-1" />}
                   {formData.gender === 'Female' && <FaFemale className="mr-1" />}
                   {formData.gender === 'Prefer not to say' ? <span style={{ fontWeight: 'bold' }}>Gender:&nbsp;&nbsp;</span> : null}
                   <span>{formData.gender}</span>
                 </div>
-                {formData.jobRole ? (
+                {formData.jobRole && (
                   <div className="text-gray-600 flex items-center mt-2">
                     <FaBriefcase className="mr-1" />
                     <span>{formData.jobRole}</span>
                   </div>
-                ) : null}
+                )}
                 {formData.EmployeeId && (
                   <div className="text-gray-600 flex items-center mt-2">
                     <FaIdCard className="mr-1" />
@@ -159,8 +153,8 @@ const ProfileSettings = () => {
                   )}
                   {editMode && (
                     <>
-                      <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2">
-                        Save Profile <FaSave className="inline-block mr-1 mb-1 bg-coolor-black" size={16} /> 
+                      <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-800 focus:outline-none mr-2" disabled={isSaving}>
+                        {isSaving ? "Please wait..." : "Save Profile"} <FaSave className="inline-block mr-1 mb-1 bg-coolor-black" size={16} /> 
                       </button> 
                       <button type="button" className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none" onClick={handleCancel}>
                         Cancel <FaTimes className="inline-block mr-1" size={17} /> 

@@ -154,65 +154,66 @@ export default function Login() {
                         Email
                       </label>
                       <div>
-                    <TextField
-                      id="outlined-error-helper-text"
-                      placeholder="Enter Email"
-                      value={userEmail}
-                      sx={{
-                        width: "100%",
-                        borderRadius: 5,
-                        transition: "transform 0.3s ease",
-                        transform: emailFocused ? "scale(1.02)" : "scale(1)",
-                        marginBottom: "16px", // Add margin bottom for spacing
-                      }}
-                      onFocus={() => {
-                        handleEmailFocus();
-                        setPasswordFocused(false); // Ensure password field doesn't scale up when email field is focused
-                      }}
-                      onBlur={() => setEmailFocused(false)}
-                      onChange={(e) => {
-                        setUserEmail(e.target.value);
-                      }}
-                      required
-                    />
-                  </div>
+                  <TextField
+                    id="outlined-error-helper-text"
+                    placeholder="Enter Email"
+                    value={userEmail}
+                    sx={{
+                      width: "100%",
+                      borderRadius: 5,
+                      transition: "transform 0.3s ease",
+                      transform: emailFocused ? "scale(1.02)" : "scale(1)",
+                      marginBottom: "16px", // Add margin bottom for spacing
+                    }}
+                    onFocus={() => {
+                      handleEmailFocus();
+                      setPasswordFocused(false); // Ensure password field doesn't scale up when email field is focused
+                    }}
+                    onBlur={() => setEmailFocused(false)}
+                    onChange={(e) => {
+                      const newValue = e.target.value.replace(/\s/g, '');
+                      setUserEmail(newValue);
+                    }}
+                    required
+                  />
+                </div>
 
-                  <div>
-                    <TextField
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Enter Password"
-                      value={userPassword}
-                      sx={{
-                        width: "100%",
-                        borderRadius: 5,
-                        borderWidth: 5,
-                        transition: "transform 0.3s ease",
-                        transform: passwordFocused ? "scale(1.02)" : "scale(1)",
-                        marginTop: "16px", // Add margin top for spacing
-                      }}
-                      onFocus={() => {
-                        handlePasswordFocus();
-                        setEmailFocused(false); // Ensure email field doesn't scale up when password field is focused
-                      }}
-                      onBlur={() => setPasswordFocused(false)}
-                      onChange={(e) => {
-                        setUserPassword(e.target.value);
-                      }}
-                      required
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() => setShowPassword(!showPassword)} // Toggle showPassword on click
-                              edge="end"
-                            >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </div>
+                <div>
+                  <TextField
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter Password"
+                    value={userPassword}
+                    sx={{
+                      width: "100%",
+                      borderRadius: 5,
+                      borderWidth: 5,
+                      transition: "transform 0.3s ease",
+                      transform: passwordFocused ? "scale(1.02)" : "scale(1)",
+                      marginTop: "16px", // Add margin top for spacing
+                    }}
+                    onFocus={() => {
+                      handlePasswordFocus();
+                      setEmailFocused(false); // Ensure email field doesn't scale up when password field is focused
+                    }}
+                    onBlur={() => setPasswordFocused(false)}
+                    onChange={(e) => {
+                      setUserPassword(e.target.value);
+                    }}
+                    required
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)} // Toggle showPassword on click
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
 
                     </div>
                     <div className="flex items-center justify-between">

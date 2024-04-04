@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarker, faPhone, faEnvelope, faPaperPlane, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faMapMarker, faPhone, faEnvelope, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faTwitter, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 function Contact() {
@@ -12,6 +12,7 @@ function Contact() {
 
   const [submitted, setSubmitted] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState('');
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false); // State to control the visibility of success message
 
   const [nameFocused, setNameFocused] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
@@ -34,17 +35,30 @@ function Contact() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       alert('Please enter a valid email address');
-      return; // Prevent form submission if email format is invalid
+      return; 
     }
   
     // Your form submission logic here
     console.log('Form submitted:', formData);
     setSubmitted(true);
+    setSuccessMessageVisible(true); // Show success message
   };
 
+  useEffect(() => {
+    // If submissionStatus is 'success', set a timeout to change it to null after 3 seconds
+    if (successMessageVisible) {
+      const timeout = setTimeout(() => {
+        setSuccessMessageVisible(false); // Hide success message after 3 seconds
+      }, 2000);
+
+      // Clear the timeout when the component unmounts or successMessageVisible changes
+      return () => clearTimeout(timeout);
+    }
+  }, [successMessageVisible]);
+
   return (
-    <section id="contact" className="bg-blue-500 bg-opacity-10 py-5 mt-8">
-      <h1 className="section-header text-white text-center text-5xl font-semibold uppercase mb-6">Contact Us</h1>
+    <section id="contact" className="bg-blue-900 bg-opacity-10 py-5 mt-11">
+      <h1 className="section-header text-white text-center text-5xl font-semibold uppercase mb-8">Contact Us</h1>
       <div className="contact-wrapper flex flex-col md:flex-row justify-between mx-auto max-w-3xl">
         <form id="contact-form" className="form-horizontal max-w-md md:mr-8 mx-auto" onSubmit={onSubmit} role="form">
           <div className="form-group">
@@ -100,21 +114,6 @@ function Contact() {
               <span className="send-text">SEND</span>
             </div>
           </button>
-          {submitted && (
-            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
-              <div className="bg-black bg-opacity-25 absolute inset-0 backdrop-filter backdrop-blur-lg"></div> 
-              <div className="bg-gray bg-opacity-75 rounded-lg p-6 shadow-md relative z-10">
-                {submissionStatus === 'success' ? (
-                  <p className="text-lg text-center text-white" style={{ fontSize: "2rem" }}>
-                   Thank you for reaching out. We'll be in contact shortly<FontAwesomeIcon icon={faHeart} style={{ fontSize: "1.5rem",marginLeft: "0.5rem", color:"red" }} />
-                </p>
-
-                ) : (
-                  <p className="text-lg text-center text-black">There was an error submitting the form. Please try again later</p>
-                )}
-              </div>
-            </div>
-          )}
         </form>
         <div className={`direct-contact-container max-w-md mx-auto md:ml-8 mt-8 md:mt-0 ${submitted ? 'ml-auto' : ''}`}>
           <ul className="contact-list">
@@ -134,13 +133,28 @@ function Contact() {
           <hr className="border-white mt-8" />
           <ul className="social-media-list flex justify-center items-center mt-4">
             <li><a href="https://github.com/Sajithrajan03/Trip-Estimator-WEB" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faGithub} /></a></li>
-            <li><a href="#" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faTwitter} /></a></li>
+            <li><a href="https://twitter.com/" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faTwitter} /></a></li>
             <li><a href="https://www.instagram.com/sara.karthic/" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faInstagram} /></a></li>
           </ul>
           <hr className="border-white mt-3" />
           <div className="copyright text-center text-gray-500">&copy; ALL OF THE RIGHTS RESERVED</div>
         </div>
       </div>
+      {successMessageVisible && (
+  <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50">
+  <div className="bg-black bg-opacity-25 absolute inset-0 backdrop-filter backdrop-blur-lg"></div> 
+  <div className="bg-transparent rounded-lg p-6 shadow-none relative z-10">
+  <p className="text-3xl text-center text-blue-500 font-bold bg-white p-4 rounded-xl">
+  Thank you for reaching out. We'll be in contact shortly!
+</p>
+
+
+               
+  </div>
+</div>
+
+)}
+
     </section>
   );
 }
