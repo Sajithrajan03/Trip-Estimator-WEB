@@ -71,7 +71,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             }),
           });
 
-          if (response.status === 401) {
+          if (response.status == 401) {
             ToastAlert("error", "Error", "You are Unauthorized", toastRef);
             setTimeout(() => {
               router.replace("/");
@@ -99,8 +99,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     formData.hotel_rating,
   ]);
   useEffect(() => {
-     
-  }, [averageData ]);
+     console.log(formData)
+  }, [averageData,formData ]);
 
   const cityOptions = [
     { value: "1", label: "Coimbatore" },
@@ -154,7 +154,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       { value: "ac_sleeper", label: "Sleeper AC" },
       { value: "noac_sleeper", label: "Sleeper Non-AC" },
       { value: "ac_nosleeper", label: "Seater AC" },
-      { value: "noac_nosleepe", label: "Seater Non-AC" },
+      { value: "noac_nosleeper", label: "Seater Non-AC" },
     ],
     Train: [
       { value: "1A", label: "1A" },
@@ -277,7 +277,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   };
   const [visible, setVisible] = useState(false);
   return (
+    
     <div className="">
+      
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
         <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
           <div
@@ -287,6 +289,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             <div className="ml-2">
               <RiFlightTakeoffLine className="text-[30px] " />
             </div>
+            
             <div className="flex flex-col ">
               <p className="text-md font-medium ml-[10px] text-gray-700 mt-1">
                 From City
@@ -304,6 +307,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         ...prevState.location,
                         from: selectedOption.value,
                       },
+                      start_city_name : cityOptions.find(city => city.value == selectedOption.value).label,
+                      
                       transportation: "",
                       transportationDetails: "",
                       hotels: "",
@@ -390,6 +395,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         ...prevState.location,
                         to: selectedOption.value,
                       },
+                      end_city_name : cityOptions.find(city => city.value == selectedOption.value).label,
                       transportation: "",
                       transportationDetails: "",
                       hotels: "",
@@ -494,7 +500,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                 </div>
               </div>
             </div>
-            <div className="flex bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
+            <div className=" bg-white w-full md:w-[300px] border-blue-700 ring-2 p-1   group hover:ring-4 hover:bg-[#CBE3F7] rounded-lg flex flex-col space-y-3 justify-center items-center font-bold p-2 py-3">
               <div className="ml-2">
                 <FaCalendarCheck className="text-[30px] " />
               </div>
@@ -571,6 +577,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   transportationDetails: "",
                   transport_amount : "0",
                   transport_estimate:"0",
+                      hotels: "",
+                      hotel_type: "",
+                      food: "",
+                      food_estimate : "0",
+                      food_amount : "0",
+                      trip_amount:"0",
+                      trip_estimate:"0",
+                      total_amount:"0",
+                      total_estimate:"0",
+
                   // Reset transportation details when transportation option changes
                 }))
               }
@@ -637,6 +653,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           `${formData.transportation.toLowerCase()}Price`
                         ][`${option.value}`]
                       ).toFixed(0),
+
                     }))
                   }
                 >

@@ -197,10 +197,10 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
       setDownloading(false);
     }, 2000); // Simulated 2-second delay
   };
-
+  
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
-      <div className="bg-white pt-10 rounded-lg  border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
+      <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
         <Toast ref={toast} position="bottom-center" className="p-5" />
 
         <div className="flex items-center justify-between ">
@@ -215,19 +215,31 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           </button>
         </div>
 
-        <div className="mt-4">
-            <div className="flex flex-col">
-                <div className="flex">
+        <div className="mt-4 mx-auto text-[20px] p-3 bg-white rounded-lg w-fit">
+            <div className="flex space-x-8">
+                <div className="flex flex-col font-bold gap-3">
                     <h1>Employee Name</h1>
-                    <h1>{selectedTrip.emp_name}</h1>
-                </div>
-                <div className="flex">
                     <h1>Start City</h1>
-                    <h1>{selectedTrip.start_city_name}</h1>
+                    <h1>End City</h1>
+                    <h1>Travel Start Date</h1>
+                    <h1>Travel End Date</h1>
+                    <h1>No of Day(s)</h1>
+                    
                 </div>
-                <div className="flex">
-                    <h1>Start City</h1>
-                    <h1>{selectedTrip.start_city_name}</h1>
+                <div className="flex flex-col gap-3">
+                    <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
+                    <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>                    
+                    <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
+                    <h1>{new Date(selectedTrip.travelDates.from).toLocaleDateString(
+                    "en-US",
+                    { month: "long", day: "numeric", year: "numeric" }
+                  )}</h1>
+                  <h1>{new Date(selectedTrip.travelDates.to).toLocaleDateString(
+                    "en-US",
+                    { month: "long", day: "numeric", year: "numeric" }
+                  )}</h1>
+                  <h1>{Math.round((new Date(selectedTrip.travelDates.to).getTime() - new Date(selectedTrip.travelDates.from).getTime()) / (1000 * 3600 * 24))+2}</h1>
+                  
                 </div>
             </div>
         </div>
