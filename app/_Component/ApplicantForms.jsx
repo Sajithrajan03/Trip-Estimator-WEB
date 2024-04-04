@@ -71,7 +71,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             }),
           });
 
-          if (response.status === 401) {
+          if (response.status == 401) {
             ToastAlert("error", "Error", "You are Unauthorized", toastRef);
             setTimeout(() => {
               router.replace("/");
@@ -571,6 +571,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   transportationDetails: "",
                   transport_amount : "0",
                   transport_estimate:"0",
+                      hotels: "",
+                      hotel_type: "",
+                      food: "",
+                      food_estimate : "0",
+                      food_amount : "0",
+                      trip_amount:"0",
+                      trip_estimate:"0",
+                      total_amount:"0",
+                      total_estimate:"0",
+
                   // Reset transportation details when transportation option changes
                 }))
               }
@@ -637,6 +647,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           `${formData.transportation.toLowerCase()}Price`
                         ][`${option.value}`]
                       ).toFixed(0),
+                      
                     }))
                   }
                 >
