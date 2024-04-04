@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 // import DatePicker from 'react-datepicker';
-
+import {useRef} from 'react';
 import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
-
+import { useRouter } from 'next/navigation'
 import { Checkbox } from "primereact/checkbox";
 import { ENTER_TRIP_DETAILS_URL } from "@/app/_Component/_util/constants";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
-
+import { Toast } from "primereact/toast";
+import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import { TbAirConditioning } from "react-icons/tb";
 import { RiFlightTakeoffLine, RiFlightLandLine } from "react-icons/ri";
@@ -24,7 +25,8 @@ import TripApplication from "./TripApplication";
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
-
+  const router = useRouter();
+  const toastRef = useRef();
   const handleFromDateChange = (date) => {
     if (date >= today) {
       setFormData((prevState) => ({
@@ -70,7 +72,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
               hotel_rating: formData.hotel_rating || "3",
             }),
           });
-
+          
           if (response.status == 401) {
             ToastAlert("error", "Error", "You are Unauthorized", toastRef);
             setTimeout(() => {
@@ -269,8 +271,23 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           trip_amount: formData.trip_amount,
         }),
       });
-
       const data = await response.json();
+      if (response.status == 401) {
+        ToastAlert("error", "Error", "You are Unauthorized", toastRef);
+        setTimeout(() => {
+          router.replace("/");
+        }, 3000);
+      }
+      if (response.status == 404) {
+        ToastAlert("error", "Error", data.Message, toastRef);
+        setTimeout(() => {
+          router.replace("/");
+        }, 3000);
+      }
+
+
+
+      
     } catch (error) {
       console.error("Error:", error);
     }
@@ -278,6 +295,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [visible, setVisible] = useState(false);
   return (
     <div className="">
+      <div className="p-2">
+                  <Toast ref={toastRef} position="bottom-center" className="p-5" />
+       </div>
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
         <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
           <div
