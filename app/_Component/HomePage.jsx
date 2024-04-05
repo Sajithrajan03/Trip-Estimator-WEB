@@ -9,17 +9,21 @@ const Page = () => {
   useEffect(()=>{
     setAccountStatus(parseInt(secureLocalStorage.getItem('accountStatus')));  
   },[])
+   
   useEffect(() => {
-    if (accountStatus == 1 && accountStatus != "notstatus") {
+    if (accountStatus != "notstatus" && accountStatus == 1 ) {
       router.replace('/applicant');  
     }
-    if (accountStatus == 2 && accountStatus != "notstatus") {
+    if (accountStatus != "notstatus" && accountStatus == 2) {
         router.replace('/approver');  
       }
-      if (accountStatus == 3 && accountStatus != "notstatus") {
+      if (accountStatus != "notstatus" && accountStatus == 3 ) {
         router.replace('/admin');  
       }
-      router.replace('/login');
+      if (isNaN(accountStatus)) {
+        router.replace('/login');
+        // console.log(accountStatus,"hi")
+    }
      
   }, [accountStatus,router]);
 

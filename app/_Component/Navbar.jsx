@@ -20,6 +20,7 @@ export default function CustomDemo() {
     const router =useRouter();
     const startContent = (
         <React.Fragment>
+            <Link href="/">
             <div className='cursor-pointer flex group '>
                 <IoIosCompass className='text-[45px]  text-blue-800'/>
                 <div className='hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800'>
@@ -31,6 +32,7 @@ export default function CustomDemo() {
                             T</span>E
                 </div>
             </div>
+            </Link>
         </React.Fragment>
     );
     const menuRight = useRef(null);
@@ -85,7 +87,7 @@ export default function CustomDemo() {
                 icon:{className:"font-bold text-black text-[20px] mr-5"},
                 label : {className:"font-bold text-black text-[18px] "}
             }}/>
-            <Link href="/applicant">
+            <Link href="/">
             <div className="p-link inline-flex hover:scale-110 justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
                 <i className="pi pi-home text-2xl  bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-md ml-4"></i>
             </div>
@@ -108,8 +110,10 @@ export default function CustomDemo() {
         <React.Fragment>
             <div className="flex align-items-center items-center gap-2">
                 <ProfileCard email={"sajith"}/>
+                {/* if (userName != null && userName != undefined && userName != "") {
                 <span className="font-bold text-blue-800 text-[20px]">{userName.toUpperCase()}</span>
-            </div>
+                } */}
+                </div>
         </React.Fragment>
     );
 

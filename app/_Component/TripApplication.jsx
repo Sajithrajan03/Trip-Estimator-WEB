@@ -165,7 +165,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
   
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
-      <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
+      <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-[95%] h-[95%] overflow-auto shadow-md">
         <Toast ref={toast} position="bottom-center" className="p-5" />
         <ConfirmDialog />
         <div className="flex items-center justify-between ">
@@ -180,39 +180,40 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
           </button>
         </div>
 
-        <div className="mt-4 mx-auto text-[20px] p-2 bg-white rounded-lg w-fit">
-            <div className="flex space-x-16 border-2 border-blue-800 p-2 rounded-lg">
-                <div className="flex flex-col font-bold gap-3  ">
-                    <h1>Employee Name</h1>
-                    <h1>Start City</h1>
-                    <h1>End City</h1>
-                    <h1>Travel Start Date</h1>
-                    <h1>Travel End Date</h1>
-                    <h1>No of Day(s)</h1>
-                    <h1>Mode of Transport</h1>
-                    <h1>Hotel Type</h1>
-                    
-                </div>
-                <div className="flex flex-col gap-3">
-                    <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
-                    <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>                    
-                    <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
-                    <h1>{new Date(selectedTrip.travel_start_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}</h1>
-                  <h1>{new Date(selectedTrip.travel_end_date).toLocaleDateString(
-                    "en-US",
-                    { month: "long", day: "numeric", year: "numeric" }
-                  )}</h1>
-                  <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
-                  <h1>{selectedTrip.transport_mode}</h1>
-                  <h1>{selectedTrip.hotel_type}</h1>
-                </div>
-            </div>
-        </div>
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold text-white text-[20px] w-fit mx-auto">Travel Expense</div>
-        <div className="mt-4">
+        <div className="flex justify-start">
+          <div className="mt-4 mx-auto text-[20px] p-2 bg-white rounded-lg w-[600px]">
+              <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-2 rounded-lg">
+                  <div className="flex flex-col font-bold gap-3  ">
+                      <h1>Employee Name</h1>
+                      <h1>Start City</h1>
+                      <h1>End City</h1>
+                      <h1>Travel Start Date</h1>
+                      <h1>Travel End Date</h1>
+                      <h1>No of Day(s)</h1>
+                      <h1>Mode of Transport</h1>
+                      <h1>Hotel Type</h1>
+          
+                  </div>
+                  <div className="flex flex-col gap-3">
+                      <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
+                      <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>
+                      <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
+                      <h1>{new Date(selectedTrip.travel_start_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}</h1>
+                    <h1>{new Date(selectedTrip.travel_end_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}</h1>
+                    <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
+                    <h1>{selectedTrip.transport_mode}</h1>
+                    <h1>{selectedTrip.hotel_type}</h1>
+                  </div>
+              </div>
+          </div>
+          <div className="mt-4 lg:w-[900px]">
+        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expense</div>
           <table className="w-full border-collapse mb-4">
             <tbody className="font-semibold">
               
@@ -321,6 +322,11 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             </tbody>
           </table>
         </div>
+        </div>
+        
+        
+        
+        
         <div className="bg-blue-900 p-2 my-[30px] px-3 rounded-lg font-bold text-white text-[20px] w-fit mx-auto">Travel Reason</div>
         <div className="mt-5">
           <textarea
