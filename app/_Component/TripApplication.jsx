@@ -183,8 +183,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         <div className="xl:flex justify-evenly items-center mx-auto">
 
           <div className="mt-4 mx-auto text-[20px]">
-          <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expense</div>
-            <div className=" p-2 bg-white rounded-lg lg:w-[600px]  h-fit ">
+          <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
+            <div className=" p-4 bg-white rounded-lg lg:w-[600px]  mr-3 mb-4 h-fit ">
             
                 <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-2 rounded-lg">
                     <div className="flex flex-col font-bold gap-3  ">
@@ -218,7 +218,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             </div>
           </div>
           <div className="mt-4 lg:w-[900px]">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expense</div>
+        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expenses</div>
           <table className="w-full border-collapse mb-4">
             <tbody className="font-semibold">
               
