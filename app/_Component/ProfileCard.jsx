@@ -73,7 +73,7 @@ export default function ProfileCard({ email }) {
   variant="text"
   color="blue"
   onClick={handleClick}
-  className="flex items-center justify-center w-[60px] h-[50px] rounded-full bg-blue-6  00 hover:bg-gray-800 bg-gray-700" // Adjust spacing as needed
+  className="flex items-center justify-center w-[60px] h-[50px] rounded-full bg-blue-6   hover:bg-blue-800 bg-blue-800 hover:scale-105" // Adjust spacing as needed
 >
   <div className="bg-blue-800 text-gray-200 border-2 border-black p-2 rounded-full flex items-center justify-center">
     <i className="pi pi-user text-2xl"></i>
@@ -99,7 +99,7 @@ export default function ProfileCard({ email }) {
                   className={`group flex items-center gap-3 mb-1 rounded ${
                     isLastItem
                       ? "hover:bg-red-200 focus:bg-red-400 active:bg-red-200"
-                      : "hover:bg-gray-400"
+                      : "hover:bg-cyan"
                   }`}
                   onClick={isLastItem ? handleLogOut : isFavourites ? handleFavouritesClick : handleProfileClick}
                 >
