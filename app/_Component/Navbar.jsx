@@ -7,6 +7,7 @@ import { IoIosCompass } from "react-icons/io";
 import ProfileCard from './ProfileCard';
 import secureLocalStorage from 'react-secure-storage';
 import Link from 'next/link';
+import { Menu } from 'primereact/menu';
 
 export default function CustomDemo() {
     const[ userName,setUserName]=useState("")

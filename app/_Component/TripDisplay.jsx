@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
 
+import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog /> component
+import { confirmDialog } from 'primereact/confirmdialog'; // For confirmDialog method
+        
 const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   const toast = useRef(null);
   const [adminMessage, setAdminMessage] = useState("");
@@ -47,7 +50,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
       accept: () => {
         toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted the Application', life: 3000 });
         setTimeout(() => {
-          handleUpdate(1);
+          handleUpdate();
         }, 1000);
       },
       reject

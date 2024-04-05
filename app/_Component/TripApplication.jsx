@@ -2,9 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { IoCloseCircle } from "react-icons/io5";
-const TripDisplay = ({ selectedTrip, setOpenModal }) => {
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+        
+const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate }) => {
   const toast = useRef(null);
-  const [adminMessage, setAdminMessage] = useState("");
+  const [reason, setReason] = useState("");
   const [downloading, setDownloading] = useState(false);
 
   // if (!selectedTrip) {
@@ -43,19 +48,17 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     }, 1000);
   };
 
-  const confirm1 = () => {
+  const confirm1 = (e) => {
+     
+    
     confirmDialog({
       message: "Are you sure you want to proceed?",
       header: "Confirmation",
       icon: "pi pi-exclamation-triangle",
       defaultFocus: "accept",
       accept: () => {
-        toast.current.show({
-          severity: "info",
-          summary: "Confirmed",
-          detail: "You have accepted the Application",
-          life: 3000,
-        });
+        
+        setOpenModal()
         setTimeout(() => {
           handleUpdate(1);
         }, 1000);
@@ -86,41 +89,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     });
   };
 
-  const handleUpdate = async (status) => {
-    try {
-      const response = await fetch(UPDATE_TRIP_DETAILS_URL, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + secureLocalStorage.getItem("SECRET_TOKEN"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          trip_id: selectedTrip.trip_id,
-          trip_status: status,
-          trip_amount: selectedTrip.trip_amount,
-          admin_message: adminMessage,
-        }),
-      });
-
-      if (response.status === 401) {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Session Expired, Please Login Again",
-          life: 3000,
-        });
-        setTimeout(() => {
-          secureLocalStorage.clear();
-          router.replace("/");
-        }, 3000);
-      }
-
-      setOpenModal(false);
-    } catch (error) {
-      console.error("Error:", error);
-      setOpenModal(false);
-    }
-  };
+  
 
   const downloadCSV = () => {
     setDownloading(true);
@@ -149,14 +118,14 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         "Total Amount",
         "Trip Estimate",
         "Trip Amount",
-        "Trip Status",
-        "Admin Message",
+         
+         
       ],
       [
         selectedTrip.trip_id,
         selectedTrip.emp_id,
         selectedTrip.emp_name,
-        selectedTrip.travel_reason,
+        reason,
         selectedTrip.start_city_name,
         selectedTrip.end_city_name,
         formatDate(selectedTrip.travel_start_date),
@@ -175,12 +144,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         selectedTrip.total_amount,
         selectedTrip.trip_estimate,
         selectedTrip.trip_amount,
-        selectedTrip.trip_status === 0
-          ? "Pending"
-          : selectedTrip.trip_status === 1
-          ? "Accepted"
-          : "Rejected",
-        selectedTrip.admin_message || "N/A",
+         
+         
       ].join(","),
     ].join("\n");
 
@@ -202,7 +167,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
       <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
         <Toast ref={toast} position="bottom-center" className="p-5" />
-
+        <ConfirmDialog />
         <div className="flex items-center justify-between ">
             <dir></dir>
           <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-blue-700  ">
@@ -216,14 +181,16 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         </div>
 
         <div className="mt-4 mx-auto text-[20px] p-2 bg-white rounded-lg w-fit">
-            <div className="flex space-x-8 border-2 border-blue-800 p-2 rounded-lg">
-                <div className="flex flex-col font-bold gap-3 ">
+            <div className="flex space-x-16 border-2 border-blue-800 p-2 rounded-lg">
+                <div className="flex flex-col font-bold gap-3  ">
                     <h1>Employee Name</h1>
                     <h1>Start City</h1>
                     <h1>End City</h1>
                     <h1>Travel Start Date</h1>
                     <h1>Travel End Date</h1>
                     <h1>No of Day(s)</h1>
+                    <h1>Mode of Transport</h1>
+                    <h1>Hotel Type</h1>
                     
                 </div>
                 <div className="flex flex-col gap-3">
@@ -239,168 +206,145 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                     { month: "long", day: "numeric", year: "numeric" }
                   )}</h1>
                   <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
-                  
+                  <h1>{selectedTrip.transport_mode}</h1>
+                  <h1>{selectedTrip.hotel_type}</h1>
                 </div>
             </div>
         </div>
+        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold text-white text-[20px] w-fit mx-auto">Travel Expense</div>
         <div className="mt-4">
           <table className="w-full border-collapse mb-4">
-            <tbody>
+            <tbody className="font-semibold">
               
               
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Transport Mode
+              <tr className="bg-blue-900 text-white border-black border-2">
+                <th className="text-xl font-bold   border-r-0  p-3">
+                  Estimate
                 </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.transport_mode}
+                <td className="border border-l-0 border-r-2 border-black p-3">
+                  
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Hotel Type
+                <th className="text-xl font-bold border border-r-0 border-blue-900 p-3">
+                  Amount
                 </th>
-                <td className="border border-gray-400 p-3">
-                  {selectedTrip.hotel_type}
+                <td className="border border-l-0 border-blue-900 p-3">
+                   
                 </td>
               </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+              <tr className="">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Transport Estimate
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.transport_estimate}
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Transport Amount
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.transport_amount}
                 </td>
               </tr>
 
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Hotel Estimate
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.hotel_estimate}
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Hotel Amount
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.hotel_amount}
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Food Estimate
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.food_estimate}
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Food Amount
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.food_amount}
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Miscellaneous Estimate
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.miscellaneous_estimate}
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
                   Miscellaneous Amount
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.miscellaneous_amount}
                 </td>
               </tr>
+              
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Total Estimate
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                  Trip Estimate (1 Day)
                 </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.total_estimate}
-                </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Total Amount
-                </th>
-                <td className="border border-gray-400 p-3">
-                  ₹ {selectedTrip.total_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Trip Estimate
-                </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.trip_estimate}
                 </td>
-                <th className="text-xl font-bold border border-gray-400 p-3 bg-blue-100">
-                  Trip Amount
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                  Trip Amount (1 Day)
                 </th>
-                <td className="border border-gray-400 p-3">
+                <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.trip_amount}
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Trip Status
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                  Total Estimate ({selectedTrip.no_of_days} Days)
                 </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.trip_status === 0
-                    ? "Pending"
-                    : selectedTrip.trip_status === 1
-                    ? "Accepted"
-                    : "Rejected"}
+                <td className="border border-blue-900 p-3">
+                  ₹ {selectedTrip.total_estimate}
+                </td>
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                  Total Amount ({selectedTrip.no_of_days} Days)
+                </th>
+                <td className="border border-blue-900 p-3">
+                  ₹ {selectedTrip.total_amount}
                 </td>
               </tr>
-              <tr>
-                <th className="text-xl font-bold border border-gray-400 p-3">
-                  Admin Message
-                </th>
-                <td colSpan="3" className="border border-gray-400 p-3">
-                  {selectedTrip.admin_message || "N/A"}
-                </td>
-              </tr>
+              
             </tbody>
           </table>
         </div>
+        <div className="bg-blue-900 p-2 my-[30px] px-3 rounded-lg font-bold text-white text-[20px] w-fit mx-auto">Travel Reason</div>
         <div className="mt-5">
           <textarea
             rows="4"
-            cols="50"
+            cols="40"
             placeholder="Type your message here..."
-            value={adminMessage}
-            onChange={(e) => setAdminMessage(e.target.value)}
+            value={reason}
+            onChange={(e) => {
+              setReason(e.target.value)
+              setTravelReason((prevState) => ({
+              ...prevState,
+              travel_reason: e.target.value,
+            }))}}
             className="w-full px-3 py-2 border rounded-md"
           ></textarea>
           <div className="flex justify-center mt-3 space-x-4">
             <Button
-              onClick={(e) => confirm1()}
+              onClick={(e) => confirm1(e)}
               icon="pi pi-check mr-2 font-bold"
               className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
             >
-              Approve
+              Apply Changes
             </Button>
-            <Button
-              onClick={(e) => confirm2()}
-              icon="pi pi-times mr-2"
-              className="bg-[#EE4544] text-black font-bold rounded-md hover:scale-105"
-            >
-              Reject
-            </Button>
-            <Button
-              onClick={(e) => confirm1()}
-              icon="pi pi-spin pi-cog font-bold mr-2"
-              className="bg-yellow-500 text-black font-bold rounded-md hover:scale-105"
-            >
-              Modify
-            </Button>
+             
             <Button
               onClick={downloadCSV}
               icon="pi pi-download mr-2"
