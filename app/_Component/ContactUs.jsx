@@ -43,12 +43,17 @@ function Contact() {
       return;
     }
   
-    // Your form submission logic here
     console.log('Form submitted:', formData);
     setSubmitted(true);
     setSuccessMessageVisible(true); // Show success message
-  };
 
+    // Reset form data after success message is displayed
+    setFormData({
+      name: '',
+      email: '',
+      message: ''
+    });
+  };
   useEffect(() => {
     // If successMessageVisible is true, show the success message for 3 seconds
     if (successMessageVisible) {
@@ -122,22 +127,22 @@ function Contact() {
           <ul className="contact-list">
             <li className="list-item">
               <FontAwesomeIcon icon={faMapMarker} size="xl" className="text-white mr-6 mt-10" />
-              <span className="contact-icon text-white mr-2 place">Goundampalayam, Coimbatore</span>
+              <span className="contact-icon text-white mr-2 place">SAP Labs, Bangalore</span>
             </li>
             <li className="list-item">
               <FontAwesomeIcon icon={faPhone} size="xl" className="text-white mr-6 mt-10" />
-              <span className="contact-text phone mr"><a href="tel:1-212-555-5555" title="Give me a call" className="text-white">+91 9003536756</a></span>
+              <span className="contact-text phone mr"><a href="+91 80 4139 5139" title="Give me a call" className="text-white">+91 9003536756</a></span>
             </li>
             <li className="list-item">
               <FontAwesomeIcon icon={faEnvelope} size="xl" className="text-white mr-6 mt-10" />
-              <span className="contact-text gmail"><a href="mailto:#" title="Send me an email" className="text-white">sk@urservice@gmail.com</a></span>
+              <span className="contact-text gmail"><a href="mailto:#" title="Send me an email" className="text-white">saplabshelpline@gmail.com</a></span>
             </li>
           </ul>
           <hr className="border-white mt-8" />
           <ul className="social-media-list flex justify-center items-center mt-4">
             <li><a href="https://github.com/Sajithrajan03/Trip-Estimator-WEB" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faGithub} /></a></li>
-            <li><a href="https://twitter.com/" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faTwitter} /></a></li>
-            <li><a href="https://www.instagram.com/sara.karthic/" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faInstagram} /></a></li>
+            <li><a href="https://twitter.com/saplabsindia" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faTwitter} /></a></li>
+            <li><a href="https://www.instagram.com/sap/" target="_blank" className="contact-icon text-white mr-4 text-xl"><FontAwesomeIcon icon={faInstagram} /></a></li>
           </ul>
           <hr className="border-white mt-3" />
           <div className="copyright text-center text-gray-500">&copy; ALL OF THE RIGHTS RESERVED</div>

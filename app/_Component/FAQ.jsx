@@ -47,7 +47,7 @@ const FAQ = () => {
         <Icon style={{ marginLeft: '5px',fontSize: '21px' }} />
       </div>,
       {
-        autoClose: 1000,
+        autoClose: 2000,
         closeOnClick: true,
       }
     );
