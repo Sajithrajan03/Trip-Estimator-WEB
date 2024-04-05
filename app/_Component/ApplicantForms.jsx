@@ -23,8 +23,6 @@ import { TbMeat } from "react-icons/tb";
 import { Dialog } from 'primereact/dialog';
 import TripApplication from "./TripApplication";
 import secureLocalStorage from "react-secure-storage"
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
@@ -44,7 +42,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       setFormData((prevState) => ({
         ...prevState,
         travelDates: { ...prevState.travelDates, to: date },
+        no_of_days: Math.round((new Date(date).getTime() - new Date(formData.travelDates.from).getTime()) / (1000 * 3600 * 24))+1
       }));
+      
     }
   };
 
@@ -105,12 +105,13 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   ]);
   useEffect(() => {
      
-     console.log(formData,dialogTrip)
+     
       dialogTrip = {
       start_city: formData.location.from,
       end_city: formData.location.to,
       emp_email: formData.emp_email,
       emp_name: formData.emp_name,
+      no_of_days :formData.no_of_days,
       travel_start_date: formData.travelDates.from,
       travel_end_date: formData.travelDates.to,
       transport_mode: formData.transportation.toUpperCase() + " - " + formData.transportationDetails.toUpperCase(),
@@ -129,6 +130,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       trip_estimate: formData.trip_estimate,
       trip_amount: formData.trip_amount,
     }
+    console.log(formData)
   }, [averageData,formData ]);
 
   const cityOptions = [
@@ -232,6 +234,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
     end_city: formData.location.to,
     start_city_name: formData.start_city_name,
     end_city_name: formData.end_city_name,
+    no_of_days :formData.no_of_days,
     emp_email: formData.emp_email,
     emp_name: formData.emp_name,
     travel_start_date: formData.travelDates.from,
@@ -292,17 +295,35 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         }),
       });
       const data = await response.json();
-      if (response.status == 401) {
-        ToastAlert("error", "Error", "You are Unauthorized", toastRef);
-        setTimeout(() => {
-          router.replace("/");
-        }, 3000);
-      }
-      if (response.status == 404) {
-        ToastAlert("error", "Error", data.Message, toastRef);
-        setTimeout(() => {
-          router.replace("/");
-        }, 3000);
+      if (response.status === 200) {
+         
+        ToastAlert(
+          "success",
+          "Successful",
+          `${data.Message}`,
+          toastRef
+        );
+
+         
+      } else if (response.status === 500) {
+        setLoading(false);
+        ToastAlert(
+          "error",
+          "Oops!",
+          "Something went wrong! Please try again.",
+          toastRef
+        );
+      } else if (data.Message !== undefined || data.Message !== null) {
+        setLoading(false);
+        ToastAlert("error", "Login Failed", `${data.Message}`, toastRef);
+      } else {
+        setLoading(false);
+        ToastAlert(
+          "error",
+          "Oops!",
+          "Something went wrong! Please try again!",
+          toastRef
+        );
       }
 
 
@@ -690,6 +711,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                           `${formData.transportation.toLowerCase()}Price`
                         ][`${option.value}`]
                       ).toFixed(0),
+                      trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
 
                     }))
                   }
@@ -767,6 +798,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       setFormData((prevState) => ({
                         ...prevState,
                         transport_amount: e.target.value,
+                        trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
                       }))
                     }
                   />
@@ -850,6 +891,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                         `${option.value}`
                       ]
                     ).toFixed(0),
+                    trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
                   }))
                 }
               >
@@ -923,6 +974,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       setFormData((prevState) => ({
                         ...prevState,
                         hotel_amount: e.target.value,
+                        trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
                       }))
                     }
                   />
@@ -975,6 +1036,18 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                   parseInt(
                     averageData[`miscellaneousPrice`][`miscellaneousAverage`] 
                   ).toFixed(0),
+                  trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
+
+
                   // Reset transportation details when transportation option changes
                 }))
               }
@@ -1021,6 +1094,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       setFormData((prevState) => ({
                         ...prevState,
                         hotel_food: e.target.value,
+                        
                       }))
                     }
                   />
@@ -1050,6 +1124,16 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
                       setFormData((prevState) => ({
                         ...prevState,
                         food_amount: e.target.value,
+                        trip_estimate : parseInt(formData.transport_estimate) +
+                  parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate),
+                  trip_amount : parseInt(formData.transport_amount) +
+                  parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount),
+                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
+                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
                       }))
                     }
                   />
@@ -1138,8 +1222,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       </div>}
 
       <div className="flex justify-center">
-      <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
+        <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
         // onClick={handlesubmit}
+
         onClick={() => {
 
           if (
@@ -1161,16 +1246,20 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           }
            setFormData((prevState) => ({
             ...prevState,
-            trip_estimate : parseInt(formData.transport_estimate) +
+            trip_estimate : parseInt(formData.transport_estimate)*2 +
                   parseInt(formData.hotel_estimate) +
                   parseInt(formData.food_estimate) +
                   parseInt(formData.miscellaneous_estimate),
-                  trip_amount : parseInt(formData.transport_amount) +
+                  trip_amount : parseInt(formData.transport_amount)*2 +
                   parseInt(formData.hotel_amount) +
                   parseInt(formData.food_amount) +
                   parseInt(formData.miscellaneous_amount),
-                  total_estimate : parseInt(formData.trip_estimate)*parseInt(formData.no_of_days),
-                  total_amount : parseInt(formData.trip_amount)*parseInt(formData.no_of_days)
+                  total_estimate : (parseInt(formData.hotel_estimate) +
+                  parseInt(formData.food_estimate) +
+                  parseInt(formData.miscellaneous_estimate))*parseInt(formData.no_of_days) + parseInt(formData.transport_estimate)*2,
+                  total_amount : (parseInt(formData.hotel_amount) +
+                  parseInt(formData.food_amount) +
+                  parseInt(formData.miscellaneous_amount))*parseInt(formData.no_of_days) + parseInt(formData.transport_amount)*2 
            }))
           setVisible(true)
         }}
@@ -1180,7 +1269,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       </div>
 
       <Dialog header="Header" visible={visible} style={{ width: '50vw' }} onHide={() => setVisible(false)}>
-                <TripApplication selectedTrip={dialogTrip} setOpenModal={()=>setVisible(false)}/>
+                <TripApplication selectedTrip={dialogTrip} setTravelReason={setFormData} setOpenModal={()=>setVisible(false)} handleUpdate={handlesubmit}/>
       </Dialog>
     </div>
   );
