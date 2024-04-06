@@ -147,7 +147,7 @@ export default function Login() {
                 </div>
             </div>
                   
-                  <h1 className="text-xl bg-blue-800 text-white -mt-5 w-fit px-4 p-2 mx-auto rounded-lg font-medium    md:text-[30px] flex justify-center">
+            <h1 className="text-xl bg-blue-800 text-white -mt-5 w-fit px-.7 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '7.6rem' }}>
                     OTP Verification
                   </h1>
                   <form className="space-y-4 md:space-y-6" action="#">
@@ -190,7 +190,7 @@ export default function Login() {
                     <button
                       type="submit"
                       onClick={HandleOTP}
-                      className="w-full text-black bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                       style={{ transition: "background 0.3s ease" }}
                       disabled={loading || userOTP === "" }
                     >

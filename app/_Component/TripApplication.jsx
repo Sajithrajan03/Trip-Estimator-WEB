@@ -353,7 +353,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
               icon="pi pi-check mr-2 font-bold"
               className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
             >
-              Apply Changes
+              Submit
             </Button>
              
             <Button

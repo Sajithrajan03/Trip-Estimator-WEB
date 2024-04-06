@@ -1264,7 +1264,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           setVisible(true)
         }}
         >
-          Review & Submit
+          Review
         </Button>
       </div>
 

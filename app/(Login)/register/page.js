@@ -16,10 +16,13 @@ import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import { IoIosCompass } from "react-icons/io";
+
 export default function Login() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [nameFocused, setNameFocused] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [nameError, setNameError] = useState("");
 
   const handleEmailFocus = () => {
     setEmailFocused(true);
@@ -46,13 +49,28 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showName, setShowName] = useState(false);
 
-  const handleClickShowName = () =>
-    setShowName((showName) => !showName);
+  const handleClickShowName = () => setShowName((showName) => !showName);
 
   const router = useRouter();
 
   const HandleLogin = async (e) => {
     e.preventDefault();
+
+    if (!userEmail.trim()) {
+      setEmailError("Email cannot be empty");
+      return;
+    }
+
+    if (!validator.isEmail(userEmail)) {
+      setEmailError("Invalid email format");
+      return;
+    }
+
+    if (!userName.trim()) {
+      setNameError("Name cannot be empty");
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await fetch(GET_OTP_URL, {
@@ -61,8 +79,8 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "userEmail": userEmail,
-          "userName": userName,
+          userEmail: userEmail,
+          userName: userName,
         }),
       });
 
@@ -82,10 +100,8 @@ export default function Login() {
           toastRef
         );
         setTimeout(() => {
-            router.push("/otp");
-        },2000)
-
-         
+          router.push("/otp");
+        }, 2000);
       } else if (response.status === 500) {
         setLoading(false);
         ToastAlert(
@@ -135,94 +151,107 @@ export default function Login() {
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0">
               <div className="w-full  rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 sm:max-w-md xl:p-0 bg-white ">
                 <div className="p-6 space-y-8 sm:p-8">
-                <div className=' flex group justify-center -mb-5'>
-                <IoIosCompass className='text-[45px]  text-blue-800'/>
-                <div className='hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800'>
-                    <span className="text-gray-900">
-                             Trip</span>Estimator
-                </div>
-                <div className='ml-2 md:hidden text-[30px] font-bold text-blue-800'>
-                    <span className="text-gray-900">
-                            T</span>E
-                </div>
-            </div>
-                  
-                  <h1 className="text-xl bg-blue-800 text-white -mt-5 w-fit px-4 p-2 mx-auto rounded-lg font-medium    md:text-[30px] flex justify-center">
+                  <div className="flex group justify-center -mb-5">
+                    <IoIosCompass className="text-[45px]  text-blue-800" />
+                    <div className="hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">Trip</span>Estimator
+                    </div>
+                    <div className="ml-2 md:hidden text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">T</span>E
+                    </div>
+                  </div>
+
+                  <h1
+                    className="text-xl bg-blue-800 text-white -mt-5 w-fit px-1 p-1 rounded-lg font-medium md:text-[25px] flex justify-center mx-auto"
+                    style={{ marginLeft: "7.6rem" }}
+                  >
                     Registration
                   </h1>
+
                   <form className="space-y-4 md:space-y-6" action="#">
                     <div>
                       <label
                         htmlFor="email"
                         className="block mb-2 text-sm font-medium text-black"
                       >
-                       Enter your Email
+                        Enter your Email
                       </label>
                       <div>
-                  <TextField
-                    id="outlined-error-helper-text"
-                    placeholder="Enter Email"
-                    value={userEmail}
-                    sx={{
-                      width: "100%",
-                      borderRadius: 5,
-                      transition: "transform 0.3s ease",
-                      transform: emailFocused ? "scale(1.02)" : "scale(1)",
-                      marginBottom: "16px", // Add margin bottom for spacing
-                    }}
-                    onFocus={() => {
-                      handleEmailFocus();
-                      setNameFocused(false); // Ensure Name field doesn't scale up when email field is focused
-                    }}
-                    onBlur={() => setEmailFocused(false)}
-                    onChange={(e) => {
-                      const newValue = e.target.value.replace(/\s/g, '');
-                      setUserEmail(newValue);
-                    }}
-                    required
-                  />
-                </div>
+                        <TextField
+                          id="outlined-error-helper-text"
+                          placeholder="Enter Email"
+                          value={userEmail}
+                          sx={{
+                            width: "100%",
+                            borderRadius: 5,
+                            transition: "transform 0.3s ease",
+                            transform: emailFocused
+                              ? "scale(1.02)"
+                              : "scale(1)",
+                            marginBottom: "16px", // Add margin bottom for spacing
+                          }}
+                          onFocus={() => {
+                            handleEmailFocus();
+                            setNameFocused(false); // Ensure Name field doesn't scale up when email field is focused
+                          }}
+                          onBlur={() => setEmailFocused(false)}
+                          onChange={(e) => {
+                            const newValue = e.target.value.replace(
+                              /\s/g,
+                              ""
+                            );
+                            setUserEmail(newValue);
+                            setEmailError("");
+                          }}
+                          required
+                        />
+                        {emailError && (
+                          <p className="text-red-500 text-sm">{emailError}</p>
+                        )}
+                      </div>
+                    </div>
 
-                <div>
-                    
-                <label
-                        htmlFor="email"
+                    <div>
+                      <label
+                        htmlFor="name"
                         className="block mb-2 text-sm font-medium text-black"
                       >
                         Enter your First Name
                       </label>
-                     
-                    
-                <TextField
-                    id="outlined-error-helper-text"
-                    placeholder="Enter Name"
-                    value={userName}
-                    sx={{
-                      width: "100%",
-                      borderRadius: 5,
-                      transition: "transform 0.3s ease",
-                      transform: nameFocused ? "scale(1.02)" : "scale(1)",
-                      marginBottom: "16px", // Add margin bottom for spacing
-                    }}
-                    onFocus={() => {
-                      handleEmailFocus();
-                      setNameFocused(false); // Ensure Name field doesn't scale up when email field is focused
-                    }}
-                    onBlur={() => setNameFocused(false)}
-                    onChange={(e) => {
-                      const newValue = e.target.value.replace(/\s/g, '');
-                      setUserName(newValue);
-                    }}
-                    required
-                  />
-                </div>
-
+                      <TextField
+                        id="outlined-error-helper-text"
+                        placeholder="Enter Name"
+                        value={userName}
+                        sx={{
+                          width: "100%",
+                          borderRadius: 5,
+                          transition: "transform 0.3s ease",
+                          transform: nameFocused
+                            ? "scale(1.02)"
+                            : "scale(1)",
+                          marginBottom: "16px", // Add margin bottom for spacing
+                        }}
+                        onFocus={() => {
+                          handleNameFocus();
+                          setEmailFocused(false); // Ensure Email field doesn't scale up when name field is focused
+                        }}
+                        onBlur={() => setNameFocused(false)}
+                        onChange={(e) => {
+                          const newValue = e.target.value.replace(/\s/g, "");
+                          setUserName(newValue);
+                          setNameError("");
+                        }}
+                        required
+                      />
+                      {nameError && (
+                        <p className="text-red-500 text-sm">{nameError}</p>
+                      )}
                     </div>
-                     
+
                     <button
                       type="submit"
                       onClick={HandleLogin}
-                      className="w-full text-black bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                       style={{ transition: "background 0.3s ease" }}
                       disabled={loading || userEmail === "" || userName === ""}
                     >

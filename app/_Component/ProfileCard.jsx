@@ -99,7 +99,7 @@ export default function ProfileCard({ email }) {
                   className={`group flex items-center gap-3 mb-1 rounded ${
                     isLastItem
                       ? "hover:bg-red-200 focus:bg-red-400 active:bg-red-200"
-                      : "hover:bg-cyan"
+                      : "hover:bg-blue-200 focus:bg-blue-400 active:bg-blue-200"
                   }`}
                   onClick={isLastItem ? handleLogOut : isFavourites ? handleFavouritesClick : handleProfileClick}
                 >
