@@ -15,6 +15,7 @@ import Link from "next/link";
 import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
+import { IoIosCompass } from "react-icons/io";
 
 export default function Login() {
   const [emailFocused, setEmailFocused] = useState(false);
@@ -142,8 +143,20 @@ export default function Login() {
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0">
               <div className="w-full  rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 sm:max-w-md xl:p-0 bg-white ">
                 <div className="p-6 space-y-8 sm:p-8">
-                  <h1 className="text-xl ml-[70px] font-bold leading-tight tracking-tight text-[#183331]  md:text-2xl">
-                    Login to your account
+                <div className="flex group justify-center -mb-5">
+                    <IoIosCompass className="text-[45px]  text-blue-800" />
+                    <div className="hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">Trip</span>Estimator
+                    </div>
+                    <div className="ml-2 md:hidden text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">T</span>E
+                    </div>
+                  </div>
+                  <h1
+                    className="text-xl bg-blue-800 text-white -mt-5 w-fit px-1 p-1 rounded-lg font-medium md:text-[25px] flex justify-center mx-auto"
+                    style={{ marginLeft: "10rem" }}
+                  >
+                    Login
                   </h1>
                   <form className="space-y-4 md:space-y-6" action="#">
                     <div>

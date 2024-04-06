@@ -18,7 +18,7 @@ module.exports = withMT({
         primary: 'rgb(var(--primary))',
         secondary: 'rgb(var(--secondary))',
         'dark-primary': 'rgb(var(--dark-primary))',
-        'dark-secondary': 'rgb(var(--dark-secondary))',
+        'dark-secondary': 'rgb(var(--dark-secondary))', 
         'purple': '#3f3cbb',
       'midnight': '#121063',
       'metal': '#565584',
@@ -29,6 +29,7 @@ module.exports = withMT({
       'cyan': '#00FFFF',
 
       },
+      
     },
   },
   
