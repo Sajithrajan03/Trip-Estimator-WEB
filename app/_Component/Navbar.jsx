@@ -80,7 +80,7 @@ export default function CustomDemo() {
             
             <Menu model={menu} popup ref={menuRight} id="popup_menu_right" popupAlignment="right" 
             pt={{
-                submenuHeader: { className: 'text-cyan-500  font-bold text-[20px] p-1 flex justify-center rounded-lg mx-2 mb-1' },
+                submenuHeader: { className: 'text-cyan  font-bold text-[20px] p-1 flex justify-center rounded-lg mx-2 mb-1' },
                 menu: { className: 'text-blue-900  bg-gray-300 ' },
                 menuitem: { className: 'font-bold text-[15px] flex justify-start text-white w-full' },
                 root: { className : "font-bold bg-gray-300 w-fit" },
