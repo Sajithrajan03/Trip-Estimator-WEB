@@ -171,7 +171,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         <ConfirmDialog />
         <div className="flex items-center justify-between ">
             <dir></dir>
-          <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-green-500  ">
+          <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-green-500 ml-16 ">
             Review Application
           </h1>
           <button onClick={() => setOpenModal(false)}
@@ -184,10 +184,10 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         <div className="xl:flex justify-evenly items-center mx-auto">
 
           <div className="mt-4 mx-auto text-[20px]">
-          <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
+          <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
             <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
             
-                <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-2 rounded-lg">
+                <div className="flex space-x-16 border-2 justify-evenly border-blue-500 p-2 rounded-lg ">
                     <div className="flex flex-col font-bold gap-3  ">
                         <h1>Employee Name</h1>
                         <h1>Start City</h1>
@@ -219,33 +219,34 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             </div>
           </div>
           <div className="mt-4 lg:w-[900px]">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expenses</div>
+        <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expenses</div>
           <table className="w-full border-collapse mb-4">
             <tbody className="font-semibold">
               
               
-              <tr className="bg-blue-900 text-white border-black border-2">
-                <th className="text-xl font-bold   border-r-0  p-3">
-                  Estimate
-                </th>
-                <td className="border border-l-0 border-r-2 border-black p-3">
-                  
-                </td>
-                <th className="text-xl font-bold border border-r-0 border-blue-900 p-3">
-                  Amount
-                </th>
-                <td className="border border-l-0 border-blue-900 p-3">
-                   
-                </td>
-              </tr>
+            <tr className="bg-blue-800 text-white">
+            <th className="text-xl font-bold  p-3">
+              Estimate
+            </th>
+            <td className="border-r border-blue-900">
+              
+            </td>
+            <th className="text-xl font-bold border-0 p-3">
+              Amount
+            </th>
+            <td className="border-0">
+                
+            </td>
+          </tr>
+
               <tr className="">
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Transport Estimate
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.transport_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Transport Amount
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -254,13 +255,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
               </tr>
 
               <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Hotel Estimate
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.hotel_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Hotel Amount
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -268,13 +269,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Food Estimate
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.food_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Food Amount
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -282,13 +283,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Miscellaneous Estimate
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.miscellaneous_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Miscellaneous Amount
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -297,13 +298,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
               </tr>
               
               <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Trip Estimate (1 Day)
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.trip_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Trip Amount (1 Day)
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -311,13 +312,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
                 </td>
               </tr>
               <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Total Estimate ({selectedTrip.no_of_days} Days)
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.total_estimate}
                 </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
+                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
                   Total Amount ({selectedTrip.no_of_days} Days)
                 </th>
                 <td className="border border-blue-900 p-3">
@@ -330,7 +331,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         </div>
         </div>
         <div className="flex flex-col gap-y-5">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
+        <div className="bg-blue-600 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
           <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg text-center">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
           <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
           <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg text-center">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
@@ -342,7 +343,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         
         
         
-        <div className="bg-blue-900 p-2 my-[30px] px-3 rounded-lg font-bold text-white text-[20px] w-fit mx-auto">Travel Reason</div>
+        <div className="bg-blue-500 p-2 my-[30px] px-3 rounded-lg font-bold text-white text-[20px] w-fit mx-auto">Travel Reason</div>
         <div className="mt-5">
           <textarea
             rows="4"
@@ -361,7 +362,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             <Button
               onClick={(e) => confirm1(e)}
               icon="pi pi-check mr-2 font-bold"
-              className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
+              className="bg-green-500 text-white font-bold rounded-md hover:scale-105"
             >
               Submit
             </Button>
@@ -369,7 +370,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             <Button
               onClick={downloadCSV}
               icon="pi pi-download mr-2"
-              className="bg-blue-200 text-black font-bold rounded-md hover:scale-105"
+              className="bg-blue-700 text-white font-bold rounded-md hover:scale-105"
               disabled={downloading} // Disable the button when downloading is in progress
             >
               Download CSV

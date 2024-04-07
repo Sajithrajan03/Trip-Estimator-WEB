@@ -1234,7 +1234,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       </div>}
 
       <div className="flex justify-center">
-        <Button className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3" 
+      <Button 
+  className="bg-green-500 mt-[40px] p-2 mx-auto font-bold text-[22px] px-3 mb-3 rounded-2xl transition-transform hover:scale-105 border border-none "
+
         // onClick={handlesubmit}
 
         onClick={() => {
