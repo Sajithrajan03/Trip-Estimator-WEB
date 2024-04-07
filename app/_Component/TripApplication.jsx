@@ -184,7 +184,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
 
           <div className="mt-4 mx-auto text-[20px]">
           <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
-            <div className=" p-4 bg-white rounded-lg lg:w-[600px]  mr-3 mb-4 h-fit ">
+            <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
             
                 <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-2 rounded-lg">
                     <div className="flex flex-col font-bold gap-3  ">
@@ -327,6 +327,15 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
             </tbody>
           </table>
         </div>
+        </div>
+        <div className="flex flex-col gap-y-5">
+        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
+          <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_amount} = 2 * {selectedTrip.transport_amount} + ({selectedTrip.hotel_amount} + {selectedTrip.food_amount} + {selectedTrip.miscellaneous_amount}) * {selectedTrip.no_of_days}</div>
+          <div className="w-fit mx-auto bg-white flex justify-center font-bold text-[18px] text-black px-3 p-2 rounded-lg">Difference in Estimate vs Amount = {selectedTrip.total_amount - selectedTrip.total_estimate}</div>
+           
         </div>
         
         
