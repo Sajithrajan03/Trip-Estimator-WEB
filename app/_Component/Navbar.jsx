@@ -13,8 +13,11 @@ import { useRouter } from 'next/navigation';
 import { comma } from 'postcss/lib/list';
 export default function CustomDemo() {
     const[ userName,setUserName]=useState("")
+    const [accountStatus,setAccountStatus]=useState('nostatus');
     useEffect(() => {
       setUserName(secureLocalStorage.getItem("userName"));
+      setAccountStatus(secureLocalStorage.getItem("accountStatus"));
+      
     }, []);
      
     const router =useRouter();
@@ -36,45 +39,85 @@ export default function CustomDemo() {
         </React.Fragment>
     );
     const menuRight = useRef(null);
-    const menu = [
-        {
-            label: 'Options',
-            items: [
-                {
-                    label: 'Apply for Trip',
-                    icon: 'pi pi-plus',
-                    command: () => router.push('/applicant')
-                },
-                {
-                    label: 'View Application',
-                    icon: 'pi  pi-th-large',
-                    command: () => router.push('/applicant/dashboard')
-
-                },
-                {
-                    label: 'View Profile',
-                    icon: 'pi pi-user',
-                    command: () => router.push('/profile')
-
-                }
-            ]
-        },
-        {
-            label: 'Help',
-            items: [
-                {
-                    label: 'Contact Us',
-                    icon: 'pi pi-phone',
-                    command: () => router.push('/contactus')
-                },
-                {
-                    label: 'FAQ',
-                    icon: 'pi pi-question-circle',
-                    command: () => router.push('/faq')
-                }
-            ]
-        }
-    ];
+    let menu;
+     
+    if (accountStatus !== 'nostatus' && accountStatus != 2) {
+        menu = [
+            {
+                label: 'Options',
+                items: [
+                    {
+                        label: 'Apply for Trip',
+                        icon: 'pi pi-plus',
+                        command: () => router.push('/applicant')
+                    },
+                    {
+                        label: 'View Application',
+                        icon: 'pi  pi-th-large',
+                        command: () => router.push('/applicant/dashboard')
+    
+                    },
+                    {
+                        label: 'View Profile',
+                        icon: 'pi pi-user',
+                        command: () => router.push('/profile')
+    
+                    }
+                ]
+            },
+            {
+                label: 'Help',
+                items: [
+                    {
+                        label: 'Contact Us',
+                        icon: 'pi pi-phone',
+                        command: () => router.push('/contactus')
+                    },
+                    {
+                        label: 'FAQ',
+                        icon: 'pi pi-question-circle',
+                        command: () => router.push('/faq')
+                    }
+                ]
+            }
+        ];
+    }
+    else{
+        menu = [
+            {
+                label: 'Options',
+                items: [
+                    {
+                        label: 'View Dashboard',
+                        icon: 'pi pi-slack',
+                        command: () => router.push('/approver')
+                    },
+                    
+                    {
+                        label: 'View Profile',
+                        icon: 'pi pi-user',
+                        command: () => router.push('/profile')
+    
+                    }
+                ]
+            },
+            {
+                label: 'Help',
+                items: [
+                    {
+                        label: 'Contact Us',
+                        icon: 'pi pi-phone',
+                        command: () => router.push('/contactus')
+                    },
+                    {
+                        label: 'FAQ',
+                        icon: 'pi pi-question-circle',
+                        command: () => router.push('/faq')
+                    }
+                ]
+            }
+        ];
+    }
 
     const centerContent = (
         <div className="flex justify-between flex-wrap align-items-center gap-8 lg:gap-17 md:gap-12  ">
