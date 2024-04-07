@@ -161,10 +161,8 @@ export default function Login() {
                     </div>
                   </div>
 
-                  <h1
-                    className="text-xl bg-blue-800 text-white -mt-5 w-fit px-1 p-1 rounded-lg font-medium md:text-[25px] flex justify-center mx-auto"
-                    style={{ marginLeft: "7.6rem" }}
-                  >
+                  <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-1 p-1.5 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '9rem' }}>
+                  
                     Registration
                   </h1>
 
@@ -251,7 +249,7 @@ export default function Login() {
                     <button
                       type="submit"
                       onClick={HandleLogin}
-                      className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full text-white  bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                       style={{ transition: "background 0.3s ease" }}
                       disabled={loading || userEmail === "" || userName === ""}
                     >
