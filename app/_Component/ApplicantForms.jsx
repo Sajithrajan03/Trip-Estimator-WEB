@@ -22,10 +22,14 @@ import { Co2Sharp } from "@mui/icons-material";
 import { TbMeat } from "react-icons/tb";
 import { Dialog } from 'primereact/dialog';
 import TripApplication from "./TripApplication";
+import LoadingScreen from "@/app/_Component/LoadingScreen";
+ 
+
 import secureLocalStorage from "react-secure-storage"
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const toastRef = useRef();
   const handleFromDateChange = (date) => {
@@ -130,7 +134,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       trip_estimate: formData.trip_estimate,
       trip_amount: formData.trip_amount,
     }
-    console.log(formData)
+     
   }, [averageData,formData ]);
 
   const cityOptions = [
@@ -258,6 +262,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
 
   const handlesubmit = async () => {
     try {
+      setLoading(true);
       const response = await fetch(ENTER_TRIP_DETAILS_URL, {
         method: "POST",
         headers: {
@@ -295,8 +300,9 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         }),
       });
       const data = await response.json();
+       
       if (response.status === 200) {
-         
+        setLoading(false);
         ToastAlert(
           "success",
           "Successful",
@@ -315,7 +321,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         );
       } else if (data.Message !== undefined || data.Message !== null) {
         setLoading(false);
-        ToastAlert("error", "Login Failed", `${data.Message}`, toastRef);
+        ToastAlert("error", "Failed", `${data.Message}`, toastRef);
       } else {
         setLoading(false);
         ToastAlert(
@@ -339,6 +345,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
       <div className="p-2">
                   <Toast ref={toastRef} position="bottom-center" className="p-5" />
        </div>
+       {loading ? <LoadingScreen /> : null}
       <div className="flex xl:space-x-2 space-y-4 xl:space-y-0 flex-col xl:flex-row mt-[20px]">
         <div className=" md:flex-row   lg flex flex-col space-y-3  font-bold p-2:space-y-0 md:space-y-0 md:space-x-4 justify-center items-center w-full">
           <div

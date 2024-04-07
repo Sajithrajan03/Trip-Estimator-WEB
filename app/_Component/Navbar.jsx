@@ -47,7 +47,8 @@ export default function CustomDemo() {
                 },
                 {
                     label: 'View Application',
-                    icon: 'pi  pi-th-large'
+                    icon: 'pi  pi-th-large',
+                    command: () => router.push('/applicant/dashboard')
 
                 },
                 {
@@ -110,9 +111,9 @@ export default function CustomDemo() {
         <React.Fragment>
             <div className="flex align-items-center items-center gap-2">
                 <ProfileCard email={"sajith"}/>
-                {/* if (userName != null && userName != undefined && userName != "") {
+                {(userName != null && userName != undefined && userName != "") &&
                 <span className="font-bold text-blue-800 text-[20px]">{userName.toUpperCase()}</span>
-                } */}
+                }
                 </div>
         </React.Fragment>
     );
