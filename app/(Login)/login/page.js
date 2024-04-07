@@ -153,8 +153,8 @@ export default function Login() {
                     </div>
                   </div>
                   <h1
-                    className="text-xl bg-blue-800 text-white -mt-5 w-fit px-1 p-1 rounded-lg font-medium md:text-[25px] flex justify-center mx-auto"
-                    style={{ marginLeft: "10rem" }}
+                    className="text-xl bg-blue-800 text-white -mt-5  w-fit px-3 p-2 rounded-lg font-medium md:text-[25px] flex justify-center mx-auto"
+                    
                   >
                     Login
                   </h1>
