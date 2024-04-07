@@ -152,7 +152,7 @@ export default function Login() {
                       <span className="text-gray-900">T</span>E
                     </div>
                   </div>
-                  <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-.4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '10.3rem' }}>
+                  <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto">
                     Login
                   </h1>
                   <form className="space-y-4 md:space-y-6" action="#">

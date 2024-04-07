@@ -309,7 +309,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           `${data.Message}`,
           toastRef
         );
-
+        setVisible(false);
          
       } else if (response.status === 500) {
         setLoading(false);
@@ -319,6 +319,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           "Something went wrong! Please try again.",
           toastRef
         );
+        setVisible(false);
       } else if (data.Message !== undefined || data.Message !== null) {
         setLoading(false);
         ToastAlert("error", "Failed", `${data.Message}`, toastRef);
@@ -331,6 +332,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           toastRef
         );
       }
+      
 
 
 
