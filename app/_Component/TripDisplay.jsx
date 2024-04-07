@@ -1,19 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import LoadingScreen from "@/app/_Component/LoadingScreen";
 
-import { ConfirmDialog } from 'primereact/confirmdialog'; // For <ConfirmDialog /> component
-import { confirmDialog } from 'primereact/confirmdialog'; // For confirmDialog method
-        
+import ToastAlert from "@/app/_Component/_util/ToastAlerts";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';        
+import {UPDATE_TRIP_DETAILS_URL} from  "@/app/_Component/_util/constants";
+import secureLocalStorage from 'react-secure-storage';
 const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   const toast = useRef(null);
   const [adminMessage, setAdminMessage] = useState("");
   const [downloading, setDownloading] = useState(false);
-
+  const [loading,setLoading] = useState(false);
   // if (!selectedTrip) {
   //   return null; // If selectedTrip is not provided, render nothing
   // }
 
+   
   useEffect(() => {
     const handleEsc = (event) => {
       if (event.key === 'Escape') {
@@ -36,21 +41,28 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
 
   const reject = () => {
     toast.current.show({ severity: 'warn', summary: 'Request Canceled', detail: 'You have canceled the request', life: 3000 });
+    
     setTimeout(() => {
+      setLoading(false)
       setOpenModal(false);
     }, 1000);
   };
+  const confirm3 =()=>{
+    
+  }
 
   const confirm1 = () => {
+
     confirmDialog({
       message: 'Are you sure you want to proceed?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       defaultFocus: 'accept',
       accept: () => {
+        setLoading(true);
         toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted the Application', life: 3000 });
         setTimeout(() => {
-          handleUpdate();
+          handleUpdate(1);
         }, 1000);
       },
       reject
@@ -66,6 +78,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
       acceptClassName: 'p-button-danger',
       reject,
       accept: () => {
+        setLoading(true);
         toast.current.show({ severity: 'error', summary: 'Rejected', detail: 'You have rejected the Application', life: 3000 });
         setTimeout(() => {
           handleUpdate(2);
@@ -89,16 +102,33 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           "admin_message": adminMessage
         }),
       });
-
-      if (response.status === 401) {
-        toast.current.show({ severity: 'error', summary: 'Error', detail: 'Session Expired, Please Login Again', life: 3000 });
+      const data2 = await response.json()
+      setLoading(false)
+      if (response.status == 200){
+        toast.current.show({ severity: 'success', summary: 'Success', detail: `${data2.Message}`, life: 3000 });
+        setTimeout(() => {
+            setOpenModal(false);
+          },4000)
+      }
+      if (response.status == 401) {
+        toast.current.show({ severity: 'error', summary: 'Failed', detail: 'Session Expired, Please Login Again', life: 3000 });
         setTimeout(() => {
           secureLocalStorage.clear();
+          setOpenModal(false);
           router.replace('/');
         }, 3000);
       }
+      if (response.status == 400) {
+        
+         
+        toast.current.show({ severity: 'error', summary: 'Failed', detail: `${data2.Message}`, life: 3000 });
+         
+      }
+      // setTimeout(() => {
+      //   setOpenModal(false);
+      // },4000)
 
-      setOpenModal(false);
+      
     } catch (error) {
       console.error("Error:", error);
       setOpenModal(false);
@@ -156,6 +186,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
       <div className="bg-white rounded-lg border-4 border-blue-200 p-3 w-11/12 h-5/6 overflow-auto shadow-md">
         <Toast ref={toast} position="bottom-center" className="p-5" />
+        <ConfirmDialog />
+        {loading ? <LoadingScreen /> : null}
         <div className="relative">
           <div className="flex items-center justify-center">
             <h1 className="text-4xl font-bold text-gray-900 underline -lightgray p-2 rounded-full mt-0 transform -translate-y-6">Trip Details</h1>

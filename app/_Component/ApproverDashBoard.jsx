@@ -1,5 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import { Toast } from 'primereact/toast';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import ToastAlert from "@/app/_Component/_util/ToastAlerts";
+import React, { useState,useRef } from "react";
 import Navbar from "@/app/_Component/Navbar";
 import { TabMenu } from "primereact/tabmenu";
 import "primeicons/primeicons.css";
@@ -10,7 +14,7 @@ import { useRouter } from "next/navigation";
 import TripDisplay from "./TripDisplay";
 const TripTable = ({ trips,m1,m2 }) => {
   const [selectedTrip, setSelectedTrip] = useState(null);
-  
+  const toast = useRef(null);
   const router= useRouter()
   const items = [
     {
@@ -45,7 +49,8 @@ const TripTable = ({ trips,m1,m2 }) => {
   return (
     <div className="  overflow-x-auto">
       <Navbar />
-      
+
+      <Toast ref={toast} position="bottom-center" className="p-5" />
       <div className="p-2  bg-opacity-30 bg-black backdrop-filter  backdrop-blur-lg w-fit h-fit mx-auto mt-10 rounded-md flex items-center">
         <div className="flex">
         <div className="flex w-[400px] justify-evenly md:w-[460px] my-auto mx-auto rounded-md">
@@ -154,7 +159,7 @@ const TripTable = ({ trips,m1,m2 }) => {
           ) : null
         )}
       </div>
-      {openModal && (<TripDisplay selectedTrip={selectedTrip} setOpenModal={setOpenModal} openModal={openModal} className={`transition-transform duration-300 transform ${openModal ? 'scale-100' : 'scale-0'}`}/>)}
+      {openModal && (<TripDisplay selectedTrip={selectedTrip} setOpenModal={setOpenModal} openModal={openModal} toastref = {toast} className={`transition-transform duration-300 transform ${openModal ? 'scale-100' : 'scale-0'}`}/>)}
       
     </div>
   );
