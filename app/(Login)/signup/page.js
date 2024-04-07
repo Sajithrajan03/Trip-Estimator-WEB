@@ -58,12 +58,12 @@ export default function Register() {
   const isPhoneValid = phoneRegex.test(phone);
   const isNameValid = nameRegex.test(name);
   const isConfirmPasswordValid = password === confirmPassword;
-
+  const [empStatus, setEmpStatus] = useState("0");
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
+  const [formGender,setFormGender] = useState("M")
   const statesInIndia = [
     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
     'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra',
@@ -71,6 +71,19 @@ export default function Register() {
     'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Andaman and Nicobar Islands',
     'Chandigarh', 'Dadra and Nagar Haveli and Daman and Diu', 'Delhi', 'Lakshadweep', 'Puducherry',
   ];
+  const handleJobRoleChange = (e, newValue) => {
+    if (newValue === "Applicant") {
+      setJobRole(newValue); 
+      setEmpStatus("1")
+    }
+    else if (newValue === "Approver") {
+      setJobRole(newValue); 
+      setEmpStatus("2")
+    }
+    // Update the selected job role
+    setIsJobRoleValid(true); // Set job role validity to true
+    
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -86,25 +99,26 @@ export default function Register() {
           "emp_name": name,
           "emp_email": email,
           "mobile": phone,
+          "emp_gender":formGender,
           "emp_password": hashPassword(password),
           // designation: designation,
           "state": state,
           "city": city, 
-          jobRole: jobRole,
+          "emp_status": empStatus,
         }),
       });
       const data = await response.json();
       if (response.status === 200) {
         secureLocalStorage.setItem("tempRegisterToken", data["SECRET_TOKEN"]);
         secureLocalStorage.setItem("registerEmail", email);
-        ToastAlert("success","Email Verification", `${data.MESSAGE}`, toastRef);
+        ToastAlert("success","Email Verification", `${data.Message}`, toastRef);
         setTimeout(() => {
-          router.push("/register/verify");
+          router.push("/");
         }, 1500);
       } else if (response.status === 500) {
         ToastAlert("error", "Oops!", "Something went wrong! Please try again later!", toastRef);
-      } else if (data.MESSAGE !== undefined || data.MESSAGE !== null) {
-        ToastAlert("error", "Registration Failed", data.MESSAGE, toastRef);
+      } else if (data.Message !== undefined || data.Message !== null) {
+        ToastAlert("error", "Registration Failed", data.Message, toastRef);
       } else {
         ToastAlert("error", "Oops!", "Something went wrong! Please try again later!", toastRef);
       }
@@ -184,7 +198,18 @@ export default function Register() {
                     label="Gender"
                     value={gender}
                     onChange={(e) => {
-                      setGender(e.target.value);
+                      
+                       
+                      if (e.target.value == "male") {
+                        setGender(e.target.value);
+                        setFormGender("M")
+                      }
+                      else if (e.target.value == "female"){
+                        setGender(e.target.value)
+                        setFormGender("F")
+                      }
+                      setGender(e.target.value)
+                      console.log(formGender,gender)
                       setIsGenderValid(e.target.value !== "");
                     }}
                     sx={{
@@ -200,27 +225,32 @@ export default function Register() {
                 </div>
                 {/* State */}
                 <div id="Fields" className="mb-6">
-                  <Autocomplete
+                  {/* <Autocomplete
                     options={statesInIndia}
                     onChange={(e) => {
                       setState(e.target.value);
                       setIsStateValid(e.target.value !== "");
                     }}
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="State"
-                        variant="outlined"
-                        
-                        required
-                      />
+                      
                     )}
                     filterOptions={(options, state) => {
                       return options.filter((option) =>
                         option.toLowerCase().includes(state.inputValue.toLowerCase())
                       );
                     }}
-                  />
+                  /> */}
+                  <TextField
+                        
+                        label="State"
+                        variant="outlined"
+                        onChange={(e) => {
+                          setState(e.target.value);
+                          setIsStateValid(e.target.value !== "");
+                        }}
+                        
+                        required
+                      />
                 </div>
                 {/* City */}
                 <div id="Fields" className="mb-6">
@@ -280,24 +310,20 @@ export default function Register() {
                 </div>
                 {/* Job Role */}
                 <div id="Fields" className="mb-6">
-                  <Autocomplete
-                    options={["Applicant", "Approver"]}
-                    onChange={(e) => {
-                      console.log("hi")
-                      setJobRole(e.target.value);
-                      setIsJobRoleValid(true);
-                    }}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Job Role"
-                        variant="outlined"
-                        value={jobRole}
-                        
-                        required
-                      />
-                    )}
-                  />
+                <Autocomplete
+      options={["Applicant", "Approver"]}
+      onChange={handleJobRoleChange} // Call handleJobRoleChange when selection changes
+      value={jobRole} // Set the selected value
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Job Role"
+          variant="outlined"
+          required
+        />
+      )}
+    />
+  
                 </div>
                 {/* Password */}
                 <div id="Fields" className="mb-6">
