@@ -186,177 +186,179 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
 
   return (
     <div className="fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center">
-      <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-[85%] h-[95%] overflow-auto shadow-md">
-        <Toast ref={toast} position="bottom-center" className="p-5" />
-        <ConfirmDialog />
-        <div className="flex items-center justify-between ">
-            <dir></dir>
-          <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-green-500  ">
-            Review Application
-          </h1>
-          <button onClick={() => setOpenModal(false)}
-            className="text-2xl font-bold mr-8 hover:text-gray-600 focus:outline-none"
-          >
-            <IoCloseCircle size={30} className="text-red-400 "/>
-          </button>
-        </div>
+    <div className="bg-gray-200 pt-10 rounded-lg  border-4 border-blue-200 p-3 w-[85%] h-[95%] overflow-auto shadow-md">
+      <Toast ref={toast} position="bottom-center" className="p-5" />
+      <ConfirmDialog />
+      <div className="flex items-center justify-between ">
+          <dir></dir>
+        <h1 className="text-[30px] font-bold text-white p-1 px-2 rounded-lg bg-green-500 ml-16 ">
+          Review Application
+        </h1>
+        <button onClick={() => setOpenModal(false)}
+          className="text-2xl font-bold mr-8 hover:text-gray-600 focus:outline-none"
+        >
+          <IoCloseCircle size={30} className="text-red-400 "/>
+        </button>
+      </div>
 
-        <div className="xl:flex justify-evenly items-center mx-auto">
+      <div className="xl:flex justify-evenly items-center mx-auto">
 
-          <div className="mt-4 mx-auto text-[20px]">
-          <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
-            <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
-            
-                <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-8 rounded-lg">
-                    <div className="flex flex-col font-bold gap-3  ">
-                        <h1>Employee Name</h1>
-                        <h1>Start City</h1>
-                        <h1>End City</h1>
-                        <h1>Travel Start Date</h1>
-                        <h1>Travel End Date</h1>
-                        <h1>No of Day(s)</h1>
-                        <h1>Mode of Transport</h1>
-                        <h1>Hotel Type</h1>
-            
-                    </div>
-                    <div className="flex flex-col gap-3">
-                        <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
-                        <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>
-                        <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
-                        <h1>{new Date(selectedTrip.travel_start_date).toLocaleDateString(
-                        "en-US",
-                        { month: "long", day: "numeric", year: "numeric" }
-                      )}</h1>
-                      <h1>{new Date(selectedTrip.travel_end_date).toLocaleDateString(
-                        "en-US",
-                        { month: "long", day: "numeric", year: "numeric" }
-                      )}</h1>
-                      <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
-                      <h1>{selectedTrip.transport_mode}</h1>
-                      <h1>{selectedTrip.hotel_type}</h1>
-                    </div>
-                </div>
-            </div>
+        <div className="mt-4 mx-auto text-[20px]">
+        <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
+          <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
+          
+              <div className="flex space-x-16 border-2 justify-evenly border-blue-500 p-2 rounded-lg ">
+                  <div className="flex flex-col font-bold gap-3  ">
+                      <h1>Employee Name</h1>
+                      <h1>Start City</h1>
+                      <h1>End City</h1>
+                      <h1>Travel Start Date</h1>
+                      <h1>Travel End Date</h1>
+                      <h1>No of Day(s)</h1>
+                      <h1>Mode of Transport</h1>
+                      <h1>Hotel Type</h1>
+          
+                  </div>
+                  <div className="flex flex-col gap-3">
+                      <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
+                      <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>
+                      <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
+                      <h1>{new Date(selectedTrip.travel_start_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}</h1>
+                    <h1>{new Date(selectedTrip.travel_end_date).toLocaleDateString(
+                      "en-US",
+                      { month: "long", day: "numeric", year: "numeric" }
+                    )}</h1>
+                    <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
+                    <h1>{selectedTrip.transport_mode}</h1>
+                    <h1>{selectedTrip.hotel_type}</h1>
+                  </div>
+              </div>
           </div>
-          <div className="mt-4 lg:w-[900px]">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expenses</div>
-          <table className="w-full border-collapse mb-4">
-            <tbody className="font-semibold">
+        </div>
+        <div className="mt-4 lg:w-[900px]">
+      <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Expenses</div>
+        <table className="w-full border-collapse mb-4">
+          <tbody className="font-semibold">
+            
+            
+          <tr className="bg-blue-800 text-white">
+          <th className="text-xl font-bold  p-3">
+            Estimate
+          </th>
+          <td className="border-r border-blue-900">
+            
+          </td>
+          <th className="text-xl font-bold border-0 p-3">
+            Amount
+          </th>
+          <td className="border-0">
               
-              
-              <tr className="bg-blue-900 text-white border-black border-2">
-                <th className="text-xl font-bold   border-r-0  p-3">
-                  Estimate
-                </th>
-                <td className="border border-l-0 border-r-2 border-black p-3">
-                  
-                </td>
-                <th className="text-xl font-bold border border-r-0 border-blue-900 p-3">
-                  Amount
-                </th>
-                <td className="border border-l-0 border-blue-900 p-3">
-                   
-                </td>
-              </tr>
-              <tr className="">
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Transport Estimate
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.transport_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Transport Amount
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.transport_amount}
-                </td>
-              </tr>
+          </td>
+        </tr>
 
-              <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Hotel Estimate
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.hotel_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Hotel Amount
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.hotel_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Food Estimate
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.food_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Food Amount
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.food_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Miscellaneous Estimate
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.miscellaneous_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Miscellaneous Amount
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.miscellaneous_amount}
-                </td>
-              </tr>
-              
-              <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Trip Estimate (1 Day)
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.trip_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Trip Amount (1 Day)
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.trip_amount}
-                </td>
-              </tr>
-              <tr>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Total Estimate ({selectedTrip.no_of_days} Days)
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.total_estimate}
-                </td>
-                <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Total Amount ({selectedTrip.no_of_days} Days)
-                </th>
-                <td className="border border-blue-900 p-3">
-                  ₹ {selectedTrip.total_amount}
-                </td>
-              </tr>
-              
-            </tbody>
-          </table>
-        </div>
-        </div>
-        <div className="flex flex-col gap-y-5">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
-          <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_amount} = 2 * {selectedTrip.transport_amount} + ({selectedTrip.hotel_amount} + {selectedTrip.food_amount} + {selectedTrip.miscellaneous_amount}) * {selectedTrip.no_of_days}</div>
-          <div className="w-fit mx-auto bg-white flex justify-center font-bold text-[18px] text-black px-3 p-2 rounded-lg">Difference in Estimate vs Amount = {selectedTrip.total_amount - selectedTrip.total_estimate}</div>
-           
+            <tr className="">
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Transport Estimate
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.transport_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Transport Amount
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.transport_amount}
+              </td>
+            </tr>
+
+            <tr>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Hotel Estimate
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.hotel_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Hotel Amount
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.hotel_amount}
+              </td>
+            </tr>
+            <tr>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Food Estimate
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.food_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Food Amount
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.food_amount}
+              </td>
+            </tr>
+            <tr>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Miscellaneous Estimate
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.miscellaneous_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Miscellaneous Amount
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.miscellaneous_amount}
+              </td>
+            </tr>
+            
+            <tr>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Trip Estimate (1 Day)
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.trip_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Trip Amount (1 Day)
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.trip_amount}
+              </td>
+            </tr>
+            <tr>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Total Estimate ({selectedTrip.no_of_days} Days)
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.total_estimate}
+              </td>
+              <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-600 text-white">
+                Total Amount ({selectedTrip.no_of_days} Days)
+              </th>
+              <td className="border border-blue-900 p-3">
+                ₹ {selectedTrip.total_amount}
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div className="flex flex-col gap-y-5">
+      <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
+        <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
+        <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
+        <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
+        <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_amount} = 2 * {selectedTrip.transport_amount} + ({selectedTrip.hotel_amount} + {selectedTrip.food_amount} + {selectedTrip.miscellaneous_amount}) * {selectedTrip.no_of_days}</div>
+        <div className="w-fit mx-auto bg-white flex justify-center font-bold text-[18px] text-black px-3 p-2 rounded-lg">Difference in Estimate vs Amount = {selectedTrip.total_amount - selectedTrip.total_estimate}</div>
+         
+      </div>
         </div>
         <div className="mt-5">
           <textarea
@@ -401,7 +403,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           {downloading && <div className="download-animation">Downloading...</div>}
         </div>
       </div>
-    </div>
+    
   );
 };
 
