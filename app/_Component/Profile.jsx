@@ -149,14 +149,14 @@ const ProfileSettings = () => {
   return (
     <div className="flex justify-center items-center h-full mt-2">
       <div
-        className="container rounded bg-white p-5 mt-5"
-        style={{ width: "90%", height: "550px" }}
+        className="container rounded bg-white p-4 mt-5"
+        style={{ width: "82%", height: "400px" }}
       >
         <ToastContainer />
         {profileData && (
           <div className="flex justify-center">
             <div className="w-full md:w-1/3 border-r border-gray-300">
-              <div className="flex flex-col items-center text-center p-3 py-5">
+              <div className="flex flex-col items-center text-center p-2 py-2">
                 <FaUserCircle className="rounded-full mt-5 text-6xl text-blue-500 mb-3" />
                 <div className="flex flex-col">
                   <span className="font-bold mb-2">{profileData.emp_name}</span>
@@ -291,7 +291,7 @@ const ProfileSettings = () => {
                       />
                     </div>
                   </div>
-                  <div className="mt-5 text-center mt-2">
+                  {/*<div className="mt-5 text-center mt-2">
                     {!editMode && (
                       <button
                         type="button"
@@ -324,7 +324,7 @@ const ProfileSettings = () => {
                         </button>
                       </>
                     )}
-                  </div>
+                  </div>*/}
                 </form>
               </div>
             </div>
