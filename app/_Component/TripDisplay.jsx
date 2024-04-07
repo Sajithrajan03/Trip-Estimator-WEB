@@ -4,6 +4,7 @@ import { Toast } from 'primereact/toast';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import LoadingScreen from "@/app/_Component/LoadingScreen";
+import { InputText } from "primereact/inputtext";
 
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';        
@@ -16,6 +17,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   const [adminMessage, setAdminMessage] = useState("");
   const [downloading, setDownloading] = useState(false);
   const [loading,setLoading] = useState(false);
+  
   // if (!selectedTrip) {
   //   return null; // If selectedTrip is not provided, render nothing
   // }
@@ -49,8 +51,19 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
       setOpenModal(false);
     }, 1000);
   };
+  const [showModify,setShowModify]=useState(false) 
+  const [newTrip,setNewTrip]=useState(0)
+  useEffect(()=>{
+    if (selectedTrip){
+    setNewTrip(selectedTrip.total_amount)
+    console.log(selectedTrip)
+    }
+
+  },[selectedTrip])
+  
   const confirm3 =()=>{
-    
+      setShowModify(true);
+      
   }
 
   const confirm1 = () => {
@@ -100,7 +113,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         body: JSON.stringify({
           "trip_id": selectedTrip.trip_id,
           "trip_status": status,
-          "trip_amount": selectedTrip.trip_amount,
+          "trip_amount": newTrip,
           "admin_message": adminMessage
         }),
       });
@@ -208,7 +221,8 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
             <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
             
                 <div className="flex space-x-16 border-2 justify-evenly border-blue-800 p-8 rounded-lg">
-                    <div className="flex flex-col font-bold gap-3  ">
+                    <div className="flex flex-col font-bold gap-2 h-[300px]  ">
+                        <h1>Trip ID</h1>
                         <h1>Employee Name</h1>
                         <h1>Start City</h1>
                         <h1>End City</h1>
@@ -217,9 +231,11 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                         <h1>No of Day(s)</h1>
                         <h1>Mode of Transport</h1>
                         <h1>Hotel Type</h1>
+                        <h1>Travel Reason</h1>
             
                     </div>
-                    <div className="flex flex-col gap-3">
+                    <div className="flex flex-col gap-2  ">
+                        <h1>{selectedTrip.trip_id}</h1>
                         <h1>{selectedTrip.emp_name.toUpperCase()}</h1>
                         <h1>{selectedTrip.start_city_name.toUpperCase()}</h1>
                         <h1>{selectedTrip.end_city_name.toUpperCase()} </h1>
@@ -234,6 +250,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
                       <h1>{Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</h1>
                       <h1>{selectedTrip.transport_mode}</h1>
                       <h1>{selectedTrip.hotel_type}</h1>
+                      <h1>{selectedTrip.travel_reason}</h1>
                     </div>
                 </div>
             </div>
@@ -332,13 +349,13 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
               </tr>
               <tr>
                 <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Total Estimate ({selectedTrip.no_of_days} Days)
+                  Total Estimate ({Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1} Days)
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.total_estimate}
                 </td>
                 <th className="text-xl font-bold border border-blue-900 p-3 bg-blue-800 text-white">
-                  Total Amount ({selectedTrip.no_of_days} Days)
+                  Total Amount ({Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1} Days)
                 </th>
                 <td className="border border-blue-900 p-3">
                   ₹ {selectedTrip.total_amount}
@@ -351,44 +368,82 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
         </div>
         <div className="flex flex-col gap-y-5">
         <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
-          <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
-          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_amount} = 2 * {selectedTrip.transport_amount} + ({selectedTrip.hotel_amount} + {selectedTrip.food_amount} + {selectedTrip.miscellaneous_amount}) * {selectedTrip.no_of_days}</div>
-          <div className="w-fit mx-auto bg-white flex justify-center font-bold text-[18px] text-black px-3 p-2 rounded-lg">Difference in Estimate vs Amount = {selectedTrip.total_amount - selectedTrip.total_estimate}</div>
+          <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg items-center"><span className='text-blue-800 text-[20px] mr-4 flex items-center'>Total Estimate</span> = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg items-center"><span className='text-blue-800   text-[20px] mr-4 flex items-center'>Total Amount </span> = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
+          <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_amount} = 2 * {selectedTrip.transport_amount} + ({selectedTrip.hotel_amount} + {selectedTrip.food_amount} + {selectedTrip.miscellaneous_amount}) * {Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1}</div>
+          <div className="w-fit mx-auto bg-white flex justify-center font-bold text-[18px] text-black px-3 p-2 rounded-lg"><span className=' text-[20px] mr-4 flex items-center'>Difference in Estimate vs Amount </span> = {selectedTrip.total_amount - selectedTrip.total_estimate}</div>
            
         </div>
         <div className="mt-5">
-          <textarea
+        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Admin Message</div>
+          {selectedTrip.trip_status ==0 && <textarea
             rows="4"
             cols="50"
             placeholder="Type your message here..."
             value={adminMessage}
             onChange={(e) => setAdminMessage(e.target.value)}
             className="w-full px-3 py-2 border rounded-md"
-          ></textarea>
+          ></textarea>}
+          {
+            !selectedTrip.trip_status == 0 &&
+            <InputText
+                    className="w-fit bg-white rounded-lg mx-auto flex justify-center text-center"
+                    id="Admin"
+                    
+                    placeholder="Message"
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    value={selectedTrip.admin_message} 
+                    
+                  />
+          }
+
+          {showModify && <span className="p-float-label mt-10 flex w-fit mx-auto bg-white rounded-lg">
+                  <p className="text-black ml-2 mr-2 text-[25px] flex items-center">
+                    ₹
+                  </p>
+                  <InputText
+                    className="w-[150px] bg-white rounded-lg"
+                    id="TripAmount"
+                    keyfilter="int"
+                    placeholder="Modify Trip Amount"
+                    pt={{
+                      root: { className: "border-none text-[20px] font-bold " },
+                    }}
+                    value={newTrip} onChange={(e)=>setNewTrip(e.target.value)}
+                    
+                  />
+                  <label
+                    htmlFor="TripAmount"
+                    className="text-black text-[17px]"
+                  >
+                    Modify Trip Amount
+                  </label>
+                </span>}
           <div className="flex justify-center mt-3 space-x-4">
-            <Button
+            {selectedTrip.trip_status ==0 && <Button
               onClick={(e) => confirm1()}
               icon="pi pi-check mr-2 font-bold"
               className="bg-green-500 text-black font-bold rounded-md hover:scale-105"
             >
               Approve
-            </Button>
-            <Button
+            </Button>}
+            { selectedTrip.trip_status ==0 && !showModify &&<Button
               onClick={(e) => confirm2()}
               icon="pi pi-times mr-2"
               className="bg-[#EE4544] text-black font-bold rounded-md hover:scale-105"
-            >
+            > 
               Reject
-            </Button>
-            <Button
-              onClick={(e) => confirm1()}
+            </Button>}
+            { selectedTrip.trip_status ==0 && !showModify && <Button
+              onClick={(e) => confirm3()}
               icon="pi pi-spin pi-cog font-bold mr-2"
               className="bg-yellow-500 text-black font-bold rounded-md hover:scale-105"
             >
               Modify
-            </Button>
+            </Button>}
             <Button
               onClick={downloadCSV}
               icon="pi pi-download mr-2"

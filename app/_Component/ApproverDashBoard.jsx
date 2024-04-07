@@ -83,7 +83,8 @@ const TripTable = ({ trips,m1,m2 }) => {
                 setSelectedTrip(trip)
                 setOpenModal(true)
               }}
-              className="flex font-bold space-x-4 justify-evenly lg:justify-evenly bg-white rounded-xl pb-1 mb-3 items-center border-gray-200 hover:scale-105 cursor-pointer transition ease-in-out hover:bg-gray-200 duration-300"
+              className={`flex font-bold space-x-4 justify-evenly lg:justify-evenly bg-white rounded-xl pb-1 mb-3 items-center border-gray-200 hover:scale-105 cursor-pointer transition ease-in-out hover:bg-gray-200 duration-300  `}
+
             >
               <div className="flex flex-col sm:min-w-[100px] bg-[#3083ff] rounded-md ml-1 sm:ml-3">
                 <div className="w-full text-[14px] sm:text-[16px] min-w-[70px] md:min-w-[80px] sm:bg-white m-1 mx-auto rounded-md font-bold sm:w-1/2 md:w-auto px-0 mt-1 flex justify-center">
@@ -137,7 +138,7 @@ const TripTable = ({ trips,m1,m2 }) => {
               </div>
               <div className="flex flex-col space-y-1 md:space-y-0 md:flex-row md:justify-evenly justify-center items-center ">
                 <div className=" bg-gray-400 min-w-[100px] text-black font-bold flex justify-center rounded-lg sm:w-1/2 md:w-auto py-2 px-4">
-                  ₹ {trip.total_estimate}
+                  ₹ {trip.total_amount}
                 </div>
                 <div className="w-full sm:w-1/2 md:w-auto min-w-[125px] flex justify-center px-4">
                   {trip.trip_status === 0 ? (
@@ -145,11 +146,11 @@ const TripTable = ({ trips,m1,m2 }) => {
                       Pending
                     </div>
                   ) : trip.trip_status === 1 ? (
-                    <div className="bg-green-500 border-2 border-black text-black font-bold rounded-lg p-2">
+                    <div className="bg-[#77e977] border-2 border-black text-black font-bold rounded-lg p-2">
                       Accepted
                     </div>
                   ) : (
-                    <div className="bg-red-300 border-2 border-black text-black font-bold rounded-lg p-2">
+                    <div className="bg-[#ec5c5c] border-2 border-black text-black font-bold rounded-lg p-2">
                       Rejected
                     </div>
                   )}
