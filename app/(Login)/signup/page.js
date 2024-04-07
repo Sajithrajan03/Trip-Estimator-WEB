@@ -16,16 +16,22 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import { REGISTER_URL } from "@/app/_Component/_util/constants";
 export default function Register() {
+   
+  
+  const [secretToken,setSecretToken] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   useEffect(() => {
-    secureLocalStorage.clear();
+    setSecretToken(secureLocalStorage.getItem("SECRET_TOKEN"))
+    setName(secureLocalStorage.getItem("userName"))
+    setEmail(secureLocalStorage.getItem("userEmail"))
   }, []);
 
   const toastRef = useRef();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -74,15 +80,16 @@ export default function Register() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + secretToken
         },
         body: JSON.stringify({
-          studentFullName: name,
-          studentEmail: email,
-          studentPhone: phone,
-          studentPassword: hashPassword(password),
-          designation: designation,
-          studentState: state,
-          studentCity: city, 
+          "emp_name": name,
+          "emp_email": email,
+          "mobile": phone,
+          "emp_password": hashPassword(password),
+          // designation: designation,
+          "state": state,
+          "city": city, 
           jobRole: jobRole,
         }),
       });
@@ -195,15 +202,16 @@ export default function Register() {
                 <div id="Fields" className="mb-6">
                   <Autocomplete
                     options={statesInIndia}
+                    onChange={(e) => {
+                      setState(e.target.value);
+                      setIsStateValid(e.target.value !== "");
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         label="State"
                         variant="outlined"
-                        onChange={(e) => {
-                          setState(e.target.value);
-                          setIsStateValid(e.target.value !== "");
-                        }}
+                        
                         required
                       />
                     )}
@@ -274,15 +282,18 @@ export default function Register() {
                 <div id="Fields" className="mb-6">
                   <Autocomplete
                     options={["Applicant", "Approver"]}
+                    onChange={(e) => {
+                      console.log("hi")
+                      setJobRole(e.target.value);
+                      setIsJobRoleValid(true);
+                    }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         label="Job Role"
                         variant="outlined"
-                        onChange={(e) => {
-                          setJobRole(e.target.value);
-                          setIsJobRoleValid(e.target.value !== "");
-                        }}
+                        value={jobRole}
+                        
                         required
                       />
                     )}
