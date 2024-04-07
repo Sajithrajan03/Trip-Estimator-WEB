@@ -149,54 +149,58 @@ const ProfileSettings = () => {
   return (
     <div className="flex justify-center items-center h-full mt-2">
       <div
-        className="container rounded bg-white p-4 mt-5"
+        className="container rounded-xl bg-white bg-opacity-70 p-5 mt-5"
         style={{ width: "82%", height: "400px" }}
       >
         <ToastContainer />
         {profileData && (
           <div className="flex justify-center">
-            <div className="w-full md:w-1/3 border-r border-gray-300">
+            <div className="w-full md:w-1/3 border-r  border-black">
               <div className="flex flex-col items-center text-center p-2 py-2">
-                <FaUserCircle className="rounded-full mt-5 text-6xl text-blue-500 mb-3" />
+                <FaUserCircle className="rounded-full mt-5 text-6xl text-blue-700 mb-3" />
                 <div className="flex flex-col">
                   <span className="font-bold mb-2">{profileData.emp_name}</span>
                   {profileData.emp_email && (
                     <div className="text-gray-600 flex items-center mb-2">
-                      <FaEnvelope className="mr-1" />
-                      <span>{profileData.emp_email}</span>
+                      <FaEnvelope className="mr-1 text-blue-700 size-6" />
+                      <span className="text-black">
+  <strong>{profileData.emp_email}</strong>
+</span>
+
                     </div>
                   )}
-                  <div className="text-gray-600 flex items-center ">
+                  <div className="text-black flex items-center ">
                     {profileData.emp_gender === "M" && (
-                      <FaMale className="mr-1" />
+                      <FaMale className="mr-1 text-blue-700 size-6" />
                     )}
                     {profileData.emp_gender === "F" && (
-                      <FaFemale className="mr-1" />
+                      <FaFemale className="mr-1 text-blue-700 size-6" />
                     )}
                     {profileData.emp_gender === "Prefer not to say" ? (
                       <span style={{ fontWeight: "bold" }}>
-                        Gender:&nbsp;&nbsp;
+                        <strong>Gender:&nbsp;&nbsp;</strong>
                       </span>
                     ) : null}
-                    <span>{profileData.emp_gender}</span>
+                    <strong>{profileData.emp_gender}</strong>
                   </div>
+
                   {profileData.emp_status && (
-                    <div className="text-gray-600 flex items-center mt-2">
-                      <FaUserCog className="mr-1" />
-                      {profileData.emp_status === "1" ? (
-                        <span>Applicant</span>
-                      ) : profileData.emp_status === "2" ? (
-                        <span>Approver</span>
-                      ) : null}
-                    </div>
-                  )}
+                  <div className="text-black flex items-center mt-2">
+                    <FaUserCog className="mr-1 text-blue-700 size-6" />
+                    {profileData.emp_status === "1" ? (
+                      <strong>Applicant</strong>
+                    ) : profileData.emp_status === "2" ? (
+                      <strong>Approver</strong>
+                    ) : null}
+                  </div>
+)}
 
                    
                 </div>
               </div>
             </div>
             <div
-              className="w-full md:w-auto border-r border-gray-400"
+              className="w-full md:w-auto border-r border-black"
               style={{ width: "50%" }}
             >
               <div className="p-3 py-6">
@@ -205,47 +209,51 @@ const ProfileSettings = () => {
                 </h4>
                 <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mt-8">
-                    <div>
-                      <label className="text-sm mb-2">Full Name</label>
-                      <input
-                        type="text"
-                        className="form-input"
-                        name="firstName"
-                        value={profileData.emp_name}
-                        onChange={handleChange}
-                        placeholder="Full Name"
-                        required
-                        readOnly={!editMode}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm block mb-2">Email ID</label>
-                      <input
-                        type="email"
-                        className="form-input"
-                        name="email"
-                        value={profileData.emp_email}
-                        onChange={handleChange}
-                        placeholder="Enter Email ID"
-                        required
-                        readOnly={!editMode}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm block mb-2">
-                        Mobile Number
-                      </label>
-                      <input
-                        type="tel"
-                        className="form-input"
-                        name="phoneNumber"
-                        value={profileData.mobile}
-                        onChange={handleChange}
-                        placeholder="Enter Mobile Number"
-                        required
-                        readOnly={!editMode}
-                      />
-                    </div>
+                  <div>
+                  <label className="text-sm mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    className={`form-input font-bold ${editMode ? 'bg-white bg-opacity-50' : ''}`}
+                    name="firstName"
+                    value={profileData.emp_name}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    required
+                    readOnly={!editMode}
+                    style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
+                  />
+                </div>
+
+                <div>
+                <label className="text-sm block mb-2">Email ID</label>
+                <input
+                  type="email"
+                  className={`form-input font-bold ${editMode ? 'bg-white bg-opacity-80' : ''}`}
+                  name="email"
+                  value={profileData.emp_email}
+                  onChange={handleChange}
+                  placeholder="Enter Email ID"
+                  required
+                  readOnly={!editMode}
+                  style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
+                />
+              </div>
+
+              <div>
+              <label className="text-sm block mb-2">Mobile Number</label>
+              <input
+                type="tel"
+                className={`form-input font-bold ${editMode ? 'bg-white bg-opacity-80' : ''}`}
+                name="phoneNumber"
+                value={profileData.mobile}
+                onChange={handleChange}
+                placeholder="Enter Mobile Number"
+                required
+                readOnly={!editMode}
+                style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
+              />
+            </div>
+
 
                     <div className="flex flex-col">
                       <div>
@@ -253,12 +261,13 @@ const ProfileSettings = () => {
                           Gender
                         </label>
                         <input
-                          className="form-input"
+                          className="form-input font-bold"
                           name="gender"
                           value={profileData.emp_gender}
                           onChange={handleChange}
                           required
                           disabled={!editMode}
+                          style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
                         >
                           
                         </input>
@@ -268,26 +277,28 @@ const ProfileSettings = () => {
                       <label className="text-sm block mt-2 mb-2">State</label>
                       <input
                         type="text"
-                        className="form-input"
+                        className="form-input font-bold"
                         name="state"
                         value={profileData.state}
                         onChange={handleChange}
                         placeholder="Enter State"
                         required
                         readOnly={!editMode}
+                        style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
                       />
                     </div>
                     <div>
                       <label className="text-sm block mt-2 mb-2">City</label>
                       <input
                         type="text"
-                        className="form-input"
+                        className="form-input font-bold"
                         name="city"
                         value={profileData.city}
                         onChange={handleChange}
                         placeholder="Enter City"
                         required
                         readOnly={!editMode}
+                        style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
                       />
                     </div>
                   </div>
@@ -328,7 +339,7 @@ const ProfileSettings = () => {
                 </form>
               </div>
             </div>
-            <div className="w-full md:w-5/12 border-r border-gray-300">
+            <div className="w-full md:w-5/12 border-r border-black">
               <div className="p-3 py-5">
                 <h5 className="text-left mb-8 font-bold text-2xl">
                   JOB DETAILS
@@ -339,32 +350,33 @@ const ProfileSettings = () => {
                       <label className="text-sm block mb-2">Employee ID</label>
                       <input
                         type="text"
-                        className="form-input"
+                        className="form-input font-bold"
                         name="jobRole"
                         value={profileData.emp_status}
                         onChange={handleChange}
                         placeholder="Enter Job Role"
                         required
                         readOnly={!editMode}
+                        style={{ borderColor: 'rgba(0, 0, 0, 0.2)', background: editMode ? 'rgba(255, 255, 255, 0.8)' : 'transparent' }}
                       />
                     </div>
                     <div>
-                      <label className="text-sm block mt- mb-2">
-                        Designation
-                      </label>
-                      <div className="flex items-center">
-                      {profileData.emp_status && (
-                    <div className="text-gray-600 flex items-center mt-2">
-                      <FaUserCog className="mr-1" />
-                      {profileData.emp_status === "1" ? (
-                        <span>Applicant</span>
-                      ) : profileData.emp_status === "2" ? (
-                        <span>Approver</span>
-                      ) : null}
-                    </div>
-                  )}
-                      </div>
-                    </div>
+  <label className="text-sm block mt- mb-2">
+    Designation
+  </label>
+  <div className="flex items-center">
+    {profileData.emp_status && (
+      <div className="text-gray-600 flex items-center mt-2">
+        {profileData.emp_status === "1" ? (
+          <strong className="text-black">Applicant</strong>
+        ) : profileData.emp_status === "2" ? (
+          <strong className="text-black">Approver</strong>
+        ) : null}
+      </div>
+    )}
+  </div>
+</div>
+
                   </div>
                 </div>
               </div>
