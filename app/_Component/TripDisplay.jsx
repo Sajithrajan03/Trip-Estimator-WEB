@@ -103,7 +103,11 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
   };
 
   const handleUpdate = async (status) => {
+    console.log(selectedTrip.start_city_name + " to " + selectedTrip.end_city_name)
+    console.log(selectedTrip)
+    console.log()
     try {
+      
       const response = await fetch(UPDATE_TRIP_DETAILS_URL, {
         method: "POST",
         headers: {
@@ -114,7 +118,11 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           "trip_id": selectedTrip.trip_id,
           "trip_status": status,
           "trip_amount": newTrip,
-          "admin_message": adminMessage
+          "admin_message": adminMessage,
+          "travel": selectedTrip.start_city_name + " to " + selectedTrip.end_city_name,
+          "toemail" : selectedTrip.emp_email,
+          "empName": selectedTrip.emp_name,
+          "days": Math.round((new Date(selectedTrip.travel_end_date).getTime() - new Date(selectedTrip.travel_start_date).getTime()) / (1000 * 3600 * 24))+1
         }),
       });
       const data2 = await response.json()

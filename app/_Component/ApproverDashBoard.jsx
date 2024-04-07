@@ -16,6 +16,7 @@ const TripTable = ({ trips,m1,m2 }) => {
   const [selectedTrip, setSelectedTrip] = useState(null);
   const toast = useRef(null);
   const router= useRouter()
+  
   const items = [
     {
       label: "All",
@@ -37,7 +38,9 @@ const TripTable = ({ trips,m1,m2 }) => {
       icon: "pi pi-times text-red-900 font-bold text-[20px]",
       value: 2,
     },
+
   ];
+  console.log(trips)
   const openModal = m1
   const  setOpenModal = m2
   const [selectedIndex, setSelectedIndex] = useState(0);

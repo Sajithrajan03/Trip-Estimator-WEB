@@ -26,6 +26,7 @@ import LoadingScreen from "@/app/_Component/LoadingScreen";
  
 
 import secureLocalStorage from "react-secure-storage"
+import { dialog } from "@material-tailwind/react";
 const ApplicantForms = ({ formData, setFormData, secretToken }) => {
   const [checkedStatus, setCheckedStatus] = useState(false);
   const today = new Date();
@@ -272,7 +273,7 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
         body: JSON.stringify({
           start_city: formData.location.from,
           end_city: formData.location.to,
-          emp_email: "root",
+          emp_email: formData.emp_email,
           travel_start_date: formData.travelDates.from
             .toISOString()
             .slice(0, 10)
@@ -297,6 +298,8 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
           travel_reason: formData.travel_reason,
           trip_estimate: formData.trip_estimate,
           trip_amount: formData.trip_amount,
+          "travel": formData.start_city_name + " to " + formData.end_city_name,
+          "days": dialogTrip.no_of_days,
         }),
       });
       const data = await response.json();
@@ -1250,7 +1253,13 @@ const ApplicantForms = ({ formData, setFormData, secretToken }) => {
             !formData.miscellaneous_estimate
           ) {
             // If any field is null or empty, display a message and stop further execution
-            alert('Please fill in all required fields.');
+            
+            ToastAlert(
+              "error",
+              "Error",
+             "Please fill in all required fields.",
+              toastRef
+            );
             return;
           }
            setFormData((prevState) => ({
