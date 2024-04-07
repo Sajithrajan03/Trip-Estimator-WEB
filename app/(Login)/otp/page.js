@@ -139,7 +139,7 @@ export default function Login() {
                         htmlFor="OTP"
                         className="block mb-2 text-sm font-medium text-black"
                       >
-                        Enter your OTP
+                        Enter Your OTP
                       </label>
                       <div>
                         <TextField

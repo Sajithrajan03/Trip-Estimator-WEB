@@ -172,7 +172,7 @@ export default function Login() {
                         htmlFor="email"
                         className="block mb-2 text-sm font-medium text-black"
                       >
-                        Enter your Email
+                        Enter Your Email
                       </label>
                       <div>
                         <TextField
@@ -214,7 +214,7 @@ export default function Login() {
                         htmlFor="name"
                         className="block mb-2 text-sm font-medium text-black"
                       >
-                        Enter your First Name
+                        Enter Your Name
                       </label>
                       <TextField
                         id="outlined-error-helper-text"

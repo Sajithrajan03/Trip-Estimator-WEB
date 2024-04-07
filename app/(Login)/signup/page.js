@@ -154,8 +154,8 @@ export default function Register() {
             </div>
           </div>
           <div className="w-full flex flex-col justify-center p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-.4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '30.8rem' }}>
-              Register
+          <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-.4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '27.7rem' }}>
+              Profile Information
             </h1>
             <form className="grid grid-cols-1 gap-10" onSubmit={handleSignUp}>
               <div className="space-y-4">
@@ -276,13 +276,14 @@ export default function Register() {
               {/* Right side */}
               <div className="space-y-4">
                 {/* Email */}
+                {/* Email */}
                 <div id="Fields" className="mb-6">
                   <TextField
-                    error={!isEmailValid && email !== ""}
+                    error={!isEmailValid && email && email.trim() !== ""}
                     placeholder="example@example.com"
                     label="Email"
                     value={email}
-                    helperText={!isEmailValid && email !== "" ? "Invalid email address" : ""}
+                    helperText={!isEmailValid && email && email.trim() !== "" ? "Invalid email address" : ""}
                     sx={{
                       width: "100%",
                       borderRadius: 5,
@@ -294,6 +295,7 @@ export default function Register() {
                     required
                   />
                 </div>
+
                 {/* Designation */}
                 <div id="Fields" className="mb-6">
                   <Autocomplete 
