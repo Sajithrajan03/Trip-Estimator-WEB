@@ -331,7 +331,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal,setTravelReason , handleUpdate
         </div>
         </div>
         <div className="flex flex-col gap-y-5">
-        <div className="bg-blue-900 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
+        <div className="bg-blue-600 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Calculations</div>
           <div className="w-fit mx-auto flex justify-center  bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg text-center">Total Estimate = 2 * (Transport Estimate) +( Hotel Estimate + Food Estimate + Miscellaneous Estimate)* No of Days</div>
           <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-blue-700 px-3 p-2 rounded-lg">{selectedTrip.total_estimate} = 2 * {selectedTrip.transport_estimate} + ({selectedTrip.hotel_estimate} + {selectedTrip.food_estimate} + {selectedTrip.miscellaneous_estimate}) * {selectedTrip.no_of_days}</div>
           <div className="w-fit mx-auto flex justify-center bg-white font-bold text-[18px] text-black px-3 p-2 rounded-lg text-center">Total Amount = 2 * (Transport Amount) +( Hotel Amount + Food Amount + Miscellaneous Amount)* No of Days</div>
