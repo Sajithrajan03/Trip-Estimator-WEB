@@ -16,17 +16,14 @@ import { Toast } from "primereact/toast";
 import ToastAlert from "@/app/_Component/_util/ToastAlerts";
 import LoadingScreen from "@/app/_Component/LoadingScreen";
 import { IoIosCompass } from "react-icons/io";
+
 export default function Login() {
   const [OTPFocused, setOTPFocused] = useState(false);
   const [loaded, setLoaded] = useState(false);
-   
+  const [secretToken, setSecretToken] = useState("");
 
   const handleOTPFocus = () => {
     setOTPFocused(true);
-  };
-
-  const handleNameFocus = () => {
-    setNameFocused(true);
   };
 
   useEffect(() => {
@@ -34,19 +31,14 @@ export default function Login() {
       setLoaded(true);
     }, 500);
   }, []);
-  const [secretToken,setSecretToken] = useState("")
+
   useEffect(() => {
-    setSecretToken(secureLocalStorage.getItem("SECRET_TOKEN"))
+    setSecretToken(secureLocalStorage.getItem("SECRET_TOKEN"));
   }, []);
 
   const toastRef = useRef();
-
   const [userOTP, setUserOTP] = useState("");
-  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showName, setShowName] = useState(false);
-
-   
 
   const router = useRouter();
 
@@ -58,11 +50,10 @@ export default function Login() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + secretToken,
+          Authorization: "Bearer " + secretToken,
         },
         body: JSON.stringify({
-          "otp": userOTP,
-           
+          otp: userOTP,
         }),
       });
 
@@ -71,10 +62,6 @@ export default function Login() {
         setLoading(false);
 
         secureLocalStorage.setItem("SECRET_TOKEN", data["SECRET_TOKEN"]);
-        secureLocalStorage.setItem("userName", userName);
-        secureLocalStorage.setItem("userOTP", userOTP);
-        secureLocalStorage.setItem("accountStatus", data["accountStatus"]);
-        secureLocalStorage.setItem("userGender", data["userGender"]);
         ToastAlert(
           "success",
           "Successful Login",
@@ -82,10 +69,8 @@ export default function Login() {
           toastRef
         );
         setTimeout(() => {
-            router.push("/signup");
-        },2000)
-
-         
+          router.push("/signup");
+        }, 2000);
       } else if (response.status === 500) {
         setLoading(false);
         ToastAlert(
@@ -135,19 +120,17 @@ export default function Login() {
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto min-h-screen lg:py-0">
               <div className="w-full  rounded-[24px] bg-clip-padding bg-opacity-80  md:mt-0 sm:max-w-md xl:p-0 bg-white ">
                 <div className="p-6 space-y-8 sm:p-8">
-                <div className=' flex group justify-center -mb-5'>
-                <IoIosCompass className='text-[45px]  text-blue-800'/>
-                <div className='hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800'>
-                    <span className="text-gray-900">
-                             Trip</span>Estimator
-                </div>
-                <div className='ml-2 md:hidden text-[30px] font-bold text-blue-800'>
-                    <span className="text-gray-900">
-                            T</span>E
-                </div>
-            </div>
-                  
-            <h1 className="text-xl bg-blue-800 text-white -mt-5 w-fit px-.7 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '7.6rem' }}>
+                  <div className="flex group justify-center -mb-5">
+                    <IoIosCompass className="text-[45px]  text-blue-800" />
+                    <div className="hidden group-hover:underline   underline-offset-1   decoration-black md:flex ml-2 text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">Trip</span>Estimator
+                    </div>
+                    <div className="ml-2 md:hidden text-[30px] font-bold text-blue-800">
+                      <span className="text-gray-900">T</span>E
+                    </div>
+                  </div>
+
+                  <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-.4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '7.8rem' }}>
                     OTP Verification
                   </h1>
                   <form className="space-y-4 md:space-y-6" action="#">
@@ -156,43 +139,37 @@ export default function Login() {
                         htmlFor="OTP"
                         className="block mb-2 text-sm font-medium text-black"
                       >
-                       Enter your OTP
+                        Enter your OTP
                       </label>
                       <div>
-                  <TextField
-                    id="outlined-error-helper-text"
-                    placeholder="Enter OTP"
-                    value={userOTP}
-                    sx={{
-                      width: "100%",
-                      borderRadius: 5,
-                      transition: "transform 0.3s ease",
-                      transform: OTPFocused ? "scale(1.02)" : "scale(1)",
-                      marginBottom: "16px", // Add margin bottom for spacing
-                    }}
-                    onFocus={() => {
-                      handleOTPFocus();
-                      setOTPFocused(false); // Ensure Name field doesn't scale up when OTP field is focused
-                    }}
-                    onBlur={() => setOTPFocused(false)}
-                    onChange={(e) => {
-                      const newValue = e.target.value.replace(/\s/g, '');
-                      setUserOTP(newValue);
-                    }}
-                    required
-                  />
-                </div>
-
-                 
-
+                        <TextField
+                          id="outlined-error-helper-text"
+                          placeholder="Enter OTP"
+                          value={userOTP}
+                          sx={{
+                            width: "100%",
+                            borderRadius: 5,
+                            transition: "transform 0.3s ease",
+                            transform: OTPFocused ? "scale(1.02)" : "scale(1)",
+                            marginBottom: "16px",
+                          }}
+                          onFocus={handleOTPFocus}
+                          onBlur={() => setOTPFocused(false)}
+                          onChange={(e) => {
+                            const newValue = e.target.value.replace(/\s/g, '');
+                            setUserOTP(newValue);
+                          }}
+                          required
+                        />
+                      </div>
                     </div>
-                     
+
                     <button
                       type="submit"
                       onClick={HandleOTP}
-                      className="w-full text-black bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+                      className="w-full text-black bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 font-medium rounded-lg text-[16px] px-5 py-2 text-center disabled:bg-gray-400 disabled:cursor-not-allowed"
                       style={{ transition: "background 0.3s ease" }}
-                      disabled={loading || userOTP === "" }
+                      disabled={loading || userOTP === ""}
                     >
                       Verify OTP
                     </button>
@@ -201,7 +178,7 @@ export default function Login() {
                       id="Others"
                     >
                       <span className="text-center">
-                        Already have a account?{" "}
+                        Already have an account?{" "}
                       </span>
                       <a
                         href="/login"

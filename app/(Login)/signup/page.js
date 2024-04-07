@@ -154,7 +154,7 @@ export default function Register() {
             </div>
           </div>
           <div className="w-full flex flex-col justify-center p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl mx-auto top-10 font-bold leading-tight tracking-tight text-black md:text-2xl">
+          <h1 className="text-xl bg-blue-600 text-white -mt-5 w-fit px-.4 p-1 rounded-lg font-medium md:text-[20px] flex justify-center mx-auto" style={{ marginLeft: '30.8rem' }}>
               Register
             </h1>
             <form className="grid grid-cols-1 gap-10" onSubmit={handleSignUp}>
@@ -247,6 +247,10 @@ export default function Register() {
                         onChange={(e) => {
                           setState(e.target.value);
                           setIsStateValid(e.target.value !== "");
+                        }}
+                        sx={{
+                          width: "100%",
+                          borderRadius: 5,
                         }}
                         
                         required
@@ -394,7 +398,7 @@ export default function Register() {
                 <div className="mb-6 mt-3 text-center">
                   <button
                     type="submit"
-                    className="w-[200px] text-black bg-blue-500 mb-2 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-[200px] text-black bg-blue-600 mb-2 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 disabled:bg-gray-400 disabled:cursor-not-allowed"
                     disabled={!isNameValid || !isPhoneValid || !isPasswordValid || !isConfirmPasswordValid}
                   >
                     Sign Up
