@@ -44,7 +44,7 @@ const Page = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-full ">
         <div className="text-black bg-transparent rounded-lg  mt-1"> {/* Adjusted margin top */}
           <ApplicantDashboard />
         </div>
