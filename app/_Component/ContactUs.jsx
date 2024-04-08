@@ -146,7 +146,7 @@ function Contact() {
           <div className="bg-black bg-opacity-25 absolute inset-0 backdrop-filter backdrop-blur-lg"></div> 
           <div className="bg-transparent rounded-lg p-6 shadow-none relative z-10">
             <p className="text-3xl text-center text-blue-500 font-bold bg-white p-4 rounded-xl">
-              Thank you for reaching out. We'll be in contact shortly!
+              Thank you for reaching out. We&apos;ll be in contact shortly!
             </p>
           </div>
         </div>
