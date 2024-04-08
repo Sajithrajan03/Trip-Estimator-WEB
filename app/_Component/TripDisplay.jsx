@@ -228,7 +228,7 @@ const TripDisplay = ({ selectedTrip, setOpenModal }) => {
           <div className="bg-blue-500 p-2 rounded-lg my-[30px] font-bold w-fit text-white text-[20px]  mx-auto">Travel Details</div>
             <div className=" p-4 bg-white rounded-lg lg:w-[600px] mx-auto xl:mr-3 mb-4 h-fit ">
             
-                <div className="flex space-x-16 border-2 justify-evenly border-blue-500 p-12 rounded-lg ">
+                <div className="flex space-x-16 border-2 justify-evenly border-blue-500 p-8 rounded-lg ">
                     <div className="flex flex-col font-bold gap-3  ">
                         <h1>Employee Name</h1>
                         <h1>Start City</h1>
