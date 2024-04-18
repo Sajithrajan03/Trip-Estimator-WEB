@@ -121,7 +121,7 @@ const TripTable = ({ trips,m1,m2 }) => {
         </div>
         
       </div>
-      <div className=" w-full  mt-10 p-5 mx-auto    rounded-lg ">
+      <div className=" w-full  mt-5 p-5 px-10 mx-auto  bg-opacity-30 bg-black backdrop-filter  backdrop-blur-lg rounded-lg ">
         {(selectedTrip) && selectedTrip.map((trip) =>
     
           selectedIndex === trip.trip_status || selectedIndex === 3 ? ( // Check if selectedIndex matches trip_status
