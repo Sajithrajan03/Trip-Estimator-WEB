@@ -228,13 +228,13 @@ export default function Login() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-start"></div>
-                      <Link
+                      <p
                         id="Others"
-                        href="/forgotpassword"
+                         
                         className="text-sm font-medium text-primary-500 text-black hover:underline"
                       >
                         Forgot password?
-                      </Link>
+                      </p>
                     </div>
                     <button
                       type="submit"
