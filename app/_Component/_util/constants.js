@@ -1,4 +1,4 @@
-const BASE_URL = "http://16.16.27.76:3000/api"
+const BASE_URL = "http://localhost:3000/api"
 export const LOGIN_URL = BASE_URL+"/login"
 export const ENTER_TRIP_DETAILS_URL = BASE_URL+"/enterTripDetails"
 export const GET_DASHBOARD_DETAILS_URL = BASE_URL+"/getDashboardDetails"
